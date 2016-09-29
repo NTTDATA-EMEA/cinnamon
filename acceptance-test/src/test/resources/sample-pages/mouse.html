@@ -1,0 +1,45 @@
+<html>
+
+<style>
+  .hoverOver:hover {
+    color: red;
+  }
+  
+  .hoverOver:hover:after {
+    content: "Pseudo Hovered";
+  }
+   
+  .hoverOver > div {
+    display: none;
+  }
+  .hoverOver:hover > div {
+    display: inline;
+  }
+
+</style>
+
+<body>
+	<div id="content">
+		
+		<div id="withMouseEnter" name="mouseElement" onMouseEnter="doHoverOver()">
+		Hover over me!
+		</div>
+
+		<div class="hoverOver" id="withHoverPseudoClass" name="mouseElement">
+		Hover over me!
+		<div> Pseudo Hovered
+		</div>
+		</div>
+		
+		<div id="hoverResult" hidden="true">Element Hovered</div>
+		
+	</div>
+
+<script>
+function doHoverOver(){
+  var elem = document.getElementById('hoverResult')
+  elem.hidden = false;
+}
+</script>
+</body>
+</html>

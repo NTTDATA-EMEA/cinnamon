@@ -1,0 +1,8 @@
+---
+default:
+  css:
+    alert.button: "#alertButton"
+    slow_loading_alert.button: "#slowLoadingAlertButton"
+    alert_confirm.button: "#alertConfirmButton"
+    alert_prompt.button: "#alertPromptButton"
+    alert_return_result.text: "#result"

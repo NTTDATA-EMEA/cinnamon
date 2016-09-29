@@ -1,0 +1,10 @@
+---
+default:
+  css:
+    table.container: 'div'
+    # relative to above
+    table.container.table: 'table'
+    table.container.table.row: 'tr'
+    table.result: '#result'
+
+    table.table2: '#table2'

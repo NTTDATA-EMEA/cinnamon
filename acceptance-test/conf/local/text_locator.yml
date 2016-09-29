@@ -1,0 +1,18 @@
+---
+default:
+  css:
+    text.div: ".div1"
+    text.hidden-by-css-div: ".div2"
+    text.hidden-by-attribute-div: ".div3"
+
+    text.span-within-div: ".spanWithinDiv1"
+    text.hidden-by-css-span-within-div: ".spanWithinDiv2"
+    text.hidden-by-attribute-span-within-div: ".spanWithinDiv3"
+
+    text.input: ".input1"
+    text.hidden-by-css-input: ".input2"
+    text.hidden-by-attribute-input: ".input3"
+
+    text.textarea: ".textarea1"
+    text.hidden-by-css-textarea: ".textarea2"
+    text.hidden-by-attribute-textarea: ".textarea3"

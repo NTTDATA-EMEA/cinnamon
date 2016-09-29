@@ -1,0 +1,27 @@
+<html>
+<body>
+<div>
+<input id="withContent" value="I contain content"/>
+</div>
+
+<button ondblclick="clickMe(this)" id="b1">B1</button>
+
+<div id="result">
+	You double clicked button: <span id="result-txt">NONE</span>
+</div>
+
+<div style="position:absolute; left:100px; top:3000px;z-index:1">
+	<input id="offscreen">
+</div>
+
+<input class="sameLocator" name="user" value="username"/>
+<input class="sameLocator" name="password" value="password"/>
+
+<script>
+function clickMe(btn){
+	var elem = document.getElementById("result-txt");
+	elem.textContent = btn.textContent;
+}
+</script>
+</body>
+</html>

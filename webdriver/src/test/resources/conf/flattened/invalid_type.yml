@@ -1,0 +1,10 @@
+---
+css:
+  my-button: '#mypage .mybutton'
+  
+xpath:
+  my-input: "//input[@class='myinput']"
+
+id:
+  my-frame: 'myframe'
+  invalid-int-type: 1

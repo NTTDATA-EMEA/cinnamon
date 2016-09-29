@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<body>
+<div>
+    <p>Alert Window</p>
+</div>
+
+<p id="result"></p>
+
+<p>Click the buttons to display an alerts:</p>
+
+<button id="alertButton" onclick="alertBox()">alertBox</button>
+
+<button id="slowLoadingAlertButton" onclick="slowLoadingAlertBox()">slowLoadingAlertBox</button>
+
+<button id="alertConfirmButton" onclick="confirmBox()">confirmBox</button>
+
+<button id="alertPromptButton" onclick="promptBox()">promptBox</button>
+
+<script>
+function alertBox() {
+   i = alert("alertBox");
+}
+
+function slowLoadingAlertBox() {
+   setTimeout(function() { alert("slow loading alterBox"); }, 3000);
+}
+
+function confirmBox() {
+   i = confirm("confirmBox");
+   document.getElementById("result").innerHTML = i;
+}
+
+function promptBox() {
+   i = prompt("typeText", "");
+   document.getElementById("result").innerHTML = i;
+}
+
+
+
+</script>
+</body>
+</html>

@@ -1,0 +1,5 @@
+---
+default:
+  css:
+    mouse-page.content: '#content'
+    mouse-page.elements: 'div[name="mouseElement"]'

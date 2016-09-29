@@ -1,0 +1,8 @@
+---
+css:
+  my-button: '#mypage .mybutton'
+  
+xpath:
+  
+id:
+  my-frame: 'myframe'

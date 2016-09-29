@@ -1,0 +1,11 @@
+---
+css:
+  key1: '#field1'
+  key2: '#field2'
+  my-button: '#mypage .mybutton'
+
+xpath:
+  my-input: "//input[@class='myinput']"
+
+id:
+  my-frame: 'myframe'

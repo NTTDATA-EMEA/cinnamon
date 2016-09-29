@@ -1,0 +1,57 @@
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<title>Text Test</title>
+
+<style>
+body {
+    background-color: #E0FFFF;
+}
+
+/* If the computed value of the display style property is "none", return false from isDisplayed. */
+.hidden {
+    visibility: hidden;
+    display: none;
+}
+</style>
+
+<script>
+// This causes getText() to return an empty string
+Array.prototype.join = function(separator) {
+    if(separator == null)
+        separator = " ";
+    result = "";
+    for(var i = 0; i < this.length - 1; i++) {
+        result = result + separator;
+    }
+    if(this.length > 1)
+        result += this[this.length - 1];
+    return result;
+}
+</script>
+
+</head>
+<body>
+
+<div class="div1">text</div>
+<div class="hidden div2">hidden text</div>
+<!-- If the attribute hidden is set, return false from isDisplayed -->
+<div class="div3" hidden>hidden text</div>
+
+<div><span class="spanWithinDiv1">text</span></div>
+<div><span class="hidden spanWithinDiv2">hidden text</span></div>
+<!-- If the attribute hidden is set, return false from isDisplayed -->
+<div><span class="spanWithinDiv3" hidden>hidden text</span></div>
+
+<input class="input1" value="default">text</input>
+<input class="hidden input2" value="hidden text"/>
+<!-- If the attribute hidden is set, return false from isDisplayed -->
+<input class="input3" value="hidden text" hidden/>
+
+<textarea class="textarea1" value="default">text</textarea>
+<textarea class="hidden textarea2" value="default">hidden text</textarea>
+<!-- If the attribute hidden is set, return false from isDisplayed -->
+<textarea class="textarea3" value="default" hidden>hidden text</textarea>
+
+</body>
+</html>

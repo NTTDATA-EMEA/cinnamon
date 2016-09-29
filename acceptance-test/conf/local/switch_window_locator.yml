@@ -1,0 +1,9 @@
+---
+default:
+  css:
+    last_window.link: "#last_window"
+    second_window.link: "#second_window"
+    last_window.text: "p"
+    first_window.text: "p"
+    second_window.text: "p"
+

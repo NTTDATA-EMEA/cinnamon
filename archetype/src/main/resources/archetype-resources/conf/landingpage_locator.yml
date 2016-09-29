@@ -1,0 +1,20 @@
+---
+default:
+  # The locator strategies listed below should be used in the following precedence: id, name, css, xpath
+
+  id:
+    # Add Home Page ID locators below:
+    landing-page.main-menu: 'insert your ID locator here'
+
+  name:
+    # Add Home Page NAME locators below: 
+    landing-page.main-menu1: 'insert your NAME locator here'
+
+  css:
+    # Add Home Page CSS locators below:
+    landing-page.main-menu2: 'insert your CSS locator here'
+
+  xpath:
+    # Add Home Page XPATH locators below:
+    landing-page.main-menu3: 'insert your XPATH locator here'
+

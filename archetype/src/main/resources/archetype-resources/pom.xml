@@ -1,0 +1,240 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>${groupId}</groupId>
+	<artifactId>${artifactId}</artifactId>
+	<version>${version}</version>
+
+	<properties>
+		<cinnamon.version>0.0.2-SNAPSHOT</cinnamon.version>
+		<cucumber.options>--tags @complete,@accepted</cucumber.options>
+		<failsafe.fork.count>4</failsafe.fork.count>
+		<java.version>1.8</java.version>
+		<env>default</env>
+		<maven.build.timestamp.format>yyyy-MM-dd-HHmm</maven.build.timestamp.format>
+	</properties>
+
+	<build>
+		<testResources>
+			<testResource>
+				<directory>src/test/resources</directory>
+			</testResource>
+		</testResources>
+
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>2.5.1</version>
+				<configuration>
+					<encoding>UTF-8</encoding>
+					<source>${java.version}</source>
+					<target>${java.version}</target>
+				</configuration>
+			</plugin>
+
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-surefire-plugin</artifactId>
+				<version>2.16</version>
+				<configuration>
+					<skipTests>true</skipTests>
+				</configuration>
+			</plugin>
+
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-failsafe-plugin</artifactId>
+				<version>2.16</version>
+				<configuration>
+					<forkCount>${failsafe.fork.count}</forkCount>
+					<reuseForks>false</reuseForks>
+					<includes>
+						<include>**/*IT.java</include>
+					</includes>
+					<runOrder>alphabetical</runOrder>
+					<argLine>-Duser.language=en</argLine>
+					<argLine>-Xmx512m</argLine>
+					<argLine>-XX:MaxPermSize=256m</argLine>
+					<argLine>-Dfile.encoding=UTF-8</argLine>
+					<systemPropertyVariables>
+						<env>${env}</env>
+						<project.dir>${basedir}</project.dir>
+						<cucumber.options>${cucumber.options}</cucumber.options>
+					</systemPropertyVariables>
+				</configuration>
+				<executions>
+					<execution>
+						<id>failsafe-integration-test</id>
+						<phase>integration-test</phase>
+						<goals>
+							<goal>integration-test</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+
+			<plugin>
+				<groupId>io.magentys</groupId>
+				<artifactId>donut-maven-plugin</artifactId>
+				<version>0.0.3</version>
+				<executions>
+					<execution>
+						<id>execution</id>
+						<phase>post-integration-test</phase>
+						<goals>
+							<goal>generate</goal>
+						</goals>
+						<configuration>
+							<sourceDirectory>${project.build.directory}/cucumber-reports</sourceDirectory>
+							<outputDirectory>${project.build.directory}/donut/</outputDirectory>
+							<timestamp>${maven.build.timestamp}</timestamp>
+							<template>default</template>
+							<prefix>${project.name}</prefix>
+							<projectName>${project.name}</projectName>
+							<projectVersion>${project.version}</projectVersion>
+							<countSkippedAsFailure>true</countSkippedAsFailure>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+
+			<plugin>
+				<groupId>com.github.temyers</groupId>
+				<artifactId>cucumber-jvm-parallel-plugin</artifactId>
+				<version>1.3.0</version>
+				<executions>
+					<execution>
+						<id>generateRunners</id>
+						<phase>validate</phase>
+						<goals>
+							<goal>generateRunners</goal>
+						</goals>
+						<configuration>
+							<!-- Mandatory -->
+							<glue>io.magentys.cinnamon,${package}</glue>
+							<!-- These are the default values -->
+							<outputDirectory>${project.build.directory}/generated-test-sources/cucumber</outputDirectory>
+							<featuresDirectory>src/test/resources/features/</featuresDirectory>
+							<cucumberOutputDir>target/cucumber-reports</cucumberOutputDir>
+							<format>json</format>
+							<filterFeaturesByTags>true</filterFeaturesByTags>
+							<namingScheme>pattern</namingScheme>
+							<namingPattern>{f}IT</namingPattern>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+
+		</plugins>
+
+		<pluginManagement>
+			<plugins>
+				<!--This plugin's configuration is used to store Eclipse m2e settings 
+					only. It has no influence on the Maven build itself. -->
+				<plugin>
+					<groupId>org.eclipse.m2e</groupId>
+					<artifactId>lifecycle-mapping</artifactId>
+					<version>1.0.0</version>
+					<configuration>
+						<lifecycleMappingMetadata>
+							<pluginExecutions>
+								<pluginExecution>
+									<pluginExecutionFilter>
+										<groupId>com.github.temyers</groupId>
+										<artifactId>cucumber-jvm-parallel-plugin</artifactId>
+										<versionRange>[0.0.0,)</versionRange>
+										<goals>
+											<goal>generateRunners</goal>
+										</goals>
+									</pluginExecutionFilter>
+									<action>
+										<ignore></ignore>
+									</action>
+								</pluginExecution>
+							</pluginExecutions>
+						</lifecycleMappingMetadata>
+					</configuration>
+				</plugin>
+			</plugins>
+		</pluginManagement>
+	</build>
+
+	<dependencies>
+		<dependency>
+			<groupId>io.magentys</groupId>
+			<artifactId>cinnamon-cucumber</artifactId>
+			<version>${cinnamon.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>io.magentys</groupId>
+			<artifactId>cinnamon-webdriver</artifactId>
+			<version>${cinnamon.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.seleniumhq.selenium</groupId>
+			<artifactId>selenium-firefox-driver</artifactId>
+			<version>2.53.1</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.seleniumhq.selenium</groupId>
+			<artifactId>selenium-htmlunit-driver</artifactId>
+			<version>2.52.0</version>
+		</dependency>
+
+		<dependency>
+			<groupId>com.github.detro</groupId>
+			<artifactId>phantomjsdriver</artifactId>
+			<version>1.2.0</version>
+		</dependency>
+
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>4.12</version>
+		</dependency>
+	</dependencies>
+
+	<profiles>
+		<profile>
+			<id>serial</id>
+			<activation>
+				<activeByDefault>true</activeByDefault>
+			</activation>
+			<properties>
+				<failsafe.fork.count>1</failsafe.fork.count>
+			</properties>
+		</profile>
+
+		<profile>
+			<id>parallel</id>
+			<properties>
+				<failsafe.fork.count>0.5C</failsafe.fork.count>
+			</properties>
+		</profile>
+	</profiles>
+
+	<repositories>
+		<repository>
+			<id>magentys-group</id>
+			<url>http://nexus.magentys.io:8081/nexus/content/groups/magentys</url>
+			<releases>
+				<enabled>true</enabled>
+			</releases>
+			<snapshots>
+				<enabled>true</enabled>
+			</snapshots>
+		</repository>
+	</repositories>
+
+	<pluginRepositories>
+		<pluginRepository>
+			<id>magentys-group</id>
+			<url>http://nexus.magentys.io:8081/nexus/content/groups/magentys</url>
+		</pluginRepository>
+	</pluginRepositories>
+</project>
