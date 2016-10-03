@@ -2,9 +2,13 @@ package com.acme.samples.google.pages.home;
 
 import com.acme.samples.google.context.GoogleContext;
 import io.magentys.cinnamon.conf.Env;
+import io.magentys.cinnamon.webdriver.actions.basic.ReplaceTextAction;
 
 import javax.inject.Inject;
 
+import static io.magentys.cinnamon.webdriver.Browser.fireEvent;
+import static io.magentys.cinnamon.webdriver.Browser.switchTo;
+import static io.magentys.cinnamon.webdriver.Timeouts.defaultTimeout;
 import static io.magentys.cinnamon.webdriver.conditions.ElementConditions.*;
 
 public class DesktopHomePage extends AbstractHomePage {
@@ -22,7 +26,7 @@ public class DesktopHomePage extends AbstractHomePage {
     @Override
     public void enterSearchTerm(final String searchTerm) {
         // Enter the search term.
-        searchInput.waitUntil(clickable.and(positionUnchanged(500))).replaceText(searchTerm);
+        searchInput.waitUntil(clickable.and(positionUnchanged(500))).replaceText(searchTerm);;
         context.setSearchFilter(searchTerm);
     }
 }
