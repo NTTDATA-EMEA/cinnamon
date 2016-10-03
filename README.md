@@ -2,6 +2,9 @@
 
 [![Gitter](https://badges.gitter.im/MagenTys/cinnamon.svg)](https://gitter.im/MagenTys/cinnamon?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
+Cinnamon is an open-source framework by the [MagenTys](http://magentys.io) team which is designed to provide an easy to use java test automation framework for your integration and acceptance tests. 
+It supports behaviour driven development (BDD), provides a quick start page object model, a more robust and easy to use abstraction layer over selenium webdriver and other utilities to help test.
+
 Have a look at our full documentation found at:           
 [http://cinnamonframe.work](http://cinnamonframe.work).
             
