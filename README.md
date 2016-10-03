@@ -2,36 +2,19 @@
 
 [![Gitter](https://badges.gitter.im/MagenTys/cinnamon.svg)](https://gitter.im/MagenTys/cinnamon?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
-Cinnamon is an open-source framework by the [MagenTys](http://magentys.io) team which is designed to provide an easy to use java test automation framework for your integration and acceptance tests. 
-It supports behaviour driven development (BDD), provides a quick start page object model, a more robust and easy to use abstraction layer over selenium webdriver and other utilities to help test.
+## What is Cinnamon?
+Cinnamon is an open-source java framework developed by the [MagenTys](http://magentys.io) team that provides fast enablement on your automation projects.
+It is designed with ease-of-use in mind and supports behaviour driven development (BDD) and more robust extensions and easy to use abstraction layers
+for popular tooling such as WebDriver. You can mix and match various modules depending on your requirements. Let's [get started](https://github.com/MagenTys/cinnamon/wiki/Getting-started) ...
+
+## Why Cinnamon?
+As a company, we have faced many challenges with tooling across many clients in various sectors. Cinnamon incorporates our [solutions](https://github.com/MagenTys/cinnamon/wiki/What-does-it-solve%3F)
+to these challenges, which means that you don’t have to invest time in solving them yourself.
 
 Have a look at our full documentation found at:           
 [http://cinnamonframe.work](http://cinnamonframe.work).
 
-## What is Cinnamon?
-Cinnamon provides fast enablement on your automation projects. You can mix and match various modules depending on your requirements.
-
-Cinnamon exposes the following modules:
-
-* `cinnamon-webdriver`
-* `cinnamon-vendor-saucelabs`
-* `cinnamon-vendor-browserstack`
-* `cinnamon-cucumber`
-
-And utilises internally :
-
-* `cinnamon-core`
-* `cinnamon-webdriver-factory`
-* `cinnamon-vendor-support`
-
-It provides an archetype for project creation: `cinnamon-archetype` and examples of usage can be found at `cinnamon-acceptance-test`
-
-## Why Cinnamon?
-As a company, we have faced many challenges with tooling across many clients in various sectors. Solutions to these challenges have been incorporated
-into Cinnamon over many years. We have decided to share the most commonly used modules with the community so that you don't have to worry about
-solving them yourself.
-
-## Roadmap
+## Road map
 
 We are currently working towards:
 * reinstating support for appium
