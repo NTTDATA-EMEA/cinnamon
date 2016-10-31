@@ -4,7 +4,7 @@
 
 ## What is Cinnamon?
 Cinnamon is an open-source java framework developed by the [MagenTys](http://magentys.io) team that provides fast enablement on your automation projects.
-It is designed with ease-of-use in mind and supports behaviour driven development (BDD), robust extensions and easy to use abstraction layers for popular
+It is designed with ease-of-use in mind, supports Behaviour Driven Development (BDD), robust extensions and easy to use abstraction layers for popular
 tooling such as WebDriver. You can mix and match various [modules](https://github.com/MagenTys/cinnamon/wiki/Cinnamon-modules) depending on your requirements. Let's [get started](https://github.com/MagenTys/cinnamon/wiki/Getting-started) ...
 
 ## Why Cinnamon?
