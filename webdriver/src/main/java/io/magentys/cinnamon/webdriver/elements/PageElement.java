@@ -30,6 +30,7 @@ public interface PageElement extends WebElement, WrapsElement, Locatable, WrapsD
      * </code>
      *
      * @param locatorKey The locator key
+     * @param <T> A type that extends PageElement
      * @return The PageElement represented by the given locator key
      */
     <T extends PageElement> T element(String locatorKey);
@@ -38,6 +39,7 @@ public interface PageElement extends WebElement, WrapsElement, Locatable, WrapsD
      * Find the first element using the given method.
      *
      * @param by The locating mechanism
+     * @param <T> A type that extends PageElement
      * @return The PageElement represented by the given method
      */
     <T extends PageElement> T element(By by);

@@ -21,13 +21,16 @@ public interface Actions {
      * @param target the target element for the offset action
      * @param x      the horizontal offset from the top-left corner
      * @param y      the vertical offset from the top-left corner
+     * @return a PointActions instance
      */
     PointActions byOffset(WebElement target, int x, int y);
 
     KeyStrokeActions withKeyStrokeInterval(WebElement target, long intervalMillis);
 
     /**
-     * @return and Action that performs a click operation on an element
+     * Clicks on an element
+     *
+     * @param target the element to click
      */
     void click(WebElement target);
 

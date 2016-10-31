@@ -36,6 +36,7 @@ public class SyntheticEvent {
 
     /**
      * Scrolls the browser to the element x and y position perform the current page.
+     * @param element the element to scroll to
      */
     public void scrollToElement(WebElement element) {
         Point elementLocationOnPage = ((Locatable) element).getCoordinates().onPage();

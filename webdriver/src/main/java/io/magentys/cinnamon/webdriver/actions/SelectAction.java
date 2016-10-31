@@ -5,16 +5,14 @@ public interface SelectAction {
     /**
      * Selects the option with the given index
      *
-     * @param idx The index to select: idx >= 0
-     * @return
+     * @param index The index to select
      */
-    void byIndex(int idx);
+    void byIndex(int index);
 
     /**
      * Selects the option by the "value" attribute
      *
      * @param value The value to select
-     * @return
      */
     void byValue(String value);
 
@@ -22,7 +20,6 @@ public interface SelectAction {
      * Selects the option where the visible text matches the given text completely
      *
      * @param text The text to match
-     * @return
      */
     void byVisibleText(String text);
 
@@ -31,7 +28,6 @@ public interface SelectAction {
      * {@link String#contains(CharSequence)}
      *
      * @param text The text to match
-     * @return
      */
     void byVisibleTextContains(String text);
 }
