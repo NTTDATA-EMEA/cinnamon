@@ -9,6 +9,7 @@
     <packaging>pom</packaging>
 
     <name>cinnamon</name>
+    <url>http://maven.apache.org</url>
 
     <properties>
         <java.version>1.8</java.version>
@@ -28,6 +29,8 @@
             <distribution>repo</distribution>
         </license>
     </licenses>
+
+    <description>A java test automation framework providing a sprinkling of abstraction</description>
 
     <developers>
         <developer>
@@ -456,25 +459,19 @@
         </dependencies>
     </dependencyManagement>
 
-    <profiles>
-        <profile>
-            <id>build</id>
-            <activation>
-                <activeByDefault>true</activeByDefault>
-            </activation>
-            <modules>
-                <module>archetype</module>
-                <module>core</module>
-                <module>webdriver-factory</module>
-                <module>webdriver</module>
-                <module>rest</module>
-                <module>vendor-support</module>
-                <module>vendor-saucelabs</module>
-                <module>vendor-browserstack</module>
-                <module>cucumber</module>
-            </modules>
-        </profile>
+    <modules>
+        <module>archetype</module>
+        <module>core</module>
+        <module>webdriver-factory</module>
+        <module>webdriver</module>
+        <module>rest</module>
+        <module>vendor-support</module>
+        <module>vendor-saucelabs</module>
+        <module>vendor-browserstack</module>
+        <module>cucumber</module>
+    </modules>
 
+    <profiles>
         <profile>
             <id>release-sign-artifacts</id>
             <activation>
