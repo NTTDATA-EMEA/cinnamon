@@ -10,8 +10,7 @@ import org.slf4j.LoggerFactory;
 import java.util.HashSet;
 import java.util.Set;
 
-import static io.magentys.cinnamon.webdriver.WebDriverUtils.isInternetExplorer;
-import static io.magentys.cinnamon.webdriver.WebDriverUtils.isSafari;
+import static io.magentys.cinnamon.webdriver.WebDriverUtils.*;
 
 public class CinnamonWebDriverOptions implements WebDriver.Options {
 
@@ -23,7 +22,7 @@ public class CinnamonWebDriverOptions implements WebDriver.Options {
     public CinnamonWebDriverOptions(final WebDriver webDriver) {
         this.delegate = webDriver.manage();
         this.js = (JavascriptExecutor) webDriver;
-        this.requiresJavaScript = isInternetExplorer(webDriver) || isSafari(webDriver);
+        this.requiresJavaScript = isInternetExplorer(webDriver) || isSafari(webDriver) || isPhantomJs(webDriver);
     }
 
     @Override

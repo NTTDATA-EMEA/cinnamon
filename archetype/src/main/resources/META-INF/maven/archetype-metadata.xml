@@ -37,7 +37,6 @@
     <fileSet filtered="true" encoding="UTF-8">
         <directory/>
       <includes>
-        <include>.classpath</include>
         <include>.project</include>
       </includes>
     </fileSet>
@@ -45,7 +44,6 @@
         <directory/>
       <includes>
         <include>.gitignore</include>
-        <include>.minttyrc</include>
       </includes>
     </fileSet>
   </fileSets>

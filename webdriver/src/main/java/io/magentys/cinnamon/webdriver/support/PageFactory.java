@@ -1,7 +1,9 @@
 package io.magentys.cinnamon.webdriver.support;
 
 import io.magentys.cinnamon.webdriver.support.pagefactory.PageElementFieldDecorator;
+import org.openqa.selenium.WebDriver;
 
+import javax.inject.Inject;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -10,9 +12,7 @@ import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-import javax.inject.Inject;
-
-import org.openqa.selenium.WebDriver;
+import static io.magentys.cinnamon.webdriver.WebDriverContainer.getWebDriverContainer;
 
 public class PageFactory {
     private final WebDriver webDriver;
@@ -21,7 +21,11 @@ public class PageFactory {
     public PageFactory(final WebDriver webDriver) {
         this.webDriver = webDriver;
     }
-    
+
+    public static PageFactory pageFactory() {
+        return new PageFactory(getWebDriverContainer().getWebDriver());
+    }
+
     public static void initElements(final WebDriver webDriver, final Object page) {
         new PageFactory(webDriver).initElements(page);
     }
@@ -31,8 +35,7 @@ public class PageFactory {
         recursivelyProxyFields(decorator, page, page.getClass());
     }
 
-    private void recursivelyProxyFields(final PageElementFieldDecorator decorator, final Object page,
-            final Class<?> classInHierarchyToProxy) {
+    private void recursivelyProxyFields(final PageElementFieldDecorator decorator, final Object page, final Class<?> classInHierarchyToProxy) {
         ExecutorService executor = Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors() + 1);
         List<Field> fields = listFields(classInHierarchyToProxy);
         List<Callable<Void>> callables = new ArrayList<>(fields.size());

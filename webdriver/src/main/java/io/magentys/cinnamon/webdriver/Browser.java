@@ -11,8 +11,7 @@ import org.openqa.selenium.support.ui.FluentWait;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import static io.magentys.cinnamon.webdriver.Timeouts.defaultTimeout;
-import static io.magentys.cinnamon.webdriver.WebDriverContainer.webDriver;
-import static io.magentys.cinnamon.webdriver.WebDriverContainer.windowTracker;
+import static io.magentys.cinnamon.webdriver.WebDriverContainer.getWebDriverContainer;
 
 public final class Browser {
 
@@ -22,7 +21,11 @@ public final class Browser {
      * @param url The URL to load
      */
     public static void open(String url) {
-        webDriver().get(url);
+        getWebDriver().get(url);
+    }
+
+    public static String currentUrl() {
+        return getWebDriver().getCurrentUrl();
     }
 
     /**
@@ -31,30 +34,30 @@ public final class Browser {
      * @return The title of the current page
      */
     public static String title() {
-        return webDriver().getTitle();
+        return getWebDriver().getTitle();
     }
 
     public static void back() {
-        webDriver().navigate().back();
+        getWebDriver().navigate().back();
     }
 
     public static void forward() {
-        webDriver().navigate().forward();
+        getWebDriver().navigate().forward();
     }
 
     public static void refresh() {
-        webDriver().navigate().refresh();
+        getWebDriver().navigate().refresh();
     }
 
     /**
      * Closes the browser window that has focus.
      */
     public static void close() {
-        webDriver().close();
+        getWebDriver().close();
     }
 
     public static CinnamonTargetLocator switchTo() {
-        return new CinnamonTargetLocator(webDriver(), windowTracker());
+        return new CinnamonTargetLocator(getWebDriver(), getWindowTracker());
     }
 
     public static Alert alert() {
@@ -69,10 +72,6 @@ public final class Browser {
         syntheticEvent().fireEvent(element, event);
     }
 
-    private static SyntheticEvent syntheticEvent() {
-        return new SyntheticEvent(webDriver());
-    }
-
     /**
      * Gets the Options interface
      * <p>
@@ -83,7 +82,7 @@ public final class Browser {
      * @see org.openqa.selenium.WebDriver.Options
      */
     public static WebDriver.Options manage() {
-        return new CinnamonWebDriverOptions(webDriver());
+        return new CinnamonWebDriverOptions(getWebDriver());
     }
 
     public static void waitUntil(final Condition<WebDriver> condition) {
@@ -95,7 +94,7 @@ public final class Browser {
     }
 
     private static FluentWait<WebDriver> wait(final Timeout timeout) {
-        return new WebDriverWait(webDriver(), timeout.getSeconds());
+        return new WebDriverWait(getWebDriver(), timeout.getSeconds());
     }
 
     /**
@@ -113,5 +112,17 @@ public final class Browser {
         } catch (InterruptedException e) {
             Thread.currentThread().interrupt();
         }
+    }
+
+    private static WebDriver getWebDriver() {
+        return getWebDriverContainer().getWebDriver();
+    }
+
+    private static WindowTracker getWindowTracker() {
+        return getWebDriverContainer().getWindowTracker();
+    }
+
+    private static SyntheticEvent syntheticEvent() {
+        return new SyntheticEvent(getWebDriver());
     }
 }

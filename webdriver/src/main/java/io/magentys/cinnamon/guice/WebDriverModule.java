@@ -13,7 +13,7 @@ import org.openqa.selenium.support.FindBy;
 
 import java.lang.reflect.Field;
 
-import static io.magentys.cinnamon.webdriver.WebDriverContainer.webDriver;
+import static io.magentys.cinnamon.webdriver.WebDriverContainer.getWebDriverContainer;
 
 public final class WebDriverModule extends AbstractModule {
 
@@ -49,7 +49,6 @@ public final class WebDriverModule extends AbstractModule {
 
     @Provides
     WebDriver provideWebDriver() {
-        return webDriver();
+        return getWebDriverContainer().getWebDriver();
     }
-
 }

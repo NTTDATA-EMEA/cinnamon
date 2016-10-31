@@ -40,6 +40,10 @@ public class Env {
     private String env;
     public Config config;
 
+    public static Env env() {
+        return INSTANCE;
+    }
+
     public Env(String env) {
         Optional param = Optional.ofNullable(env);
         if (param.isPresent()) {
@@ -56,8 +60,9 @@ public class Env {
     }
 
     private File searchConfigFileInClasspath(String filename) {
-        Stream<File> streamFiles = new ArrayList<>(FileUtils.listFiles(new File(ConfigConstants.PROJECT_DIR), new RegexFileFilter(filename), TrueFileFilter.INSTANCE))
-                .stream().filter(f -> !f.getAbsolutePath().contains(ConfigConstants.TARGET_DIR));
+        Stream<File> streamFiles = new ArrayList<>(
+                FileUtils.listFiles(new File(ConfigConstants.PROJECT_DIR), new RegexFileFilter(filename), TrueFileFilter.INSTANCE)).stream()
+                .filter(f -> !f.getAbsolutePath().contains(ConfigConstants.TARGET_DIR));
 
         List<File> files = new ArrayList<>();
         streamFiles.forEach(files::add);
@@ -70,5 +75,4 @@ public class Env {
             throw new Error("The file [" + files.get(0).getAbsolutePath() + "] is not a normal file.");
         return files.get(0);
     }
-
 }

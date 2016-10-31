@@ -19,13 +19,7 @@ public interface WebDriverContainer {
 
     void quitWebDriver();
 
-    static WebDriver webDriver() {
-        final WebDriverContainer webDriverContainer = new EventHandlingWebDriverContainer();
-        return webDriverContainer.getWebDriver();
-    }
-
-    static WindowTracker windowTracker() {
-        final WebDriverContainer webDriverContainer = new EventHandlingWebDriverContainer();
-        return webDriverContainer.getWindowTracker();
+    static WebDriverContainer getWebDriverContainer() {
+        return new EventHandlingWebDriverContainer();
     }
 }

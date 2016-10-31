@@ -10,7 +10,8 @@ import org.openqa.selenium.remote.BrowserType;
 public final class WebDriverUtils {
 
     // Suppresses default constructor, ensuring non-instantiability.
-    private WebDriverUtils() {}
+    private WebDriverUtils() {
+    }
 
     public static WebDriver unwrapDriver(final WebElement element) {
         return ((WrapsDriver) element).getWrappedDriver();
@@ -26,6 +27,10 @@ public final class WebDriverUtils {
 
     public static boolean isInternetExplorer(final WebDriver webDriver) {
         return BrowserType.IE.equals(getBrowserName(webDriver));
+    }
+
+    public static boolean isPhantomJs(final WebDriver webDriver) {
+        return BrowserType.PHANTOMJS.equals(getBrowserName(webDriver));
     }
 
     public static String getElementXPath(final WebDriver webDriver, final WebElement element) {
