@@ -4,7 +4,7 @@
 
     <groupId>io.magentys</groupId>
     <artifactId>cinnamon</artifactId>
-    <version>0.0.3-SNAPSHOT</version>
+    <version>0.0.2</version>
     <packaging>pom</packaging>
 
     <name>cinnamon</name>
@@ -62,7 +62,7 @@
     <scm>
         <developerConnection>scm:git:git@github.com:MagenTys/cinnamon.git</developerConnection>
         <url>https://github.com/MagenTys/cinnamon</url>
-        <tag>HEAD</tag>
+        <tag>cinnamon-0.0.2</tag>
     </scm>
 
     <distributionManagement>
@@ -118,6 +118,12 @@
                             <phase>process-test-resources</phase>
                             <goals>
                                 <goal>testCompile</goal>
+                            </goals>
+                        </execution>
+                        <execution>
+                            <id>attach-javadocs</id>
+                            <goals>
+                                <goal>doc-jar</goal>
                             </goals>
                         </execution>
                     </executions>
@@ -531,6 +537,20 @@
                                 <configuration>
                                     <additionalparam>${javadoc.opts}</additionalparam>
                                 </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-gpg-plugin</artifactId>
+                        <version>1.5</version>
+                        <executions>
+                            <execution>
+                                <id>sign-artifacts</id>
+                                <phase>verify</phase>
+                                <goals>
+                                    <goal>sign</goal>
+                                </goals>
                             </execution>
                         </executions>
                     </plugin>
