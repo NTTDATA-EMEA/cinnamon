@@ -7,7 +7,7 @@
     <version>${version}</version>
 
     <properties>
-        <cinnamon.version>0.0.2</cinnamon.version>
+        <cinnamon.version>0.0.3</cinnamon.version>
         <cucumber.options>--tags @complete,@accepted</cucumber.options>
         <failsafe.fork.count>4</failsafe.fork.count>
         <java.version>1.8</java.version>
