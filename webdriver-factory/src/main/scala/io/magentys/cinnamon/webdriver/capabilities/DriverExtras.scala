@@ -12,7 +12,7 @@ object DriverExtrasBinder {
     * Cinnamon provides some default profiles for the known browsers.
     * In case of a different browser no need to load any specific default
     * hence we just apply an empty driver extras object.
-    * Note: the browserName needs to match excactly the default ones if inheritance is required.
+    * Note: the browserName needs to match exactly the default ones if inheritance is required.
     *
     * @param browserName
     * @param driverExtrasMap
@@ -92,4 +92,3 @@ case class DefaultExtras(driverExtras: Map[String, Any]) extends DriverExtras {
 
   override def requiresMoveMouse: Boolean = false
 }
-

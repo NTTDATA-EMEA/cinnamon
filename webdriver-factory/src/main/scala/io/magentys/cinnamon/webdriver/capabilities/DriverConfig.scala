@@ -36,7 +36,7 @@ object DriverConfig {
     //3. driverExtras
     val extraCapabilities = {
       val userDriverExtras = getDriverExtrasWithProfile(browserProfile, finalConfig)
-      val defaultDriverExtras = getDefaultDriverExtrasWithBrowserName(basicCapabilities.browserName, defaultConfig)
+      val defaultDriverExtras = getDefaultDriverExtrasWithProfile(browserProfile, defaultConfig)
       val driverExtras = getDriverExtras(userDriverExtras, defaultDriverExtras)
       DriverExtrasBinder.bindExtrasMap(basicCapabilities.browserName, driverExtras)
     }
@@ -72,9 +72,9 @@ object DriverConfig {
     Try(config.getConfig(browserProfile + "." + Keys.DRIVER_EXTRAS_KEY)).toOption
   }
 
-  private[capabilities] def getDefaultDriverExtrasWithBrowserName (browserName: String, defaultConfig: Config) = {
+  private[capabilities] def getDefaultDriverExtrasWithProfile (browserProfile: String, defaultConfig: Config) = {
     Try(defaultConfig
-      .getConfig(Keys.CAPABILITIES_PROFILES_KEY +"."+ browserName + "." + Keys.DRIVER_EXTRAS_KEY))
+      .getConfig(Keys.CAPABILITIES_PROFILES_KEY +"."+ browserProfile + "." + Keys.DRIVER_EXTRAS_KEY))
       .toOption
   }
 
