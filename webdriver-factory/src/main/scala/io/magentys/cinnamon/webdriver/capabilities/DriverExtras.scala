@@ -13,24 +13,25 @@ object DriverExtrasBinder {
     * In case of a different browser no need to load any specific default
     * hence we just apply an empty driver extras object.
     * Note: the browserName needs to match excactly the default ones if inheritance is required.
+    *
     * @param browserName
     * @param driverExtrasMap
     * @return DriverExtras
     */
   def bindExtrasMap(browserName: String, driverExtrasMap: Map[String, AnyRef]) = {
     browserName match {
-      case "ie" => InternetExplorerExtras(driverExtrasMap)
+      case "internet explorer" => InternetExplorerExtras(driverExtrasMap)
       case "chrome" => ChromeExtras(driverExtrasMap)
       case "firefox" => FirefoxExtras(driverExtrasMap)
       case "safari" => SafariExtras(driverExtrasMap)
       case _ => DefaultExtras(driverExtrasMap)
     }
   }
-
 }
 
 sealed trait DriverExtras {
   def getCapabilityMap: Map[String, Any]
+
   def requiresMoveMouse: Boolean
 }
 
