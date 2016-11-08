@@ -1,16 +1,20 @@
 package io.magentys.cinnamon.webdriver.capabilities
 
-import com.typesafe.config.{ConfigObject, ConfigBeanFactory, Config, ConfigFactory}
+import com.typesafe.config.Config
+import io.github.bonigarcia.wdm.{Architecture, DriverVersion}
 import io.magentys.cinnamon.webdriver.Keys
 import io.magentys.cinnamon.webdriver.remote.{CinnamonRemote, RemoterDetector}
-import org.openqa.selenium.remote.DesiredCapabilities
-import scala.collection.JavaConverters._
 import net.ceedubs.ficus.Ficus._
 import net.ceedubs.ficus.readers.ArbitraryTypeReader._
+import org.openqa.selenium.remote.DesiredCapabilities
 
+import scala.collection.JavaConverters._
 import scala.util.Try
 
-case class DriverConfig(desiredCapabilities: DesiredCapabilities, requiresMoveMouse:Boolean)
+case class DriverBinaryConfig(version: String, arch: Architecture)
+case class DriverConfig(desiredCapabilities: DesiredCapabilities,
+                        requiresMoveMouse:Boolean,
+                        binaryConfig: Option[DriverBinaryConfig] = None)
 
 object DriverConfig {
   /**
@@ -24,7 +28,7 @@ object DriverConfig {
     * @param defaultConfig this is passed to load default extras
     * @return DriverConfig object
     */
-  def apply(browserProfile: String, finalConfig:Config, hubUrl: String, defaultConfig: Config):DriverConfig = {
+  def apply(browserProfile: String, finalConfig: Config, hubUrl: String, defaultConfig: Config): DriverConfig = {
 
     //1. Get the Capabilities profile config from the combined config
     val capabilitiesProfiles = finalConfig.getConfig(Keys.CAPABILITIES_PROFILES_KEY)
@@ -50,7 +54,26 @@ object DriverConfig {
         basicCaps.merge(extraCaps)
     }
 
-    DriverConfig(capabilities, extraCapabilities.requiresMoveMouse)
+    // 5. Driver binary
+    val browserConfig = capabilitiesProfiles.getConfig(browserProfile)
+    if (browserConfig.hasPath(Keys.DRIVER_BINARY)) {
+      val binaryConfig = browserConfig.getConfig(Keys.DRIVER_BINARY)
+      val version = binaryConfig.hasPath("version") match {
+        case true => binaryConfig.getString("version")
+        case false => DriverVersion.NOT_SPECIFIED.name
+      }
+
+      // determine the architecture version
+      val archVersions = Map("32" -> Architecture.x32, "64" -> Architecture.x64)
+      val arch = binaryConfig.hasPath("arch") match {
+        case true => archVersions.getOrElse(binaryConfig.getString("arch"), Architecture.DEFAULT)
+        case false => Architecture.DEFAULT
+      }
+
+      DriverConfig(capabilities, extraCapabilities.requiresMoveMouse, Some(DriverBinaryConfig(version, arch)))
+    } else {
+      DriverConfig(capabilities, extraCapabilities.requiresMoveMouse)
+    }
   }
 
   private[capabilities] def getDriverExtras(userDriverExtras: Option[Config], defaultDriverExtras: Option[Config]): Map[String, AnyRef] = {

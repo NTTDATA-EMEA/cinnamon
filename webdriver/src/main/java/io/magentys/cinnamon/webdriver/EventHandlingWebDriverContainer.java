@@ -86,7 +86,7 @@ public class EventHandlingWebDriverContainer implements WebDriverContainer {
     private WebDriver createDriver() {
         DriverConfig driverConfig = CinnamonWebDriverConfig.driverConfig();
         String remoteUrl = CinnamonWebDriverConfig.hubUrl();
-        return WebDriverFactory.getDriver(driverConfig.desiredCapabilities(), remoteUrl);
+        return WebDriverFactory.getDriver(driverConfig.desiredCapabilities(), remoteUrl, driverConfig.binaryConfig());
     }
 
     private WindowTracker createWindowTracker() {
