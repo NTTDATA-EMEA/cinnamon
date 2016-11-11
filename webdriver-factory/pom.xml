@@ -32,6 +32,7 @@
                     <suites>
                         io.magentys.cinnamon.webdriver.capabilities.CapabilitiesModelTest,
                         io.magentys.cinnamon.webdriver.capabilities.CinnamonCapabilitiesTest,
+                        io.magentys.cinnamon.webdriver.capabilities.DriverConfigSpec,
                         io.magentys.cinnamon.webdriver.factory.DriverRegistryTest,
                         io.magentys.cinnamon.webdriver.factory.WebDriverFactorySpec
                     </suites>
