@@ -12,7 +12,7 @@ class DriverRegistryTest extends FlatSpec with Matchers with MockitoSugar{
   it should "handle new drivers added by user" in {
     val testCapabilities = new DesiredCapabilities("TEST", "", Platform.ANY)
     DriverRegistry.addDriverProvider(testCapabilities, classOf[ATestDriver].getName)
-    val actual: WebDriver = WebDriverFactory.getDriver(testCapabilities)
+    val actual: WebDriver = WebDriverFactory().getDriver(testCapabilities, None, None)
     actual shouldBe a [ATestDriver]
   }
 

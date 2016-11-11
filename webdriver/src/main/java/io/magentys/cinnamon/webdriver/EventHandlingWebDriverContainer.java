@@ -13,6 +13,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebDriverException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import scala.Option;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -85,8 +86,8 @@ public class EventHandlingWebDriverContainer implements WebDriverContainer {
 
     private WebDriver createDriver() {
         DriverConfig driverConfig = CinnamonWebDriverConfig.driverConfig();
-        String remoteUrl = CinnamonWebDriverConfig.hubUrl();
-        return WebDriverFactory.getDriver(driverConfig.desiredCapabilities(), remoteUrl, driverConfig.binaryConfig());
+        Option<String> remoteUrl = Option.apply(CinnamonWebDriverConfig.hubUrl());
+        return WebDriverFactory.apply().getDriver(driverConfig.desiredCapabilities(), remoteUrl, driverConfig.binaryConfig());
     }
 
     private WindowTracker createWindowTracker() {

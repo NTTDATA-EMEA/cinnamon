@@ -17,8 +17,25 @@
             </plugin>
 
             <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <configuration>
+                    <skipTests>true</skipTests>
+                </configuration>
+            </plugin>
+
+            <plugin>
                 <groupId>org.scalatest</groupId>
                 <artifactId>scalatest-maven-plugin</artifactId>
+                <version>1.0</version>
+                <configuration>
+                    <suites>
+                        io.magentys.cinnamon.webdriver.capabilities.CapabilitiesModelTest,
+                        io.magentys.cinnamon.webdriver.capabilities.CinnamonCapabilitiesTest,
+                        io.magentys.cinnamon.webdriver.factory.DriverRegistryTest,
+                        io.magentys.cinnamon.webdriver.factory.WebDriverFactorySpec
+                    </suites>
+                </configuration>
             </plugin>
         </plugins>
     </build>
@@ -52,16 +69,19 @@
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
+            <scope>test</scope>
         </dependency>
 
         <dependency>
             <groupId>org.scalatest</groupId>
             <artifactId>scalatest_2.11</artifactId>
+            <scope>test</scope>
         </dependency>
 
         <dependency>
             <groupId>org.mockito</groupId>
             <artifactId>mockito-core</artifactId>
+            <scope>test</scope>
         </dependency>
 
         <dependency>
