@@ -35,6 +35,6 @@ We have plans to support:
 5. Create new Pull Request
 
 <span>
-* Developers: [Dave Bassan](https://github.com/davebassan), [Tim Myerscough](https://github.com/temyers), [Christina Daskalaki](https://github.com/chdask), [Amit Sharma](https://github.com/amitsha), [Miles Lord](https://github.com/mplord), [Hamish Tedeschi](https://github.com/MagenTysHamo)
+* Developers: [Dave Bassan](https://github.com/davebassan), [Tim Myerscough](https://github.com/temyers), [Christina Daskalaki](https://github.com/chdask), [Amit Sharma](https://github.com/amitsha), [Miles Lord](https://github.com/mplord), [Hamish Tedeschi](https://github.com/MagenTysHamo), [Kevin Bradwick](https://github.com/kevbradwick)
 
 Powered by [MagenTys](http://magentys.io)
