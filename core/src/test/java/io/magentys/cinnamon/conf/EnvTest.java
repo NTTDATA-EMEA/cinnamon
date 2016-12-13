@@ -7,25 +7,22 @@ import static org.junit.Assert.assertEquals;
 
 public class EnvTest {
 
+    private Env env;
+
     @Before
     public void setUp() {
         System.setProperty("env", "example");
+        System.setProperty("example.host", "foobar");
+        env = Env.INSTANCE;
     }
 
     @Test
     public void testSystemPropertySubstitutionWorks() {
-        System.setProperty("example.host", "foobar");
-
-        Env env = Env.INSTANCE;
         assertEquals("foobar", env.config.getString("host"));
-
-        System.clearProperty("env");
-        System.clearProperty("example.host");
     }
 
     @Test
     public void testDefaultValueOfConfigItemWhenNoSystemPropertyOverrideIsSet() {
-        Env env = Env.INSTANCE;
         assertEquals(8080, env.config.getInt("port"));
     }
 }
