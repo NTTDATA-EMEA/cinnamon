@@ -55,8 +55,9 @@ public class Env {
     }
 
     private Config initConfig() {
+        Config systemConfig = ConfigFactory.systemProperties();
         File envConfig = searchConfigFileInClasspath(ConfigConstants.ENV_CONF_FILE);
-        return ConfigFactory.parseFile(envConfig).getConfig(env).resolve();
+        return systemConfig.withFallback(ConfigFactory.parseFile(envConfig)).resolve().getConfig(env);
     }
 
     private File searchConfigFileInClasspath(String filename) {
