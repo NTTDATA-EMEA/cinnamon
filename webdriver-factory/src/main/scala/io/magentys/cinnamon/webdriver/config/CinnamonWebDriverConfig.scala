@@ -36,13 +36,15 @@ object CinnamonWebDriverConfig {
       }).toOption
     }
 
-    if (configFile.isDefined) {
-      val userConfig = ConfigFactory.parseFile(configFile.get).resolve()
-      userConfig.withFallback(defaultCinnamonConfig)
-    } else {
-      defaultCinnamonConfig
-    }
+    val systemPropertyConfig: Config = ConfigFactory.systemProperties()
 
+    configFile match {
+      case Some(file) =>
+        systemPropertyConfig
+          .withFallback(ConfigFactory.parseFile(file).resolve())
+          .withFallback(defaultCinnamonConfig)
+      case _ => systemPropertyConfig.withFallback(defaultCinnamonConfig)
+    }
   }
 
   val hubUrl = Try(config.getString(Keys.HUB_URL)).toOption.getOrElse("")
