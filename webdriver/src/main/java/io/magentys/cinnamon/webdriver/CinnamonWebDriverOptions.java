@@ -64,7 +64,7 @@ public class CinnamonWebDriverOptions implements WebDriver.Options {
         if (requiresJavaScript) {
             Set<Cookie> cookies = new HashSet<>();
             String[] documentCookies = ((String) js.executeScript("return (document.cookie);")).split(";");
-            if(documentCookies[0] != "") {
+            if (!documentCookies[0].isEmpty()) {
                 for (String cookie : documentCookies) {
                     String[] parts = cookie.trim().split("=", -1);
                     cookies.add(new Cookie(parts[0], parts[1]));
