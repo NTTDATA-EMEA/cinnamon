@@ -53,6 +53,13 @@
   </dependencyManagement>
 
   <dependencies>
+
+    <dependency>
+      <groupId>org.hamcrest</groupId>
+      <artifactId>hamcrest-library</artifactId>
+      <scope>test</scope>
+    </dependency>
+
     <dependency>
       <groupId>io.magentys</groupId>
       <artifactId>cinnamon-core</artifactId>
