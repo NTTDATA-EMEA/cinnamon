@@ -50,8 +50,6 @@
         <version>3.0.1</version>
       </dependency>
     </dependencies>
-
-
   </dependencyManagement>
 
   <dependencies>
