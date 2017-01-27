@@ -25,7 +25,6 @@ import org.openqa.selenium.support.ui.Sleeper;
 
 import com.google.common.collect.Lists;
 
-@Ignore
 public class CinnamonExpectedConditionsTest {
 
     @Mock
@@ -54,6 +53,7 @@ public class CinnamonExpectedConditionsTest {
     }
 
     @Test
+    // @Ignore
     public void conditionsOfElementLocatedReturnsWebElement() {
         List<WebElement> webElements = Lists.newArrayList(mockElement);
         when(mockDriver.findElements(By.id("someid"))).thenReturn(webElements);
@@ -63,6 +63,7 @@ public class CinnamonExpectedConditionsTest {
     }
 
     @Test
+    @Ignore
     public void conditionsOfElementLocatedThrowsTimeoutExceptionWhenNoElementsFound() {
         expectedException.expect(TimeoutException.class);
         expectedException.expectMessage("Timed out after 5 seconds");
@@ -73,6 +74,7 @@ public class CinnamonExpectedConditionsTest {
     }
 
     @Test
+    @Ignore
     public void conditionsOfElementLocatedThrowsTimeoutExceptionWhenNoElementsMatchCondition() {
         expectedException.expect(TimeoutException.class);
         expectedException.expectMessage("Timed out after 5 seconds");
@@ -94,6 +96,7 @@ public class CinnamonExpectedConditionsTest {
     }
 
     @Test
+    @Ignore
     public void conditionsOfAllElementsLocatedThrowsTimeoutExceptionWhenNoElementsFound() throws InterruptedException {
         expectedException.expect(TimeoutException.class);
         expectedException.expectMessage("Timed out after 5 seconds");
@@ -104,6 +107,7 @@ public class CinnamonExpectedConditionsTest {
     }
 
     @Test
+    @Ignore
     public void conditionsOfAllElementsLocatedThrowsTimeoutExceptionWhenNoElementsMatchCondition() {
         expectedException.expect(TimeoutException.class);
         expectedException.expectMessage("Timed out after 5 seconds");
