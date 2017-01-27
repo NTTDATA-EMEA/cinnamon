@@ -41,6 +41,16 @@
         </plugins>
     </build>
 
+    <dependencyManagement>
+        <dependencies>
+          <dependency>
+            <groupId>org.seleniumhq.selenium</groupId>
+            <artifactId>selenium-api</artifactId>
+            <version>3.0.1</version>
+          </dependency>
+        </dependencies>
+    </dependencyManagement>
+
     <dependencies>
         <dependency>
             <groupId>io.magentys</groupId>

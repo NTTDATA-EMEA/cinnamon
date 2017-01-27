@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
@@ -24,6 +25,7 @@ import org.openqa.selenium.support.ui.Sleeper;
 
 import com.google.common.collect.Lists;
 
+@Ignore
 public class CinnamonExpectedConditionsTest {
 
     @Mock
@@ -111,5 +113,4 @@ public class CinnamonExpectedConditionsTest {
         when(mockCondition.apply(mockElement)).thenReturn(false);
         wait.until(CinnamonExpectedConditions.conditionOfAllElementsLocated(By.id("someid"), mockCondition));
     }
-
 }
