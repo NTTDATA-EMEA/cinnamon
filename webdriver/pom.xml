@@ -9,6 +9,7 @@
     <relativePath>../pom.xml</relativePath>
     <version>0.0.3-SNAPSHOT</version>
   </parent>
+
   <artifactId>cinnamon-webdriver</artifactId>
 
   <build>
@@ -27,6 +28,7 @@
             <weaveDependency>
               <groupId>org.seleniumhq.selenium</groupId>
               <artifactId>selenium-java</artifactId>
+              <version>${selenium.version}</version>
             </weaveDependency>
           </weaveDependencies>
         </configuration>
@@ -47,7 +49,12 @@
       <dependency>
         <groupId>org.seleniumhq.selenium</groupId>
         <artifactId>selenium-api</artifactId>
-        <version>3.0.1</version>
+        <version>${selenium.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.eclipse.jetty.websocket</groupId>
+        <artifactId>websocket-client</artifactId>
+        <version>9.2.18.v20160721</version>
       </dependency>
     </dependencies>
   </dependencyManagement>
@@ -92,6 +99,10 @@
 
     <dependency>
       <groupId>org.seleniumhq.selenium</groupId>
+      <artifactId>selenium-api</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.seleniumhq.selenium</groupId>
       <artifactId>selenium-java</artifactId>
     </dependency>
 
@@ -103,11 +114,6 @@
     <dependency>
       <groupId>org.slf4j</groupId>
       <artifactId>slf4j-api</artifactId>
-    </dependency>
-
-    <dependency>
-      <groupId>org.slf4j</groupId>
-      <artifactId>slf4j-log4j12</artifactId>
     </dependency>
 
     <dependency>
