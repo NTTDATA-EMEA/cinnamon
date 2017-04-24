@@ -78,7 +78,7 @@ class DefaultActions implements Actions {
     }
 
     @Override
-    public void prependText(final WebElement target, final String keysToSend) {
+    public void prependText(final WebElement target, final CharSequence... keysToSend) {
         prependTextAction(keysToSend).perform(target);
     }
 }

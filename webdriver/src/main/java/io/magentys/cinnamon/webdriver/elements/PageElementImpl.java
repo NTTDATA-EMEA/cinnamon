@@ -135,7 +135,7 @@ public class PageElementImpl extends WebElementWrapper implements PageElement {
     }
 
     @Override
-    public PageElement prependText(final String keysToSend) {
+    public PageElement prependText(final CharSequence... keysToSend) {
         actions.prependText(getWrappedElement(), keysToSend);
         return this;
     }

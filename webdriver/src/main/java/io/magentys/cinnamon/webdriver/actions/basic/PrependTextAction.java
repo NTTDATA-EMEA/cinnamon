@@ -9,12 +9,16 @@ public class PrependTextAction implements Action, Delayable {
 
     private final TypeTextAction typeTextAction;
 
-    public PrependTextAction(final String keysToSend) {
+    public PrependTextAction(final CharSequence... keysToSend) {
         typeTextAction = new TypeTextAction(keysToSend);
     }
 
-    public static PrependTextAction prependTextAction(final String keysToSend) {
-        return new PrependTextAction(Keys.HOME + keysToSend.toString());
+    public static PrependTextAction prependTextAction(final CharSequence... keysToSend) {
+        String keys = new String();
+        for (CharSequence charSequence : keysToSend) {
+            keys = keys.concat(charSequence.toString());
+        }
+        return new PrependTextAction(Keys.HOME + keys);
     }
 
     @Override

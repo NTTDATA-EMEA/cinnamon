@@ -215,7 +215,7 @@ public class PageElementFacade implements PageElement, TableElement {
     }
 
     @Override
-    public PageElement prependText(String keysToSend) {
+    public PageElement prependText(CharSequence... keysToSend) {
         return pageElement.prependText(keysToSend);
     }
 

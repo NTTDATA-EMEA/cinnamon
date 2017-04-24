@@ -92,5 +92,5 @@ public interface Actions {
      * @param target the element containing the original text
      * @param keysToSend text to prepend
      */
-    void prependText(WebElement target, String keysToSend);
+    void prependText(WebElement target, CharSequence... keysToSend);
 }
