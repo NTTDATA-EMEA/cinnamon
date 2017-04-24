@@ -31,48 +31,48 @@ import com.typesafe.config.ConfigFactory;
  */
 public class Env {
 
-	private final Logger log = LoggerFactory.getLogger(this.getClass().getName());
+    private final Logger log = LoggerFactory.getLogger(this.getClass().getName());
 
-	public static final Env INSTANCE = new Env(ConfigConstants.ENV_PROPERTY);
+    public static final Env INSTANCE = new Env(ConfigConstants.ENV_PROPERTY);
 
-	private String env;
-	public Config config;
+    private String env;
+    public Config config;
 
-	public static Env env() {
-		return INSTANCE;
-	}
+    public static Env env() {
+        return INSTANCE;
+    }
 
-	public Env(String env) {
-		Optional param = Optional.ofNullable(env);
-		if (param.isPresent()) {
-			this.env = env;
-			config = initConfig();
-		} else {
-			throw new RuntimeException("Cannot initialise Env. Please provide env profile parameter (-Denv=myProfile)");
-		}
-	}
+    public Env(String env) {
+        Optional param = Optional.ofNullable(env);
+        if (param.isPresent()) {
+            this.env = env;
+            config = initConfig();
+        } else {
+            throw new RuntimeException("Cannot initialise Env. Please provide env profile parameter (-Denv=myProfile)");
+        }
+    }
 
-	private Config initConfig() {
-		Config systemConfig = ConfigFactory.systemProperties();
-		File envConfig = searchConfigFileInClasspath(ConfigConstants.ENV_CONF_FILE);
-		return systemConfig.withFallback(ConfigFactory.parseFile(envConfig)).resolve().getConfig(env);
-	}
+    private Config initConfig() {
+        Config systemConfig = ConfigFactory.systemProperties();
+        File envConfig = searchConfigFileInClasspath(ConfigConstants.ENV_CONF_FILE);
+        return systemConfig.withFallback(ConfigFactory.parseFile(envConfig)).resolve().getConfig(env);
+    }
 
-	private File searchConfigFileInClasspath(String filename) {
+    private File searchConfigFileInClasspath(String filename) {
 
-		Stream<File> streamFiles = new ArrayList<>(FileUtils.listFiles(new File(ConfigConstants.PROJECT_DIR),
-				new RegexFileFilter(filename), TrueFileFilter.INSTANCE)).stream()
-						.filter(f -> !f.getAbsolutePath().contains(ConfigConstants.TARGET_DIR));
+        Stream<File> streamFiles = new ArrayList<>(
+                FileUtils.listFiles(new File(ConfigConstants.PROJECT_DIR), new RegexFileFilter(filename), TrueFileFilter.INSTANCE)).stream()
+                .filter(f -> !f.getAbsolutePath().contains(ConfigConstants.TARGET_DIR));
 
-		List<File> files = new ArrayList<>();
-		streamFiles.forEach(files::add);
+        List<File> files = new ArrayList<>();
+        streamFiles.forEach(files::add);
 
-		if (files.size() == 0)
-			throw new Error("Config file with name [" + filename + "] could not be found in your classpath.");
-		if (files.size() > 1)
-			log.warn("More than one file found for this environment with name [" + filename + "]");
-		if (!files.get(0).isFile())
-			throw new Error("The file [" + files.get(0).getAbsolutePath() + "] is not a normal file.");
-		return files.get(0);
-	}
+        if (files.size() == 0)
+            throw new Error("Config file with name [" + filename + "] could not be found in your classpath.");
+        if (files.size() > 1)
+            log.warn("More than one file found for this environment with name [" + filename + "]");
+        if (!files.get(0).isFile())
+            throw new Error("The file [" + files.get(0).getAbsolutePath() + "] is not a normal file.");
+        return files.get(0);
+    }
 }

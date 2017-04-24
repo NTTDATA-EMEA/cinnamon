@@ -12,5 +12,7 @@ class ChromeActions extends DefaultActions {
     }
 
     @Override
-    public void click(final WebElement target) {scrollBeforeClickAction(webDriver).perform(target); }
+    public void click(final WebElement target) {
+        scrollBeforeClickAction(webDriver).perform(target);
+    }
 }

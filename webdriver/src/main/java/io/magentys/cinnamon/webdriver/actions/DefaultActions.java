@@ -40,7 +40,9 @@ class DefaultActions implements Actions {
     }
 
     @Override
-    public void click(final WebElement target) { clickAction().perform(target);  }
+    public void click(final WebElement target) {
+        clickAction().perform(target);
+    }
 
     @Override
     public void deleteContent(final WebElement target) {
