@@ -77,7 +77,7 @@ object DriverConfig {
   }
 
   private[capabilities] def getDriverExtras(userDriverExtras: Option[Config], defaultDriverExtras: Option[Config]): Map[String, AnyRef] = {
-      if (userDriverExtras.isDefined && defaultDriverExtras.isDefined) {
+    if (userDriverExtras.isDefined && defaultDriverExtras.isDefined) {
         val extras = userDriverExtras.get.withFallback(defaultDriverExtras.get)
         configToMap(extras)
       } else if (userDriverExtras.isDefined) {

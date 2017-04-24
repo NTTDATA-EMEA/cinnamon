@@ -215,6 +215,11 @@ public class PageElementFacade implements PageElement, TableElement {
     }
 
     @Override
+    public PageElement prependText(String keysToSend) {
+        return pageElement.prependText(keysToSend);
+    }
+
+    @Override
     public PageElement scrollIntoView() {
         return pageElement.scrollIntoView();
     }

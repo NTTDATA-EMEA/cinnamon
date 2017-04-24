@@ -86,4 +86,11 @@ public interface Actions {
      * @param target the element to hover over
      */
     void hoverOver(WebElement target);
+
+    /**
+     * Prepends the given text to the text in the given element
+     * @param target the element containing the original text
+     * @param keysToSend text to prepend
+     */
+    void prependText(WebElement target, String keysToSend);
 }

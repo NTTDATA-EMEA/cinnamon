@@ -78,6 +78,8 @@ public interface PageElement extends WebElement, WrapsElement, Locatable, WrapsD
 
     PageElement typeText(CharSequence... keysToSend);
 
+    PageElement prependText(String keysToSend);
+
     PageElement fillIn(CharSequence... keysToSend);
 
     PageElement scrollIntoView();
