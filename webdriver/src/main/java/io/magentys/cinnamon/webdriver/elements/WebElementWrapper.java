@@ -130,6 +130,4 @@ public abstract class WebElementWrapper implements WebElement, WrapsElement, Loc
     public <X> X getScreenshotAs(OutputType<X> outputType) throws WebDriverException {
         return getWrappedElement().getScreenshotAs(outputType);
     }
-
-    public abstract PageElement trimAndCharsAction(WebElement target, int numChar);
 }

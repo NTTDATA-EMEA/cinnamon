@@ -1,5 +1,6 @@
 package io.magentys.cinnamon.webdriver.actions;
 
+import io.magentys.cinnamon.webdriver.elements.PageElement;
 import org.openqa.selenium.WebElement;
 
 /**
@@ -69,11 +70,11 @@ public interface Actions {
     /**
      * Deletes the given number of chars from an element text
      *
-     * @param numChar The number of chars to be deleted
      * @param target  The element to be targete
+     * @param numChar The number of chars to be deleted
      */
 
-    void trimEndCharsAction(WebElement target, int numChar);
+    void trimEndChars(WebElement target, int numChar);
 
     /**
      * Double-clicks on the given element

@@ -13,6 +13,7 @@ import static io.magentys.cinnamon.webdriver.actions.basic.DoubleClickAction.dou
 import static io.magentys.cinnamon.webdriver.actions.basic.HoverAction.hoverAction;
 import static io.magentys.cinnamon.webdriver.actions.basic.ReplaceTextAction.replaceTextAction;
 import static io.magentys.cinnamon.webdriver.actions.basic.ScrollIntoViewAction.scrollIntoViewAction;
+import static io.magentys.cinnamon.webdriver.actions.basic.TrimEndCharsAction.trimEndCharsAction;
 import static io.magentys.cinnamon.webdriver.actions.basic.TypeTextAction.typeTextAction;
 
 class DefaultActions implements Actions {
@@ -64,7 +65,7 @@ class DefaultActions implements Actions {
     }
 
     @Override
-    public void trimEndCharsAction(final WebElement target, int numChar) { trimEndCharsAction(target, numChar);}
+    public void trimEndChars(final WebElement target, int numChar) { trimEndCharsAction(target, numChar).perform(target);}
 
     @Override
     public void doubleClick(final WebElement target) {

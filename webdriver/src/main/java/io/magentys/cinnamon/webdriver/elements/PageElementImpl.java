@@ -108,11 +108,6 @@ public class PageElementImpl extends WebElementWrapper implements PageElement {
     }
 
     @Override
-    public PageElement trimAndCharsAction(WebElement target, int numChar) {
-        return null;
-    }
-
-    @Override
     public PointActions byOffset(final int x, final int y) {
         return actions.byOffset(getWrappedElement(), x, y);
     }
@@ -152,7 +147,8 @@ public class PageElementImpl extends WebElementWrapper implements PageElement {
 
     @Override
     public PageElement trimEndChars(WebElement target, int numChar) {
-        return null;
+        actions.trimEndChars(target, numChar);
+        return this;
     }
 
     @Override

@@ -9,19 +9,21 @@ public class TrimEndCharsAction implements Action, Delayable {
     private final ClearAction clearAction;
     private final TypeTextAction typeTextAction;
 
-    public TrimEndCharsAction(final WebElement target, final int numChar) {
+    public TrimEndCharsAction(String trimmedString) {
         clearAction = new ClearAction();
-        typeTextAction = new TypeTextAction();
+        typeTextAction = new TypeTextAction(trimmedString);
     }
 
     public static TrimEndCharsAction trimEndCharsAction(final WebElement target, final int numChar)
     {
-        return new TrimEndCharsAction(target, numChar);
+        String trimmedString = target.getText();
+        trimmedString = trimmedString.substring(0, trimmedString.length()-numChar);
+
+        return new TrimEndCharsAction(trimmedString);
     }
 
     @Override
     public void perform(final WebElement target) {
-
         clearAction.perform(target);
         typeTextAction.perform(target);
     }
