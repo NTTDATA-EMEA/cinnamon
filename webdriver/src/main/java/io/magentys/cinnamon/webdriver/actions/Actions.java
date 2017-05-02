@@ -67,6 +67,15 @@ public interface Actions {
     void replaceText(WebElement target, CharSequence... keysToSend);
 
     /**
+     * Deletes the given number of chars from an element text
+     *
+     * @param numChar The number of chars to be deleted
+     * @param target  The element to be targete
+     */
+
+    void trimEndCharsAction(WebElement target, int numChar);
+
+    /**
      * Double-clicks on the given element
      *
      * @param target the element to double-click

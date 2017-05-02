@@ -64,6 +64,9 @@ class DefaultActions implements Actions {
     }
 
     @Override
+    public void trimEndCharsAction(final WebElement target, int numChar) { trimEndCharsAction(target, numChar);}
+
+    @Override
     public void doubleClick(final WebElement target) {
         doubleClickAction(webDriver).perform(target);
     }
