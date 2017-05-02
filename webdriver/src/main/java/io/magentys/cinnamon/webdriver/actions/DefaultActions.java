@@ -14,6 +14,7 @@ import static io.magentys.cinnamon.webdriver.actions.basic.HoverAction.hoverActi
 import static io.magentys.cinnamon.webdriver.actions.basic.ReplaceTextAction.replaceTextAction;
 import static io.magentys.cinnamon.webdriver.actions.basic.ScrollIntoViewAction.scrollIntoViewAction;
 import static io.magentys.cinnamon.webdriver.actions.basic.TrimEndCharsAction.trimEndCharsAction;
+import static io.magentys.cinnamon.webdriver.actions.basic.TrimStartCharsAction.trimStartCharsAction;
 import static io.magentys.cinnamon.webdriver.actions.basic.TypeTextAction.typeTextAction;
 
 class DefaultActions implements Actions {
@@ -65,7 +66,14 @@ class DefaultActions implements Actions {
     }
 
     @Override
-    public void trimEndChars(final WebElement target, int numChar) { trimEndCharsAction(target, numChar).perform(target);}
+    public void trimStartChars(final WebElement target, int numChars) {
+        trimStartCharsAction(target, numChars).perform(target);
+    }
+
+    @Override
+    public void trimEndChars(final WebElement target, int numChar) {
+        trimEndCharsAction(target, numChar).perform(target);
+    }
 
     @Override
     public void doubleClick(final WebElement target) {
