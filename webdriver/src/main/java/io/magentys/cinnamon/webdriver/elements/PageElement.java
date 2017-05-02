@@ -80,7 +80,7 @@ public interface PageElement extends WebElement, WrapsElement, Locatable, WrapsD
 
     PageElement fillIn(CharSequence... keysToSend);
 
-    PageElement trimStartChars(WebElement target, int numChar);
+    PageElement trimStartChars(int numChar);
 
     PageElement trimEndChars(WebElement target, int numChar);
 

@@ -215,8 +215,8 @@ public class PageElementFacade implements PageElement, TableElement {
     }
 
     @Override
-    public PageElement trimStartChars(final WebElement target, int numChars) {
-        return pageElement.trimStartChars(target, numChars);
+    public PageElement trimStartChars(int numChars) {
+        return pageElement.trimStartChars(numChars);
     }
 
     @Override
