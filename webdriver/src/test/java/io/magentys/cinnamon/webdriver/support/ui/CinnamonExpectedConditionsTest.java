@@ -63,7 +63,7 @@ public class CinnamonExpectedConditionsTest {
     @Test
     public void conditionsOfElementLocatedThrowsTimeoutExceptionWhenNoElementsFound() {
         expectedException.expect(TimeoutException.class);
-        expectedException.expectMessage("Timed out after 5 seconds");
+        expectedException.expectMessage("tried for 5 second");
 
         List<WebElement> webElements = Lists.newArrayList();
         when(mockDriver.findElements(By.id("someid"))).thenReturn(webElements);
@@ -73,7 +73,7 @@ public class CinnamonExpectedConditionsTest {
     @Test
     public void conditionsOfElementLocatedThrowsTimeoutExceptionWhenNoElementsMatchCondition() {
         expectedException.expect(TimeoutException.class);
-        expectedException.expectMessage("Timed out after 5 seconds");
+        expectedException.expectMessage("tried for 5 second");
 
         List<WebElement> webElements = Lists.newArrayList(mockElement);
         when(mockDriver.findElements(By.id("someid"))).thenReturn(webElements);
@@ -94,7 +94,7 @@ public class CinnamonExpectedConditionsTest {
     @Test
     public void conditionsOfAllElementsLocatedThrowsTimeoutExceptionWhenNoElementsFound() throws InterruptedException {
         expectedException.expect(TimeoutException.class);
-        expectedException.expectMessage("Timed out after 5 seconds");
+        expectedException.expectMessage("tried for 5 second");
 
         List<WebElement> webElements = Lists.newArrayList();
         when(mockDriver.findElements(By.id("someid"))).thenReturn(webElements);
@@ -104,7 +104,7 @@ public class CinnamonExpectedConditionsTest {
     @Test
     public void conditionsOfAllElementsLocatedThrowsTimeoutExceptionWhenNoElementsMatchCondition() {
         expectedException.expect(TimeoutException.class);
-        expectedException.expectMessage("Timed out after 5 seconds");
+        expectedException.expectMessage("tried for 5 second");
 
         List<WebElement> webElements = Lists.newArrayList(mockElement);
         when(mockDriver.findElements(By.id("someid"))).thenReturn(webElements);
