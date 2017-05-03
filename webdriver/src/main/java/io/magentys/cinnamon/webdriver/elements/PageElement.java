@@ -82,7 +82,7 @@ public interface PageElement extends WebElement, WrapsElement, Locatable, WrapsD
 
     PageElement trimStartChars(int numChar);
 
-    PageElement trimEndChars(WebElement target, int numChar);
+    PageElement trimEndChars(int numChar);
 
     PageElement scrollIntoView();
 

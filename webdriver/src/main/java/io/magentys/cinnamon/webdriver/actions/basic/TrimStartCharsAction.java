@@ -5,9 +5,6 @@ import io.magentys.cinnamon.webdriver.actions.Delayable;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class TrimStartCharsAction implements Action, Delayable {
 
     private final TypeTextAction typeTextAction;
@@ -18,10 +15,10 @@ public class TrimStartCharsAction implements Action, Delayable {
 
     public static TrimStartCharsAction trimStartCharsAction(final int numChar)
     {
-        Keys[] keys = new Keys[numChar];
+        Keys[] keys = new Keys[numChar+1];
         keys[0] = Keys.HOME;
-        for(int i = 1; i < numChar; i++){
-            keys[i] = Keys.DELETE;
+        for(int i = 0; i < numChar; i++){
+            keys[i+1] = Keys.DELETE;
         }
         return new TrimStartCharsAction(keys);
     }

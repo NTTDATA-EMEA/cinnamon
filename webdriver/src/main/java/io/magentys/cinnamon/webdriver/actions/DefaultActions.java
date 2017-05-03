@@ -72,7 +72,7 @@ class DefaultActions implements Actions {
 
     @Override
     public void trimEndChars(final WebElement target, int numChar) {
-        trimEndCharsAction(target, numChar).perform(target);
+        trimEndCharsAction(numChar).perform(target);
     }
 
     @Override

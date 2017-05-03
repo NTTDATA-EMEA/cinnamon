@@ -152,8 +152,8 @@ public class PageElementImpl extends WebElementWrapper implements PageElement {
     }
 
     @Override
-    public PageElement trimEndChars(WebElement target, int numChar) {
-        actions.trimEndChars(target, numChar);
+    public PageElement trimEndChars(int numChar) {
+        actions.trimEndChars(getWrappedElement(), numChar);
         return this;
     }
 

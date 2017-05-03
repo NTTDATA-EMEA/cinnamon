@@ -220,7 +220,9 @@ public class PageElementFacade implements PageElement, TableElement {
     }
 
     @Override
-    public PageElement trimEndChars(final WebElement target, int numChar) {return pageElement.trimEndChars(target, numChar);}
+    public PageElement trimEndChars(int numChar) {
+        return pageElement.trimEndChars(numChar);
+    }
 
     @Override
     public PageElement scrollIntoView() {

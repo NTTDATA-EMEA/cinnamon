@@ -2,29 +2,29 @@ package io.magentys.cinnamon.webdriver.actions.basic;
 
 import io.magentys.cinnamon.webdriver.actions.Action;
 import io.magentys.cinnamon.webdriver.actions.Delayable;
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
 
 public class TrimEndCharsAction implements Action, Delayable {
 
-    private final ClearAction clearAction;
     private final TypeTextAction typeTextAction;
 
-    public TrimEndCharsAction(String trimmedString) {
-        clearAction = new ClearAction();
-        typeTextAction = new TypeTextAction(trimmedString);
+    public TrimEndCharsAction(CharSequence... keysToSend) {
+        typeTextAction = new TypeTextAction(keysToSend);
     }
 
-    public static TrimEndCharsAction trimEndCharsAction(final WebElement target, final int numChar)
+    public static TrimEndCharsAction trimEndCharsAction(final int numChar)
     {
-        String trimmedString = target.getText();
-        trimmedString = trimmedString.substring(0, trimmedString.length()-numChar);
-
-        return new TrimEndCharsAction(trimmedString);
+        Keys[] keys = new Keys[numChar+1];
+        keys[0] = Keys.END;
+        for(int i = 0; i < numChar; i++){
+            keys[i+1] = Keys.BACK_SPACE;
+        }
+        return new TrimEndCharsAction(keys);
     }
 
     @Override
     public void perform(final WebElement target) {
-        clearAction.perform(target);
         typeTextAction.perform(target);
     }
 
