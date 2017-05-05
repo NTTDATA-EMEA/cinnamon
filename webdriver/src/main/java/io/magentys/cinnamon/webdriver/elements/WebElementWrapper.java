@@ -15,7 +15,7 @@ import static io.magentys.cinnamon.webdriver.WebDriverUtils.unwrapDriver;
 import static io.magentys.cinnamon.webdriver.elements.WebElementConverter.elementConverter;
 import static org.openqa.selenium.support.pagefactory.ElementLocator.constructFrom;
 
-public class WebElementWrapper implements WebElement, WrapsElement, Locatable, WrapsDriver {
+public abstract class WebElementWrapper implements WebElement, WrapsElement, Locatable, WrapsDriver {
 
     protected final ElementLocator elementLocator;
     protected final ElementCache cache;

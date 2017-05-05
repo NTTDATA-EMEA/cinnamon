@@ -219,6 +219,15 @@ public class PageElementFacade implements PageElement, TableElement {
         return pageElement.prependText(keysToSend);
     }
 
+    public PageElement startFocus() { return pageElement.startFocus(); }
+
+    @Override
+    public PageElement endFocus() { return pageElement.endFocus(); }
+
+    @Override
+    public PageElement trimChars(int numChars) { return pageElement.trimChars(numChars);   }
+
+
     @Override
     public PageElement scrollIntoView() {
         return pageElement.scrollIntoView();

@@ -10,10 +10,13 @@ import static io.magentys.cinnamon.webdriver.actions.basic.ClearAction.clearActi
 import static io.magentys.cinnamon.webdriver.actions.basic.ClickAction.clickAction;
 import static io.magentys.cinnamon.webdriver.actions.basic.DeleteContentAction.deleteContentAction;
 import static io.magentys.cinnamon.webdriver.actions.basic.DoubleClickAction.doubleClickAction;
+import static io.magentys.cinnamon.webdriver.actions.basic.EndFocusAction.endFocusAction;
 import static io.magentys.cinnamon.webdriver.actions.basic.HoverAction.hoverAction;
 import static io.magentys.cinnamon.webdriver.actions.basic.PrependTextAction.prependTextAction;
 import static io.magentys.cinnamon.webdriver.actions.basic.ReplaceTextAction.replaceTextAction;
 import static io.magentys.cinnamon.webdriver.actions.basic.ScrollIntoViewAction.scrollIntoViewAction;
+import static io.magentys.cinnamon.webdriver.actions.basic.StartFocusAction.startFocusAction;
+import static io.magentys.cinnamon.webdriver.actions.basic.TrimCharsAction.trimCharsAction;
 import static io.magentys.cinnamon.webdriver.actions.basic.TypeTextAction.typeTextAction;
 
 class DefaultActions implements Actions {
@@ -63,6 +66,16 @@ class DefaultActions implements Actions {
     public void replaceText(final WebElement target, final CharSequence... keysToSend) {
         replaceTextAction(keysToSend).perform(target);
     }
+
+    @Override
+    public void startFocus(final WebElement target) { startFocusAction().perform(target);}
+
+    @Override
+    public void endFocus(final WebElement target) { endFocusAction().perform(target);}
+
+    @Override
+    public void trimChars(final WebElement target, int numChar) { trimCharsAction(numChar).perform(target);}
+
 
     @Override
     public void doubleClick(final WebElement target) {

@@ -67,6 +67,28 @@ public interface Actions {
     void replaceText(WebElement target, CharSequence... keysToSend);
 
     /**
+     * Moves the cursor to the beginning in an input element
+     *
+     *  @param target The input element used
+     */
+    void startFocus(WebElement target);
+
+    /**
+     * Moves the cursor to the end in an input element
+     *
+     *  @param target The input element used
+     */
+    void endFocus(WebElement target);
+
+    /**
+     * Deletes the given number of characters of the given input
+     *
+     * @param target The input element used
+     * @param numChar The number of chars to be deleted
+     */
+    void trimChars(WebElement target, int numChar);
+
+    /**
      * Double-clicks on the given element
      *
      * @param target the element to double-click
