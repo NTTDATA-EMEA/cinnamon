@@ -2,14 +2,15 @@ package io.magentys.cinnamon.webdriver.actions.basic;
 
 import io.magentys.cinnamon.webdriver.actions.Action;
 import io.magentys.cinnamon.webdriver.actions.Delayable;
-import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
 
 public class PrependTextAction implements Action, Delayable {
 
+    private final StartFocusAction startFocusAction;
     private final TypeTextAction typeTextAction;
 
     public PrependTextAction(final CharSequence... keysToSend) {
+        startFocusAction = StartFocusAction.startFocusAction();
         typeTextAction = new TypeTextAction(keysToSend);
     }
 
@@ -18,11 +19,12 @@ public class PrependTextAction implements Action, Delayable {
         for (CharSequence charSequence : keysToSend) {
             keys = keys.concat(charSequence.toString());
         }
-        return new PrependTextAction(Keys.HOME + keys);
+        return new PrependTextAction(keys);
     }
 
     @Override
     public void perform(final WebElement target) {
+        startFocusAction.perform(target);
         typeTextAction.perform(target);
     }
 
