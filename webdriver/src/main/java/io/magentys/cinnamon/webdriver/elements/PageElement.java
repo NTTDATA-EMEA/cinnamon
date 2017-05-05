@@ -80,9 +80,11 @@ public interface PageElement extends WebElement, WrapsElement, Locatable, WrapsD
 
     PageElement fillIn(CharSequence... keysToSend);
 
-    PageElement trimStartChars(int numChar);
+    PageElement startFocus();
 
-    PageElement trimEndChars(int numChar);
+    PageElement endFocus();
+
+    PageElement trimChars(int numChar);
 
     PageElement scrollIntoView();
 

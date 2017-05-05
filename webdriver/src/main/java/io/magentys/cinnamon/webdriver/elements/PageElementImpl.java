@@ -141,20 +141,26 @@ public class PageElementImpl extends WebElementWrapper implements PageElement {
     }
 
     @Override
+    public PageElement startFocus() {
+        actions.startFocus(getWrappedElement());
+        return this;
+    }
+
+    @Override
+    public PageElement endFocus() {
+        actions.endFocus(getWrappedElement());
+        return this;
+    }
+
+    @Override
+    public PageElement trimChars(final int numChar) {
+        actions.trimChars(getWrappedElement(), numChar);
+        return this;
+    }
+
+    @Override
     public PageElement fillIn(final CharSequence... keysToSend) {
         return typeText(keysToSend);
-    }
-
-    @Override
-    public PageElement trimStartChars(int numChars){
-        actions.trimStartChars(getWrappedElement(), numChars);
-        return this;
-    }
-
-    @Override
-    public PageElement trimEndChars(int numChar) {
-        actions.trimEndChars(getWrappedElement(), numChar);
-        return this;
     }
 
     @Override

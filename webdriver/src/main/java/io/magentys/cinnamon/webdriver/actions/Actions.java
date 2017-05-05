@@ -1,6 +1,5 @@
 package io.magentys.cinnamon.webdriver.actions;
 
-import io.magentys.cinnamon.webdriver.elements.PageElement;
 import org.openqa.selenium.WebElement;
 
 /**
@@ -68,20 +67,26 @@ public interface Actions {
     void replaceText(WebElement target, CharSequence... keysToSend);
 
     /**
-     * Deletes the given number of chars from the start of an input element's text
+     * Moves the cursor to the beginning in an input element
      *
-     * @param target  The element to be targeted
-     * @param numChar The number of chars to be deleted
+     *  @param target The input element used
      */
-    void trimStartChars(WebElement target, int numChar);
+    void startFocus(WebElement target);
 
     /**
-     * Deletes the given number of chars from the end of an input element's text
+     * Moves the cursor to the end in an input element
      *
-     * @param target  The element to be targeted
+     *  @param target The input element used
+     */
+    void endFocus(WebElement target);
+
+    /**
+     * Deletes the given number of characters of the given input
+     *
+     * @param target The input element used
      * @param numChar The number of chars to be deleted
      */
-    void trimEndChars(WebElement target, int numChar);
+    void trimChars(WebElement target, int numChar);
 
     /**
      * Double-clicks on the given element

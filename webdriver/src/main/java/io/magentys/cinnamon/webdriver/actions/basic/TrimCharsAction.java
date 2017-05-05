@@ -5,22 +5,22 @@ import io.magentys.cinnamon.webdriver.actions.Delayable;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
 
-public class TrimEndCharsAction implements Action, Delayable {
+public class TrimCharsAction implements Action, Delayable{
 
     private final TypeTextAction typeTextAction;
 
-    public TrimEndCharsAction(CharSequence... keysToSend) {
+    public TrimCharsAction(CharSequence... keysToSend) {
         typeTextAction = new TypeTextAction(keysToSend);
     }
 
-    public static TrimEndCharsAction trimEndCharsAction(final int numChar)
+    public static TrimCharsAction trimCharsAction(final int numChar)
     {
-        Keys[] keys = new Keys[numChar+1];
-        keys[0] = Keys.END;
+        Keys[] keys = new Keys[numChar * 2];
         for(int i = 0; i < numChar; i++){
-            keys[i+1] = Keys.BACK_SPACE;
+            keys[i] = Keys.DELETE;
+            keys[numChar+i] = Keys.BACK_SPACE;
         }
-        return new TrimEndCharsAction(keys);
+        return new TrimCharsAction(keys);
     }
 
     @Override
@@ -33,4 +33,6 @@ public class TrimEndCharsAction implements Action, Delayable {
         typeTextAction.withDelayMillis(millis);
         return null;
     }
+
+
 }

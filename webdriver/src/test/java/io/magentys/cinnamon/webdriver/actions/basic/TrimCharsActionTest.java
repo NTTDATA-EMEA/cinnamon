@@ -9,7 +9,7 @@ import org.openqa.selenium.WebElement;
 import static org.mockito.Mockito.verify;
 import static org.mockito.internal.verification.VerificationModeFactory.times;
 
-public class TrimEndCharsActionTest {
+public class TrimCharsActionTest {
 
     @Mock
     private WebElement mockElement;
@@ -21,7 +21,7 @@ public class TrimEndCharsActionTest {
 
     @Test
     public void shouldInvokeSendKeys() {
-        TrimEndCharsAction action = new TrimEndCharsAction();
+        TypeTextAction action = new TypeTextAction();
         action.perform(mockElement);
         verify(mockElement, times(1)).sendKeys();
     }

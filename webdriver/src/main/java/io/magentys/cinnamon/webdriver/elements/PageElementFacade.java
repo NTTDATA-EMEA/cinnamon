@@ -215,14 +215,13 @@ public class PageElementFacade implements PageElement, TableElement {
     }
 
     @Override
-    public PageElement trimStartChars(int numChars) {
-        return pageElement.trimStartChars(numChars);
-    }
+    public PageElement startFocus() { return pageElement.startFocus(); }
 
     @Override
-    public PageElement trimEndChars(int numChar) {
-        return pageElement.trimEndChars(numChar);
-    }
+    public PageElement endFocus() { return pageElement.endFocus(); }
+
+    @Override
+    public PageElement trimChars(int numChars) { return pageElement.trimChars(numChars);   }
 
     @Override
     public PageElement scrollIntoView() {

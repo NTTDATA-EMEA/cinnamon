@@ -9,7 +9,7 @@ import org.openqa.selenium.WebElement;
 import static org.mockito.Mockito.verify;
 import static org.mockito.internal.verification.VerificationModeFactory.times;
 
-public class TrimStartCharsActionTest {
+public class StartFocusActionTest {
 
     @Mock
     private WebElement mockElement;
@@ -21,7 +21,7 @@ public class TrimStartCharsActionTest {
 
     @Test
     public void shouldInvokeSendKeys() {
-        TrimStartCharsAction action = new TrimStartCharsAction();
+        TypeTextAction action = new TypeTextAction();
         action.perform(mockElement);
         verify(mockElement, times(1)).sendKeys();
     }
