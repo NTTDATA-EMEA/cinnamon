@@ -2,7 +2,7 @@ package io.magentys.cinnamon.webdriver.factory
 
 import org.openqa.selenium.remote.server.{DefaultDriverFactory, DefaultDriverProvider}
 import org.openqa.selenium.remote.{BrowserType, DesiredCapabilities}
-import org.openqa.selenium.{Capabilities, WebDriver}
+import org.openqa.selenium.WebDriver
 
 import scala.util.Try
 
@@ -22,12 +22,12 @@ object DriverRegistry {
   val locals = new DefaultDriverFactory
   capabilitiesToDriverProvider foreach { case (k, v) => locals.registerDriverProvider(new DefaultDriverProvider(v._1, v._2)) }
 
-  def getDriverClass(capabilities: Capabilities): Option[Class[_ <: WebDriver]] = {
+  def getDriverClass(capabilities: DesiredCapabilities): Option[Class[_ <: WebDriver]] = {
     val driverClassNames = capabilitiesToDriverProvider.filter((p) => p._1 == capabilities.getBrowserName).values
     Try(Class.forName(driverClassNames.head._2).asSubclass(classOf[WebDriver])).toOption
   }
 
-  def addDriverProvider(capabilities: Capabilities, providerClass: String) {
+  def addDriverProvider(capabilities: DesiredCapabilities, providerClass: String) {
     locals.registerDriverProvider(new DefaultDriverProvider(capabilities, providerClass))
   }
 

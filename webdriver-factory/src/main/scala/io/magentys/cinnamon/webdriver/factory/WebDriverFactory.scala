@@ -5,14 +5,15 @@ import java.net.URL
 import io.github.bonigarcia.wdm.{BrowserManager, WebDriverManager}
 import io.magentys.cinnamon.webdriver.capabilities.DriverBinaryConfig
 import org.openqa.selenium.remote.RemoteWebDriver
-import org.openqa.selenium.{Capabilities, WebDriver}
+import org.openqa.selenium.remote.DesiredCapabilities
+import org.openqa.selenium.WebDriver
 
 import scala.util.Try
 
 // helper interface around statics used in WebDriverManager
 private[factory] trait WebDriverManagerFactory {
   def driverManagerClass(driverClass: Class[_ <: WebDriver]): BrowserManager = WebDriverManager.getInstance(driverClass)
-  def webDriver(capabilities: Capabilities): WebDriver = DriverRegistry.locals.newInstance(capabilities)
+  def webDriver(capabilities: DesiredCapabilities): WebDriver = DriverRegistry.locals.newInstance(capabilities)
 }
 
 class WebDriverFactory(factory: WebDriverManagerFactory) {
@@ -25,7 +26,7 @@ class WebDriverFactory(factory: WebDriverManagerFactory) {
     * @param binaryConfig optional driver binary configuration
     * @return
     */
-  def getDriver(capabilities: Capabilities, hubUrl: Option[String], binaryConfig: Option[DriverBinaryConfig]): WebDriver = {
+  def getDriver(capabilities: DesiredCapabilities, hubUrl: Option[String], binaryConfig: Option[DriverBinaryConfig]): WebDriver = {
 
     // if a hub url has been passed in then ignore WDM and return an instance of remote web driver
     if (hubUrl.isDefined && !hubUrl.get.isEmpty) {
