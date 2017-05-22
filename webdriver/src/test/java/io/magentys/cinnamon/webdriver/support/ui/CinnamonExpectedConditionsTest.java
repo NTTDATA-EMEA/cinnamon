@@ -31,8 +31,6 @@ public class CinnamonExpectedConditionsTest {
   @Mock
   private WebElement mockElement;
   @Mock
-  private WebElement mockNestedElement;
-  @Mock
   private Clock mockClock;
   @Mock
   private Sleeper mockSleeper;
@@ -111,5 +109,4 @@ public class CinnamonExpectedConditionsTest {
     when(mockCondition.apply(mockElement)).thenReturn(false);
     wait.until(CinnamonExpectedConditions.conditionOfAllElementsLocated(By.id("someid"), mockCondition));
   }
-
 }

@@ -69,7 +69,7 @@
   </distributionManagement>
 
   <prerequisites>
-    <maven>3.3.9</maven>
+    <maven>${maven.version}</maven>
   </prerequisites>
 
   <properties>
@@ -79,12 +79,15 @@
     <httpcomponents.version>4.5.3</httpcomponents.version>
     <java.version>1.8</java.version>
     <maven.build.timestamp.format>yyyy-MM-dd-HHmm</maven.build.timestamp.format>
+    <maven.compiler.source>${java.version}</maven.compiler.source>
+    <maven.compiler.target>${java.version}</maven.compiler.target>
+    <maven.version>3.5.0</maven.version>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-    <selenium.version>3.0.1</selenium.version>
+    <selenium.version>3.4.0</selenium.version>
     <surefire.reportFormat>plain</surefire.reportFormat>
     <surefire.useFile>false</surefire.useFile>
-    <surefire.version>2.19.1</surefire.version>
+    <surefire.version>2.20</surefire.version>
   </properties>
 
   <modules>
@@ -106,24 +109,19 @@
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-compiler-plugin</artifactId>
           <version>3.6.1</version>
-          <configuration>
-            <encoding>UTF-8</encoding>
-            <source>${java.version}</source>
-            <target>${java.version}</target>
-          </configuration>
         </plugin>
         <plugin>
           <groupId>net.alchim31.maven</groupId>
           <artifactId>scala-maven-plugin</artifactId>
-          <version>3.2.1</version>
+          <version>3.2.2</version>
           <configuration>
             <args>
               <arg>-unchecked</arg>
               <arg>-deprecation</arg>
             </args>
             <addJavacArgs>-deprecation</addJavacArgs>
-            <source>1.8</source>
-            <target>1.8</target>
+            <source>${java.version}</source>
+            <target>${java.version}</target>
           </configuration>
           <executions>
             <execution>
@@ -175,7 +173,7 @@
         <plugin>
           <groupId>org.codehaus.mojo</groupId>
           <artifactId>aspectj-maven-plugin</artifactId>
-          <version>1.9</version>
+          <version>1.10.1</version>
         </plugin>
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
@@ -185,7 +183,7 @@
         <plugin>
           <groupId>org.sonatype.plugins</groupId>
           <artifactId>nexus-staging-maven-plugin</artifactId>
-          <version>1.6.3</version>
+          <version>1.6.7</version>
         </plugin>
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
@@ -247,7 +245,7 @@
     <plugins>
       <plugin>
         <artifactId>maven-dependency-plugin</artifactId>
-        <version>2.10</version>
+        <version>3.0.1</version>
       </plugin>
       <plugin>
         <artifactId>maven-help-plugin</artifactId>
@@ -268,12 +266,6 @@
         <groupId>org.apache.commons</groupId>
         <artifactId>commons-vfs2</artifactId>
         <version>2.1</version>
-      </dependency>
-
-      <dependency>
-        <groupId>org.apache.commons</groupId>
-        <artifactId>commons-vfs2</artifactId>
-        <version>2.0</version>
         <exclusions>
           <exclusion>
             <groupId>commons-logging</groupId>
