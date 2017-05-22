@@ -2,11 +2,11 @@ package io.magentys.cinnamon.webdriver.factory
 
 import io.github.bonigarcia.wdm.{Architecture, BrowserManager}
 import io.magentys.cinnamon.webdriver.capabilities.DriverBinaryConfig
-import org.scalatest.{BeforeAndAfterEach, FlatSpec, FunSpec, Matchers}
+import org.scalatest.{BeforeAndAfterEach, FunSpec, Matchers}
 import org.mockito.Mockito._
 import org.mockito.Matchers._
 import org.openqa.selenium.remote.DesiredCapabilities
-import org.openqa.selenium.{Capabilities, WebDriver}
+import org.openqa.selenium.WebDriver
 import org.scalatest.mock.MockitoSugar
 
 class WebDriverFactorySpec extends FunSpec with MockitoSugar with Matchers with BeforeAndAfterEach {
@@ -45,7 +45,7 @@ class WebDriverFactorySpec extends FunSpec with MockitoSugar with Matchers with 
       }
 
       it("WebDriverManager not used if driver class is unknown") {
-        webDriverFactory.getDriver(mock[Capabilities], Some(""), None)
+        webDriverFactory.getDriver(mock[DesiredCapabilities], Some(""), None)
         verify(factoryMock, never()).driverManagerClass(any())
       }
     }
