@@ -18,10 +18,11 @@
                 <configuration>
                     <aspectDirectory>src/main/java/io/cinnamon/cucumber</aspectDirectory>
                     <source>1.8</source>
+                    <target>1.8</target>
                     <complianceLevel>1.8</complianceLevel>
                     <verbose>true</verbose>
                     <showWeaveInfo>true</showWeaveInfo>
-                    <target>1.8</target>
+
                     <weaveDependencies>
                         <weaveDependency>
                             <groupId>info.cukes</groupId>

@@ -173,7 +173,7 @@
         <plugin>
           <groupId>org.codehaus.mojo</groupId>
           <artifactId>aspectj-maven-plugin</artifactId>
-          <version>1.10.1</version>
+          <version>1.9</version>
         </plugin>
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
@@ -243,6 +243,13 @@
       </plugins>
     </pluginManagement>
     <plugins>
+
+      <plugin>
+        <groupId>org.openclover</groupId>
+        <artifactId>clover-maven-plugin</artifactId>
+        <version>4.2.0</version>
+      </plugin>
+
       <plugin>
         <artifactId>maven-dependency-plugin</artifactId>
         <version>3.0.1</version>
@@ -585,46 +592,46 @@
   </dependencyManagement>
 
   <profiles>
-    <profile>
-      <id>enforcer</id>
-      <build>
-        <plugins>
-          <plugin>
-            <groupId>org.apache.maven.plugins</groupId>
-            <artifactId>maven-enforcer-plugin</artifactId>
-            <version>1.4.1</version>
-            <executions>
-              <execution>
-                <id>enforce-dependency-convergence</id>
-                <phase>validate</phase>
-                <goals>
-                  <goal>enforce</goal>
-                </goals>
-              </execution>
-            </executions>
-            <configuration>
-              <rules>
-                <DependencyConvergence/>
-                <bannedDependencies>
-                  <searchTransitive>true</searchTransitive>
-                  <excludes>
-                    <!-- use slf4j -->
-                    <!--<exclude>commons-logging</exclude>-->
-                    <!--<exclude>log4j</exclude>-->
-                    <!--<exclude>log4j:log4j</exclude>-->
-                    <exclude>slf4j-to-log4j</exclude>
-                    <!-- use org.jdom -->
-                    <exclude>jdom:jdom</exclude>
-                    <!-- use commons-io:commons-io -->
-                    <exclude>org.apache.commons:commons-io</exclude>
-                  </excludes>
-                </bannedDependencies>
-              </rules>
-            </configuration>
-          </plugin>
-        </plugins>
-      </build>
-    </profile>
+    <!--<profile>-->
+      <!--<id>enforcer</id>-->
+      <!--<build>-->
+        <!--<plugins>-->
+          <!--<plugin>-->
+            <!--<groupId>org.apache.maven.plugins</groupId>-->
+            <!--<artifactId>maven-enforcer-plugin</artifactId>-->
+            <!--<version>1.4.1</version>-->
+            <!--<executions>-->
+              <!--<execution>-->
+                <!--<id>enforce-dependency-convergence</id>-->
+                <!--<phase>validate</phase>-->
+                <!--<goals>-->
+                  <!--<goal>enforce</goal>-->
+                <!--</goals>-->
+              <!--</execution>-->
+            <!--</executions>-->
+            <!--<configuration>-->
+              <!--<rules>-->
+                <!--<DependencyConvergence/>-->
+                <!--<bannedDependencies>-->
+                  <!--<searchTransitive>true</searchTransitive>-->
+                  <!--<excludes>-->
+                    <!--&lt;!&ndash; use slf4j &ndash;&gt;-->
+                    <!--&lt;!&ndash;<exclude>commons-logging</exclude>&ndash;&gt;-->
+                    <!--&lt;!&ndash;<exclude>log4j</exclude>&ndash;&gt;-->
+                    <!--&lt;!&ndash;<exclude>log4j:log4j</exclude>&ndash;&gt;-->
+                    <!--<exclude>slf4j-to-log4j</exclude>-->
+                    <!--&lt;!&ndash; use org.jdom &ndash;&gt;-->
+                    <!--<exclude>jdom:jdom</exclude>-->
+                    <!--&lt;!&ndash; use commons-io:commons-io &ndash;&gt;-->
+                    <!--<exclude>org.apache.commons:commons-io</exclude>-->
+                  <!--</excludes>-->
+                <!--</bannedDependencies>-->
+              <!--</rules>-->
+            <!--</configuration>-->
+          <!--</plugin>-->
+        <!--</plugins>-->
+      <!--</build>-->
+    <!--</profile>-->
     <profile>
       <id>java8-doclint-disabled</id>
       <activation>
