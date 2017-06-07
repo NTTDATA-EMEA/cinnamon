@@ -96,6 +96,7 @@ public class Env {
         if (files.size() == 0)
             throw new Error("Config file with name [" + filename + "] could not be found in your classpath.");
         if (files.size() > 1)
+//            log.warn("More than one file found for this environment with name [" + filename + "]");
             throw new Error("More than one file found for this environment with name [" + filename + "]");
         if (!files.get(0).isFile())
             throw new Error("The file [" + files.get(0).getAbsolutePath() + "] is not a normal file.");
