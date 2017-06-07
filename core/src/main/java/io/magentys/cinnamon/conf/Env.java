@@ -61,7 +61,7 @@ public class Env {
         Config systemConfig = ConfigFactory.systemProperties();
         File envConfig = searchConfigFileInClasspath(ConfigConstants.ENV_CONF_FILE);
         if (envConfig.getName().contains(".yml")) {
-            return getConfigFromYml(envConfig);
+            return deleteFirstLine(envConfig);
         }
         if (envConfig.getName().contains(".conf")) {
             return systemConfig.withFallback(ConfigFactory.parseFile(envConfig)).resolve().getConfig(env);
@@ -71,7 +71,7 @@ public class Env {
         }
     }
 
-    private Config getConfigFromYml(File file) throws IOException {
+    private Config deleteFirstLine(File file) throws IOException {
         InputStream inputStream = null;
         try {
             inputStream = new FileInputStream(file);
