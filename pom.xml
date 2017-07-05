@@ -474,6 +474,7 @@
         <module>vendor-saucelabs</module>
         <module>vendor-browserstack</module>
         <module>cucumber</module>
+        <module>vendor-perfecto</module>
     </modules>
 
     <profiles>
