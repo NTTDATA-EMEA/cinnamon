@@ -296,13 +296,13 @@
 
             <dependency>
                 <groupId>org.seleniumhq.selenium</groupId>
-                <artifactId>selenium-server</artifactId>
+                <artifactId>selenium-java</artifactId>
                 <version>${selenium.version}</version>
             </dependency>
 
             <dependency>
                 <groupId>org.seleniumhq.selenium</groupId>
-                <artifactId>selenium-remote-driver</artifactId>
+                <artifactId>selenium-server</artifactId>
                 <version>${selenium.version}</version>
             </dependency>
 
@@ -346,12 +346,6 @@
                 <groupId>info.cukes</groupId>
                 <artifactId>cucumber-html</artifactId>
                 <version>0.2.2</version>
-            </dependency>
-
-            <dependency>
-                <groupId>org.seleniumhq.selenium</groupId>
-                <artifactId>selenium-java</artifactId>
-                <version>${selenium.version}</version>
             </dependency>
 
             <dependency>
