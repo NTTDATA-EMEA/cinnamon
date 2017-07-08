@@ -7,7 +7,7 @@ class Browserstack extends CinnamonRemote {
 
   override val name: String = "browserstack"
 
-  override def matchesHubUrl(url: String): Boolean = url.endsWith("hub-cloud.browserstack.com/wd/hub")
+  override def matchesHubUrl(url: String): Boolean = url.endsWith("browserstack.com/wd/hub")
 
   override def capabilities(browserProfile: String, config: Config): DesiredCapabilities = {
     val mainRemoteCaps: DesiredCapabilities = super.capabilities(browserProfile,config)
