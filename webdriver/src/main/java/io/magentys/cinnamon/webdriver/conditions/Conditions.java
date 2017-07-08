@@ -19,10 +19,12 @@ public final class Conditions {
         return new DocumentReadyStateCondition(readyState);
     }
 
+    @SafeVarargs
     public static <T> Condition<T> allOf(Condition<T>... conditions) {
         return new AndCondition<>(conditions);
     }
 
+    @SafeVarargs
     public static <T> Condition<T> anyOf(Condition<T>... conditions) {
         return new OrCondition<>(conditions);
     }
