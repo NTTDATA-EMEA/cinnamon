@@ -7,7 +7,7 @@ import io.magentys.cinnamon.webdriver.Keys
 import org.openqa.selenium.firefox.FirefoxDriver
 import org.scalatest.{FlatSpec, Matchers}
 
-class CinnamonCapabilitiesTest extends FlatSpec with Matchers{
+class CinnamonCapabilitiesSpec extends FlatSpec with Matchers{
 
   behavior of "DriverConfig"
 

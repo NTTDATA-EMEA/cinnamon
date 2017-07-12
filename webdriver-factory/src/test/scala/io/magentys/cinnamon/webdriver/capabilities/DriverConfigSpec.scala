@@ -8,11 +8,11 @@ import org.scalatest.{BeforeAndAfterEach, FunSpec, Matchers}
 class DriverConfigSpec extends FunSpec with MockitoSugar with Matchers with BeforeAndAfterEach {
 
   val config = ConfigFactory.load("defaults-test.conf")
-  val defaultConfig = mock[Config]
+  //val defaultConfig = mock[Config]
 
   describe("DriverConfig") {
     describe("When driver binary config is present") {
-      val driverConfig = DriverConfig("ie", config, "", config)
+      val driverConfig = DriverConfig("ie", config, "")
       val binaryConfig = driverConfig.binaryConfig.get
 
       it("has binary config if present in conf file") {
@@ -26,7 +26,7 @@ class DriverConfigSpec extends FunSpec with MockitoSugar with Matchers with Befo
     }
 
     describe("When driver binary config is not present") {
-      val driverConfig = DriverConfig("firefox", config, "", config)
+      val driverConfig = DriverConfig("firefox", config, "")
       it("does not have any driver binary configuration") {
         assert(driverConfig.binaryConfig.isEmpty)
       }

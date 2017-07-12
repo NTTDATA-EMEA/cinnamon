@@ -8,7 +8,7 @@ object Keys {
   val DRIVER_BINARY = "driverBinary"
   val CONFIG_FILE_EXTENSION = "webdriver.conf"
 
-  //Expected By user
+  //Expected by user
   val BROWSER_PROFILE = "browserProfile"
   val HUB_URL = "hubUrl"
   val WEBDRIVER_CONFIG = "webDriverConfig"
