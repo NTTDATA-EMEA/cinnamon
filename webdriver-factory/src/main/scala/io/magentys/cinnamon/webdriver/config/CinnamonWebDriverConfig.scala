@@ -39,7 +39,7 @@ class CinnamonWebDriverConfig {
 
     val systemPropertyConfig: Config = ConfigFactory.parseProperties(System.getProperties)
 
-    // Load system properties, first falling back to the webdriver.conf settings,
+    // Combined config from system properties, falling back to the webdriver.conf settings,
     // then finally the defaults
     configFile match {
       case Some(file) =>

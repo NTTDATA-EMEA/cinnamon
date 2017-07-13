@@ -2,12 +2,12 @@ package io.magentys.cinnamon.webdriver.factory
 
 import io.github.bonigarcia.wdm.{Architecture, BrowserManager}
 import io.magentys.cinnamon.webdriver.capabilities.DriverBinaryConfig
-import org.scalatest.{BeforeAndAfterEach, FunSpec, Matchers}
-import org.mockito.Mockito._
 import org.mockito.Matchers._
-import org.openqa.selenium.remote.DesiredCapabilities
+import org.mockito.Mockito._
 import org.openqa.selenium.WebDriver
+import org.openqa.selenium.remote.DesiredCapabilities
 import org.scalatest.mock.MockitoSugar
+import org.scalatest.{BeforeAndAfterEach, FunSpec, Matchers}
 
 class WebDriverFactorySpec extends FunSpec with MockitoSugar with Matchers with BeforeAndAfterEach {
 
@@ -22,6 +22,8 @@ class WebDriverFactorySpec extends FunSpec with MockitoSugar with Matchers with 
 
     when(factoryMock.driverManagerClass(any[Class[_ <: WebDriver]]))
       .thenReturn(browserManagerMock)
+    when(browserManagerMock.architecture(any[Architecture])).thenReturn(browserManagerMock)
+    when(browserManagerMock.version(any[String])).thenReturn(browserManagerMock)
 
     webDriverFactory = new WebDriverFactory(factoryMock)
   }
@@ -33,10 +35,12 @@ class WebDriverFactorySpec extends FunSpec with MockitoSugar with Matchers with 
         verify(browserManagerMock).setup()
       }
 
-      it("calls WebDriverManager.setup(arch, version) is binary config supplied") {
+      it("calls WebDriverManager.version().architecture().setup() when binary config supplied") {
         val binaryConfig = DriverBinaryConfig("2.51", Architecture.x32)
         webDriverFactory.getDriver(capabilities, Some(""), Some(binaryConfig))
-        verify(browserManagerMock).setup(Architecture.x32, "2.51")
+        verify(browserManagerMock).version("2.51")
+        verify(browserManagerMock).architecture(Architecture.x32)
+        verify(browserManagerMock).setup()
       }
 
       it("calls WebDriverFactory.webDriver()") {

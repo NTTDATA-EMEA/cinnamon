@@ -24,14 +24,14 @@ object DriverConfig {
     * based on whether the user has passed a hubUrl.
     *
     * @param browserProfile user's selected browserProfile from capabilities-profiles
-    * @param finalConfig    final config should be passed in order to bind the correct object based on the selected browserProfile
+    * @param combinedConfig final config should be passed in order to bind the correct object based on the selected browserProfile
     * @param hubUrl         if this is defined remote capabilities will also be added
     * @return DriverConfig object
     */
-  def apply(browserProfile: String, finalConfig: Config, hubUrl: String): DriverConfig = {
+  def apply(browserProfile: String, combinedConfig: Config, hubUrl: String): DriverConfig = {
 
     //1. Get the Capabilities profile config from the combined config
-    val capabilitiesProfiles = finalConfig.getConfig(Keys.CAPABILITIES_PROFILES_KEY)
+    val capabilitiesProfiles = combinedConfig.getConfig(Keys.CAPABILITIES_PROFILES_KEY)
 
     //2. Load the basics
     val basicCapabilities = capabilitiesProfiles.as[BasicCapabilities](browserProfile)
@@ -39,7 +39,7 @@ object DriverConfig {
 
     //3. Bind the driverExtras
     val extraCapabilities = {
-      val driverExtras = getDriverExtras(browserProfile, finalConfig)
+      val driverExtras = getDriverExtras(browserProfile, combinedConfig)
       DriverExtrasBinder.bindExtrasMap(basicCapabilities.browserName, driverExtras)
     }
     val extraCaps = new DesiredCapabilities(extraCapabilities.getCapabilityMap.asJava)
@@ -47,7 +47,7 @@ object DriverConfig {
     //4. Merge them all, adding remotes if required
     val capabilities: DesiredCapabilities = {
       if (remoteCapabilitiesRequired(hubUrl))
-        basicCaps.merge(extraCaps).merge(remoteCapabilities(browserProfile, finalConfig, hubUrl))
+        basicCaps.merge(extraCaps).merge(remoteCapabilities(browserProfile, combinedConfig, hubUrl))
       else
         basicCaps.merge(extraCaps)
     }

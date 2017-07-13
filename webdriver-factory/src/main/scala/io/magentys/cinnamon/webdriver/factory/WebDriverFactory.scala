@@ -4,15 +4,15 @@ import java.net.URL
 
 import io.github.bonigarcia.wdm.{BrowserManager, WebDriverManager}
 import io.magentys.cinnamon.webdriver.capabilities.DriverBinaryConfig
-import org.openqa.selenium.remote.RemoteWebDriver
-import org.openqa.selenium.remote.DesiredCapabilities
 import org.openqa.selenium.WebDriver
+import org.openqa.selenium.remote.{DesiredCapabilities, RemoteWebDriver}
 
 import scala.util.Try
 
 // helper interface around statics used in WebDriverManager
 private[factory] trait WebDriverManagerFactory {
   def driverManagerClass(driverClass: Class[_ <: WebDriver]): BrowserManager = WebDriverManager.getInstance(driverClass)
+
   def webDriver(capabilities: DesiredCapabilities): WebDriver = DriverRegistry.locals.newInstance(capabilities)
 }
 
@@ -37,7 +37,7 @@ class WebDriverFactory(factory: WebDriverManagerFactory) {
 
     if (driverClass.isDefined) {
       binaryConfig match {
-        case Some(binConfig) => Try(factory.driverManagerClass(driverClass.get).setup(binConfig.arch, binConfig.version))
+        case Some(binConfig) => Try(factory.driverManagerClass(driverClass.get).version(binConfig.version).architecture(binConfig.arch).setup())
         case None => Try(factory.driverManagerClass(driverClass.get).setup())
       }
     }

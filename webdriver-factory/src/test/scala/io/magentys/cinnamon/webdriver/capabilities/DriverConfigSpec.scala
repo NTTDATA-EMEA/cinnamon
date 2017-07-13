@@ -1,16 +1,26 @@
 package io.magentys.cinnamon.webdriver.capabilities
 
-import com.typesafe.config.{Config, ConfigFactory}
+import com.typesafe.config.ConfigFactory
 import io.github.bonigarcia.wdm.Architecture
-import org.scalatest.mock.MockitoSugar
 import org.scalatest.{BeforeAndAfterEach, FunSpec, Matchers}
 
-class DriverConfigSpec extends FunSpec with MockitoSugar with Matchers with BeforeAndAfterEach {
+class DriverConfigSpec extends FunSpec with Matchers with BeforeAndAfterEach {
 
   val config = ConfigFactory.load("defaults-test.conf")
-  //val defaultConfig = mock[Config]
 
   describe("DriverConfig") {
+    describe("When driverExtras config is present") {
+      val driverConfig = DriverConfig("ie", config, "")
+
+      it("has driverExtras settings applied to the capabilities") {
+        driverConfig.desiredCapabilities.getCapability("unexpectedAlertBehaviour") shouldBe "dismiss"
+        driverConfig.desiredCapabilities.getCapability("ie.ensureCleanSession") shouldBe true
+        driverConfig.desiredCapabilities.getCapability("ignoreZoomSetting") shouldBe true
+        driverConfig.desiredCapabilities.getCapability("requireWindowFocus") shouldBe true
+        driverConfig.desiredCapabilities.getCapability("enablePersistentHover") shouldBe false
+      }
+    }
+
     describe("When driver binary config is present") {
       val driverConfig = DriverConfig("ie", config, "")
       val binaryConfig = driverConfig.binaryConfig.get
