@@ -30,11 +30,12 @@
                 <version>1.0</version>
                 <configuration>
                     <suites>
-                        io.magentys.cinnamon.webdriver.capabilities.CapabilitiesModelTest,
-                        io.magentys.cinnamon.webdriver.capabilities.CinnamonCapabilitiesTest,
+                        io.magentys.cinnamon.webdriver.capabilities.CapabilitiesModelSpec,
+                        io.magentys.cinnamon.webdriver.capabilities.CinnamonCapabilitiesSpec,
                         io.magentys.cinnamon.webdriver.capabilities.DriverConfigSpec,
-                        io.magentys.cinnamon.webdriver.factory.DriverRegistryTest,
-                        io.magentys.cinnamon.webdriver.factory.WebDriverFactorySpec
+                        io.magentys.cinnamon.webdriver.factory.DriverRegistrySpec,
+                        io.magentys.cinnamon.webdriver.factory.WebDriverFactorySpec,
+                        io.magentys.cinnamon.webdriver.config.CinnamonWebDriverConfigSpec
                     </suites>
                 </configuration>
             </plugin>

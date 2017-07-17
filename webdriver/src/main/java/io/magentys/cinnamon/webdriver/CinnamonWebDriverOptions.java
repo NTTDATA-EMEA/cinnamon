@@ -7,8 +7,9 @@ import org.openqa.selenium.logging.Logs;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.HashSet;
 import java.util.Set;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import static io.magentys.cinnamon.webdriver.WebDriverUtils.*;
 
@@ -62,27 +63,17 @@ public class CinnamonWebDriverOptions implements WebDriver.Options {
     @Override
     public Set<Cookie> getCookies() {
         if (requiresJavaScript) {
-            Set<Cookie> cookies = new HashSet<>();
-            String[] documentCookies = ((String) js.executeScript("return (document.cookie);")).split(";");
-            if (!documentCookies[0].isEmpty()) {
-                for (String cookie : documentCookies) {
-                    String[] parts = cookie.trim().split("=", -1);
-                    cookies.add(new Cookie(parts[0], parts[1]));
-                }
-            }
-            return cookies;
+            return Stream.of(((String) js.executeScript("return (document.cookie);")).split(";")).filter(s -> !s.isEmpty()).map(c -> {
+                String[] parts = c.trim().split("=", -1);
+                return new Cookie(parts[0], parts[1]);
+            }).collect(Collectors.toSet());
         }
         return delegate.getCookies();
     }
 
     @Override
     public Cookie getCookieNamed(String name) {
-        for (Cookie cookie : getCookies()) {
-            if (cookie.getName().equals(name)) {
-                return cookie;
-            }
-        }
-        return null;
+        return getCookies().stream().filter(c -> c.getName().equals(name)).findFirst().orElse(null);
     }
 
     @Override

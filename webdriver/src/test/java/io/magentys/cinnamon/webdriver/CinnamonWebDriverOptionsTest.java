@@ -11,6 +11,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.remote.DesiredCapabilities;
 
 import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.CoreMatchers.nullValue;
 import static org.hamcrest.collection.IsEmptyCollection.emptyCollectionOf;
 import static org.junit.Assert.assertThat;
 import static org.mockito.Mockito.doReturn;
@@ -43,4 +44,11 @@ public class CinnamonWebDriverOptionsTest {
         assertThat(options.getCookieNamed("cookieb").getValue(), is("123"));
     }
 
+    @Test
+    public void shouldReturnNullForNonExistentCookie() {
+        when(((HasCapabilities) mockDriver).getCapabilities()).thenReturn(DesiredCapabilities.safari());
+        doReturn("cookiea=123").when((JavascriptExecutor) mockDriver).executeScript("return (document.cookie);");
+        CinnamonWebDriverOptions options = new CinnamonWebDriverOptions(mockDriver);
+        assertThat(options.getCookieNamed("nonExistentCookie"), is(nullValue()));
+    }
 }
