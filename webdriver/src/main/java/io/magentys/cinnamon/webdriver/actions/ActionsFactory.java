@@ -19,5 +19,4 @@ public class ActionsFactory {
             return new DefaultActions(webDriver);
         }
     }
-
 }
