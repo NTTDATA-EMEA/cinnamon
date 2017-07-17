@@ -30,26 +30,30 @@ class WebDriverFactorySpec extends FunSpec with MockitoSugar with Matchers with 
 
   describe("WebDriverFactory") {
     describe("getDriver()") {
+      it ("checks the exe path exists when it is supplied") {
+        intercept[IllegalArgumentException] { webDriverFactory.getDriver(capabilities, None, Some("/nonexistent/path"), None) }
+      }
+
       it("calls WebDriverManager.setup() when no binary config supplied") {
-        webDriverFactory.getDriver(capabilities, Some(""), None)
+        webDriverFactory.getDriver(capabilities, None, None, None)
         verify(browserManagerMock).setup()
       }
 
       it("calls WebDriverManager.version().architecture().setup() when binary config supplied") {
         val binaryConfig = DriverBinaryConfig("2.51", Architecture.x32)
-        webDriverFactory.getDriver(capabilities, Some(""), Some(binaryConfig))
+        webDriverFactory.getDriver(capabilities, None, None, Some(binaryConfig))
         verify(browserManagerMock).version("2.51")
         verify(browserManagerMock).architecture(Architecture.x32)
         verify(browserManagerMock).setup()
       }
 
       it("calls WebDriverFactory.webDriver()") {
-        webDriverFactory.getDriver(capabilities, Some(""), None)
+        webDriverFactory.getDriver(capabilities, None, None, None)
         verify(factoryMock).webDriver(capabilities)
       }
 
       it("WebDriverManager not used if driver class is unknown") {
-        webDriverFactory.getDriver(mock[DesiredCapabilities], Some(""), None)
+        webDriverFactory.getDriver(mock[DesiredCapabilities], None, None, None)
         verify(factoryMock, never()).driverManagerClass(any())
       }
     }

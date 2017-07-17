@@ -76,5 +76,4 @@ class CinnamonWebDriverConfig {
       case file if file == 1 => files.head
     }
   }
-
 }

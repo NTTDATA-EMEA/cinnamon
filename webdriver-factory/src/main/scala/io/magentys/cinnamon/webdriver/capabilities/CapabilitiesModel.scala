@@ -20,14 +20,14 @@ case class BasicCapabilities(browserName: String,
   require(browserName.nonEmpty, s"browserName is a mandatory field in the configuration profile.")
 
   def asMap = {
-    setSystemProps() //TODO Don't handle here
+    setSystemProps()
     toMap(this).filter(_._1!="properties")
   }
 
   private[capabilities] def setSystemProps() = {
     this.properties match {
       case Some(props) =>
-        props.map{case(k,v) => sys.props += (k -> v)}
+        props.map{case(k,v) => System.setProperty(k, v)}
       case None => // do nothing
     }
   }
