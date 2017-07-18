@@ -6,7 +6,7 @@
         <groupId>io.magentys</groupId>
         <artifactId>cinnamon</artifactId>
         <relativePath>../pom.xml</relativePath>
-        <version>0.0.3</version>
+        <version>0.0.4-SNAPSHOT</version>
     </parent>
 
     <artifactId>cinnamon-archetype</artifactId>
