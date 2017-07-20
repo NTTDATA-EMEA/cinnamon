@@ -7,8 +7,8 @@
     <version>${version}</version>
 
     <properties>
-        <cinnamon.version>0.0.3</cinnamon.version>
-        <cucumber.options>--tags @complete,@accepted</cucumber.options>
+        <cinnamon.version>${projectVersion}</cinnamon.version>
+        <cucumber.options>--tags @wip</cucumber.options>
         <failsafe.fork.count>4</failsafe.fork.count>
         <java.version>1.8</java.version>
         <env>default</env>
@@ -78,7 +78,7 @@
             <plugin>
                 <groupId>io.magentys</groupId>
                 <artifactId>donut-maven-plugin</artifactId>
-                <version>0.0.3</version>
+                <version>0.0.5</version>
                 <executions>
                     <execution>
                         <id>execution</id>
@@ -94,7 +94,6 @@
                             <prefix>${project.name}</prefix>
                             <projectName>${project.name}</projectName>
                             <projectVersion>${project.version}</projectVersion>
-                            <countSkippedAsFailure>true</countSkippedAsFailure>
                         </configuration>
                     </execution>
                 </executions>
@@ -181,24 +180,6 @@
         </dependency>
 
         <dependency>
-            <groupId>org.seleniumhq.selenium</groupId>
-            <artifactId>selenium-firefox-driver</artifactId>
-            <version>2.53.1</version>
-        </dependency>
-
-        <dependency>
-            <groupId>org.seleniumhq.selenium</groupId>
-            <artifactId>selenium-htmlunit-driver</artifactId>
-            <version>2.52.0</version>
-        </dependency>
-
-        <dependency>
-            <groupId>com.codeborne</groupId>
-            <artifactId>phantomjsdriver</artifactId>
-            <version>1.3.0</version>
-        </dependency>
-
-        <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
             <version>4.12</version>
@@ -224,17 +205,4 @@
         </profile>
     </profiles>
 
-    <repositories>
-        <repository>
-            <id>oss.snap</id>
-            <url>https://oss.sonatype.org/content/repositories/snapshots</url>
-            <releases>
-                <enabled>false</enabled>
-            </releases>
-            <snapshots>
-                <enabled>true</enabled>
-            </snapshots>
-        </repository>
-    </repositories>
-    
 </project>
