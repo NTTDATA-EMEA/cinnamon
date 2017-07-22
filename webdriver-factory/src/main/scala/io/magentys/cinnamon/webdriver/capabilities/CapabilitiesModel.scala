@@ -15,19 +15,22 @@ case class BasicCapabilities(browserName: String,
                              nativeEvents: Option[Boolean] = None,
                              javascriptEnabled: Option[Boolean] = Some(true),
                              acceptSslCerts: Option[Boolean] = Some(true),
-                             properties:Option[Map[String, String]] = None) extends CapabilitiesMapper {
+                             properties: Option[Map[String, String]] = None) extends CapabilitiesMapper {
 
   require(browserName.nonEmpty, s"browserName is a mandatory field in the configuration profile.")
 
   def asMap = {
     setSystemProps()
-    toMap(this).filter(_._1!="properties")
+    toMap(this).filter(_._1 != "properties")
   }
 
   private[capabilities] def setSystemProps() = {
     this.properties match {
       case Some(props) =>
-        props.map{case(k,v) => System.setProperty(k, v)}
+        props.map { case (k, v) =>
+          // System properties take precedence over config values.
+          if (!sys.props.contains(k)) System.setProperty(k, v)
+        }
       case None => // do nothing
     }
   }

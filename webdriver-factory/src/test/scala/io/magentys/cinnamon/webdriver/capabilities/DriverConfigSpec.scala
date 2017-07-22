@@ -53,7 +53,7 @@ class DriverConfigSpec extends FunSpec with Matchers with BeforeAndAfterEach {
       }
     }
 
-    describe("When a webdriver.*.driver property is set in both the config file and via a JVM arg") {
+    describe("When a webdriver.*.driver property is set in both the config file and as a system property") {
       try {
         System.setProperty("webdriver.edge.driver", "/another/path")
         val driverConfig = DriverConfig("edge", config, "")
@@ -61,15 +61,15 @@ class DriverConfigSpec extends FunSpec with Matchers with BeforeAndAfterEach {
           driverConfig.binaryConfig.isEmpty shouldBe true
         }
 
-        it("sets the webdriver.*.property to the value in the config file") {
-          driverConfig.exePath.get shouldBe "/edge/path"
+        it("sets the webdriver.*.property to the value of the system property") {
+          driverConfig.exePath.get shouldBe "/another/path"
         }
       } finally {
         System.clearProperty("webdriver.edge.driver")
       }
     }
 
-    describe("When a webdriver.*.driver property is only set via a JVM arg") {
+    describe("When a webdriver.*.driver property is only set as a system property") {
       try {
         System.setProperty("webdriver.gecko.driver", "/another/path")
         val driverConfig = DriverConfig("firefox", config, "")
@@ -77,7 +77,7 @@ class DriverConfigSpec extends FunSpec with Matchers with BeforeAndAfterEach {
           driverConfig.binaryConfig.isEmpty shouldBe true
         }
 
-        it("sets the webdriver.*.property to the arg value") {
+        it("sets the webdriver.*.property to the value of the system property") {
           driverConfig.exePath.get shouldBe "/another/path"
         }
       } finally {
