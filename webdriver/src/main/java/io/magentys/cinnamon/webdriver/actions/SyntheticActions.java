@@ -6,9 +6,9 @@ import org.openqa.selenium.WebElement;
 import static io.magentys.cinnamon.webdriver.actions.synthetic.SyntheticDoubleClickAction.syntheticDoubleClickAction;
 import static io.magentys.cinnamon.webdriver.actions.synthetic.SyntheticHoverAction.syntheticHoverAction;
 
-class SafariActions extends DefaultActions {
+class SyntheticActions extends DefaultActions {
 
-    public SafariActions(final WebDriver webDriver) {
+    public SyntheticActions(final WebDriver webDriver) {
         super(webDriver);
     }
 
