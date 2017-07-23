@@ -1,8 +1,7 @@
 package io.magentys.cinnamon.webdriver.factory
 
-import java.io.File
 import java.net.URL
-import java.nio.file.{Files, Path, Paths}
+import java.nio.file.{Files, Paths}
 
 import io.github.bonigarcia.wdm.{BrowserManager, WebDriverManager}
 import io.magentys.cinnamon.webdriver.capabilities.DriverBinaryConfig
