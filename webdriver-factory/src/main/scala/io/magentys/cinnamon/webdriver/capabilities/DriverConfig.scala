@@ -11,12 +11,12 @@ import org.openqa.selenium.remote.{BrowserType, DesiredCapabilities}
 import scala.collection.JavaConverters._
 import scala.util.Try
 
-case class DriverBinaryConfig(version: String, arch: Architecture)
+case class DriverBinary(version: String, arch: Architecture)
 
 case class DriverConfig(desiredCapabilities: DesiredCapabilities,
                         requiresMoveMouse: Boolean,
                         exePath: Option[String] = None,
-                        binaryConfig: Option[DriverBinaryConfig] = None) {
+                        driverBinary: Option[DriverBinary] = None) {
 }
 
 object DriverConfig {
@@ -70,7 +70,7 @@ object DriverConfig {
         case true => archVersions.getOrElse(binaryConfig.getString("arch"), Architecture.DEFAULT)
         case false => Architecture.DEFAULT
       }
-      DriverConfig(capabilities, extraCapabilities.requiresMoveMouse, None, Some(DriverBinaryConfig(version, arch)))
+      DriverConfig(capabilities, extraCapabilities.requiresMoveMouse, None, Some(DriverBinary(version, arch)))
     } else {
       DriverConfig(capabilities, extraCapabilities.requiresMoveMouse, exePath)
     }

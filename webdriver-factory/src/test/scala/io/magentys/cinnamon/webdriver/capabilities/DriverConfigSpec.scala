@@ -23,29 +23,29 @@ class DriverConfigSpec extends FunSpec with Matchers with BeforeAndAfterEach {
 
     describe("When driver binary config is present") {
       val driverConfig = DriverConfig("ie", config, "")
-      val binaryConfig = driverConfig.binaryConfig.get
+      val driverBinary = driverConfig.driverBinary.get
 
-      it("has binary config if present in conf file") {
-        driverConfig.binaryConfig.isDefined shouldBe true
+      it("has driver binary config if present in conf file") {
+        driverConfig.driverBinary.isDefined shouldBe true
       }
 
       it("has the correct values as defined in the config file") {
-        binaryConfig.arch shouldBe Architecture.x32
-        binaryConfig.version shouldBe "2.51"
+        driverBinary.arch shouldBe Architecture.x32
+        driverBinary.version shouldBe "2.51"
       }
     }
 
     describe("When driver binary config is not present") {
       val driverConfig = DriverConfig("firefox", config, "")
       it("does not have any driver binary configuration") {
-        driverConfig.binaryConfig.isEmpty shouldBe true
+        driverConfig.driverBinary.isEmpty shouldBe true
       }
     }
 
     describe("When both a webdriver.*.driver property and binary config are present in the config file") {
       val driverConfig = DriverConfig("edge", config, "")
       it("does not have any driver binary configuration") {
-        driverConfig.binaryConfig.isEmpty shouldBe true
+        driverConfig.driverBinary.isEmpty shouldBe true
       }
 
       it("sets the webdriver.*.property to the value in the config file") {
@@ -58,7 +58,7 @@ class DriverConfigSpec extends FunSpec with Matchers with BeforeAndAfterEach {
         System.setProperty("webdriver.edge.driver", "/another/path")
         val driverConfig = DriverConfig("edge", config, "")
         it("does not have any driver binary configuration") {
-          driverConfig.binaryConfig.isEmpty shouldBe true
+          driverConfig.driverBinary.isEmpty shouldBe true
         }
 
         it("sets the webdriver.*.property to the value of the system property") {
@@ -74,7 +74,7 @@ class DriverConfigSpec extends FunSpec with Matchers with BeforeAndAfterEach {
         System.setProperty("webdriver.gecko.driver", "/another/path")
         val driverConfig = DriverConfig("firefox", config, "")
         it("does not have any driver binary configuration") {
-          driverConfig.binaryConfig.isEmpty shouldBe true
+          driverConfig.driverBinary.isEmpty shouldBe true
         }
 
         it("sets the webdriver.*.property to the value of the system property") {

@@ -1,7 +1,7 @@
 package io.magentys.cinnamon.webdriver.factory
 
 import io.github.bonigarcia.wdm.{Architecture, BrowserManager}
-import io.magentys.cinnamon.webdriver.capabilities.DriverBinaryConfig
+import io.magentys.cinnamon.webdriver.capabilities.DriverBinary
 import org.mockito.Matchers._
 import org.mockito.Mockito._
 import org.openqa.selenium.WebDriver
@@ -41,9 +41,9 @@ class WebDriverFactorySpec extends FunSpec with MockitoSugar with Matchers with 
         verify(browserManagerMock).setup()
       }
 
-      it("calls WebDriverManager.version().architecture().setup() when binary config supplied") {
-        val binaryConfig = DriverBinaryConfig("2.51", Architecture.x32)
-        webDriverFactory.getDriver(capabilities, None, None, Some(binaryConfig))
+      it("calls WebDriverManager.version().architecture().setup() when driver binary config supplied") {
+        val driverBinary = DriverBinary("2.51", Architecture.x32)
+        webDriverFactory.getDriver(capabilities, None, None, Some(driverBinary))
         verify(browserManagerMock).version("2.51")
         verify(browserManagerMock).architecture(Architecture.x32)
         verify(browserManagerMock).setup()
@@ -65,5 +65,4 @@ class WebDriverFactorySpec extends FunSpec with MockitoSugar with Matchers with 
       }
     }
   }
-
 }

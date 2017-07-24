@@ -4,7 +4,7 @@ import java.net.URL
 import java.nio.file.{Files, Paths}
 
 import io.github.bonigarcia.wdm.{BrowserManager, WebDriverManager}
-import io.magentys.cinnamon.webdriver.capabilities.DriverBinaryConfig
+import io.magentys.cinnamon.webdriver.capabilities.DriverBinary
 import org.openqa.selenium.WebDriver
 import org.openqa.selenium.remote.{DesiredCapabilities, RemoteWebDriver}
 
@@ -25,10 +25,10 @@ class WebDriverFactory(factory: WebDriverManagerFactory) {
     * @param capabilities the browser capabilities
     * @param hubUrl       optional hub url
     * @param exePath      optional driver exe path
-    * @param binaryConfig optional driver binary configuration
+    * @param driverBinary optional driver binary configuration
     * @return
     */
-  def getDriver(capabilities: DesiredCapabilities, hubUrl: Option[String], exePath: Option[String], binaryConfig: Option[DriverBinaryConfig]): WebDriver = {
+  def getDriver(capabilities: DesiredCapabilities, hubUrl: Option[String], exePath: Option[String], driverBinary: Option[DriverBinary]): WebDriver = {
 
     // if a hub url has been passed in then ignore WDM and return an instance of remote web driver
     if (hubUrl.isDefined && !hubUrl.get.isEmpty) {
@@ -41,8 +41,8 @@ class WebDriverFactory(factory: WebDriverManagerFactory) {
     if (exePath.isDefined && !exePath.get.isEmpty) {
       require(Files.exists(Paths.get(exePath.get)), s"Cannot find the exe path that has been set by a webdriver property.")
     } else if (driverClass.isDefined) {
-      binaryConfig match {
-        case Some(binConfig) => Try(factory.driverManagerClass(driverClass.get).version(binConfig.version).architecture(binConfig.arch).setup())
+      driverBinary match {
+        case Some(bin) => Try(factory.driverManagerClass(driverClass.get).version(bin.version).architecture(bin.arch).setup())
         case None => Try(factory.driverManagerClass(driverClass.get).setup())
       }
     }
