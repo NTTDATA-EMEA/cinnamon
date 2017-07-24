@@ -19,9 +19,9 @@ case class BasicCapabilities(browserName: String,
 
   require(browserName.nonEmpty, s"browserName is a mandatory field in the configuration profile.")
 
-  def asMap = {
+  def toMap = {
     setSystemProps()
-    toMap(this).filter(_._1 != "properties")
+    super.toMap(this).filter(_._1 != "properties")
   }
 
   private[capabilities] def setSystemProps() = {

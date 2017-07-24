@@ -8,7 +8,9 @@ class CapabilitiesModelSpec extends FlatSpec with Matchers {
   behavior of "CinnamonCapabilities"
 
   it should "not allow empty browserName" in {
-    intercept[IllegalArgumentException] { BasicCapabilities("") }
+    intercept[IllegalArgumentException] {
+      BasicCapabilities("")
+    }
   }
 
   it should "successfully initialise with a valid browserName and default values" in {
@@ -36,13 +38,13 @@ class CapabilitiesModelSpec extends FlatSpec with Matchers {
 
   it should "exclude properties from Capabilities map" in {
     val properties = Map("myProp" -> "abc")
-    val capsMap = BasicCapabilities("chrome", None, None, None, Some(true), Some(true), Some(properties)).asMap
+    val capsMap = BasicCapabilities("chrome", None, None, None, Some(true), Some(true), Some(properties)).toMap
     capsMap.get("properties") shouldBe None
   }
 
   it should "set properties as system properties if any" in {
     val properties = Map("myProp" -> "abc")
-    val capsMap = BasicCapabilities("chrome", None, None, None, Some(true), Some(true), Some(properties)).asMap
+    val capsMap = BasicCapabilities("chrome", None, None, None, Some(true), Some(true), Some(properties)).toMap
     sys.props.get("myProp").get shouldBe "abc"
   }
 
@@ -53,14 +55,14 @@ class CapabilitiesModelSpec extends FlatSpec with Matchers {
   }
 
   it should "do nothing with regards to properties if no properties passed" in {
-    BasicCapabilities("chrome").setSystemProps shouldBe((): Unit)
+    BasicCapabilities("chrome").setSystemProps shouldBe ((): Unit)
   }
 
   behavior of "CapsUtils"
 
   it should "return a Map of capabilities from class properties" in {
     val basicCapabilities = BasicCapabilities("chrome")
-    val expected =  Map("nativeEvents" -> None,
+    val expected = Map("nativeEvents" -> None,
       "acceptSslCerts" -> Some(true),
       "browserName" -> "chrome",
       "version" -> None,

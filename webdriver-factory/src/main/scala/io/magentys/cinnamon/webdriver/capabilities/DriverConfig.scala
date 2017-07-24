@@ -37,7 +37,7 @@ object DriverConfig {
 
     //2. Load the basics.
     val basicCapabilities = capabilitiesProfiles.as[BasicCapabilities](browserProfile)
-    val basicCaps = new DesiredCapabilities(basicCapabilities.asMap.asJava)
+    val basicCaps = new DesiredCapabilities(basicCapabilities.toMap.asJava)
 
     //3. Bind the driverExtras.
     val extraCapabilities = {
