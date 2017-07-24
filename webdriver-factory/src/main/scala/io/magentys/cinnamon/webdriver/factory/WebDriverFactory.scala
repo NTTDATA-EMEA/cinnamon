@@ -35,23 +35,19 @@ class WebDriverFactory(factory: WebDriverManagerFactory) {
       return new RemoteWebDriver(new URL(hubUrl.get), capabilities)
     }
 
-    // if an exe path has been defined then check that it exists
-    if (exePath.isDefined && !exePath.get.isEmpty) {
-      require(Files.exists(Paths.get(exePath.get)), s"Cannot find the exe path that has been set by a webdriver property.")
-    }
-
     val driverClass = DriverRegistry.getDriverClass(capabilities)
 
-    if (driverClass.isDefined) {
+    // if an exe path has been defined then check that it exists and use it, otherwise download the exe using the WebdriverManager
+    if (exePath.isDefined && !exePath.get.isEmpty) {
+      require(Files.exists(Paths.get(exePath.get)), s"Cannot find the exe path that has been set by a webdriver property.")
+    } else if (driverClass.isDefined) {
       binaryConfig match {
         case Some(binConfig) => Try(factory.driverManagerClass(driverClass.get).version(binConfig.version).architecture(binConfig.arch).setup())
         case None => Try(factory.driverManagerClass(driverClass.get).setup())
       }
     }
-
     factory.webDriver(capabilities)
   }
-
 }
 
 object WebDriverFactory {

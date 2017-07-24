@@ -30,8 +30,10 @@ class WebDriverFactorySpec extends FunSpec with MockitoSugar with Matchers with 
 
   describe("WebDriverFactory") {
     describe("getDriver()") {
-      it ("checks the exe path exists when it is supplied") {
-        intercept[IllegalArgumentException] { webDriverFactory.getDriver(capabilities, None, Some("/nonexistent/path"), None) }
+      it("checks the exe path exists when it is supplied") {
+        intercept[IllegalArgumentException] {
+          webDriverFactory.getDriver(capabilities, None, Some("/nonexistent/path"), None)
+        }
       }
 
       it("calls WebDriverManager.setup() when no binary config supplied") {
@@ -52,8 +54,13 @@ class WebDriverFactorySpec extends FunSpec with MockitoSugar with Matchers with 
         verify(factoryMock).webDriver(capabilities)
       }
 
-      it("WebDriverManager not used if driver class is unknown") {
+      it("does not use WebDriverManager if driver class is unknown") {
         webDriverFactory.getDriver(mock[DesiredCapabilities], None, None, None)
+        verify(factoryMock, never()).driverManagerClass(any())
+      }
+
+      it("does not use WebDriverManager if exePath exists") {
+        webDriverFactory.getDriver(mock[DesiredCapabilities], None, Some(""), None)
         verify(factoryMock, never()).driverManagerClass(any())
       }
     }
