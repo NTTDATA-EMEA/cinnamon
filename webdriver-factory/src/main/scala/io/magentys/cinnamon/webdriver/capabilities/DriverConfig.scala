@@ -33,28 +33,33 @@ object DriverConfig {
   def apply(browserProfile: String, combinedConfig: Config, hubUrl: String): DriverConfig = {
 
     //1. Get the Capabilities profile config from the combined config.
-    val capabilitiesProfiles = combinedConfig.getConfig(Keys.CAPABILITIES_PROFILES_KEY)
+    val capabilitiesProfiles = combinedConfig.getConfig(Keys.CAPABILITIES_PROFILES)
 
-    //2. Load the basics.
-    val basicCapabilities = capabilitiesProfiles.as[BasicCapabilities](browserProfile)
-    val basicCaps = new DesiredCapabilities(basicCapabilities.toMap.asJava)
+    //2. Load the basic capabilities.
+    val seleniumCapabilities = Try(capabilitiesProfiles.as[SeleniumCapabilities](browserProfile)).toOption
+    val appiumCapabilities = Try(capabilitiesProfiles.as[AppiumCapabilities](browserProfile)).toOption
+    val basicCapabilities: DesiredCapabilities = {
+      if (seleniumCapabilities.isDefined) new DesiredCapabilities(seleniumCapabilities.get.toMap.asJava)
+      else if (appiumCapabilities.isDefined) new DesiredCapabilities(appiumCapabilities.get.toMap.asJava)
+      else throw new Exception("Capabilities are not defined in the configuration profile.")
+    }
 
-    //3. Bind the driverExtras.
+    //3. Bind the driver extras.
     val extraCapabilities = {
       val driverExtras = getDriverExtras(browserProfile, combinedConfig)
-      DriverExtrasBinder.bindExtrasMap(basicCapabilities.browserName, driverExtras)
+      DriverExtrasBinder.bindExtrasMap(basicCapabilities.getBrowserName, driverExtras)
     }
     val extraCaps = new DesiredCapabilities(extraCapabilities.getCapabilityMap.asJava)
 
-    //4. Merge them all, adding remotes if required
+    //4. Merge them all, adding remotes if required.
     val capabilities: DesiredCapabilities = {
       if (remoteCapabilitiesRequired(hubUrl))
-        basicCaps.merge(extraCaps).merge(remoteCapabilities(browserProfile, combinedConfig, hubUrl))
+        basicCapabilities.merge(extraCaps).merge(remoteCapabilities(browserProfile, combinedConfig, hubUrl))
       else
-        basicCaps.merge(extraCaps)
+        basicCapabilities.merge(extraCaps)
     }
 
-    // 5. Set the binaryConfig. Skip if a webdriver.*.property has been set in the config or via the command line.
+    //5. Set the binaryConfig. Skip if a webdriver.*.property has been set in the config or via the command line.
     val browserConfig = capabilitiesProfiles.getConfig(browserProfile)
     val exePath = getExePath(capabilities)
     if (exePath.isEmpty && browserConfig.hasPath(Keys.DRIVER_BINARY)) {
@@ -71,8 +76,10 @@ object DriverConfig {
         case false => Architecture.DEFAULT
       }
       DriverConfig(capabilities, extraCapabilities.requiresMoveMouse, None, Some(DriverBinary(version, arch)))
-    } else {
+    } else if (exePath.isDefined) {
       DriverConfig(capabilities, extraCapabilities.requiresMoveMouse, exePath)
+    } else {
+      DriverConfig(capabilities, extraCapabilities.requiresMoveMouse)
     }
   }
 
@@ -88,7 +95,7 @@ object DriverConfig {
   }
 
   private[capabilities] def getDriverExtras(browserProfile: String, config: Config): Map[String, AnyRef] = {
-    val driverExtras = Try(config.getConfig(Keys.CAPABILITIES_PROFILES_KEY + "." + browserProfile + "." + Keys.DRIVER_EXTRAS_KEY)).toOption
+    val driverExtras = Try(config.getConfig(Keys.CAPABILITIES_PROFILES + "." + browserProfile + "." + Keys.DRIVER_EXTRAS_KEY)).toOption
     if (driverExtras.isDefined) {
       configToMap(driverExtras.get)
     } else {

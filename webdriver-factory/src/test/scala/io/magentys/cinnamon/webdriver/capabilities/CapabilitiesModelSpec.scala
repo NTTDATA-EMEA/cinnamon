@@ -9,28 +9,28 @@ class CapabilitiesModelSpec extends FlatSpec with Matchers {
 
   it should "not allow empty browserName" in {
     intercept[IllegalArgumentException] {
-      BasicCapabilities("")
+      SeleniumCapabilities("")
     }
   }
 
-  it should "successfully initialise with a valid browserName and default values" in {
-    val basicCapabilities = BasicCapabilities("chrome")
-    basicCapabilities.browserName shouldBe "chrome"
-    basicCapabilities.platform shouldBe None
-    basicCapabilities.version shouldBe None
-    basicCapabilities.nativeEvents shouldBe None
-    basicCapabilities.javascriptEnabled shouldBe Some(true)
-    basicCapabilities.acceptSslCerts shouldBe Some(true)
+  it should "successfully initialise SeleniumCapabilities with a valid browserName and default values" in {
+    val capabilities = SeleniumCapabilities("chrome")
+    capabilities.browserName shouldBe "chrome"
+    capabilities.platform shouldBe None
+    capabilities.version shouldBe None
+    capabilities.nativeEvents shouldBe None
+    capabilities.javascriptEnabled shouldBe Some(true)
+    capabilities.acceptSslCerts shouldBe Some(true)
   }
 
-  it should "successfully initialise with a valid platform name" in {
-    val basicCapabilities = BasicCapabilities("chrome", None, Some("WINDOWS"))
-    val actual = Platform.valueOf(basicCapabilities.platform.get)
+  it should "successfully initialise SeleniumCapabilities with a valid platform" in {
+    val capabilities = SeleniumCapabilities("chrome", None, Some("WINDOWS"))
+    val actual = Platform.valueOf(capabilities.platform.get)
     actual shouldBe Platform.WINDOWS
   }
 
-  it should "retrun a Map without options with default values" in {
-    val capsMap = BasicCapabilities("chrome")
+  it should "return a Map without options with default values" in {
+    val capsMap = SeleniumCapabilities("chrome")
     val clearedOptionsMap = capsMap.toMap(capsMap)
     val expected = Map("acceptSslCerts" -> true, "browserName" -> "chrome", "javascriptEnabled" -> true)
     clearedOptionsMap shouldBe expected
@@ -38,30 +38,30 @@ class CapabilitiesModelSpec extends FlatSpec with Matchers {
 
   it should "exclude properties from Capabilities map" in {
     val properties = Map("myProp" -> "abc")
-    val capsMap = BasicCapabilities("chrome", None, None, None, Some(true), Some(true), Some(properties)).toMap
+    val capsMap = SeleniumCapabilities("chrome", None, None, None, Some(true), Some(true), Some(properties)).toMap
     capsMap.get("properties") shouldBe None
   }
 
   it should "set properties as system properties if any" in {
     val properties = Map("myProp" -> "abc")
-    val capsMap = BasicCapabilities("chrome", None, None, None, Some(true), Some(true), Some(properties)).toMap
+    val capsMap = SeleniumCapabilities("chrome", None, None, None, Some(true), Some(true), Some(properties)).toMap
     sys.props.get("myProp").get shouldBe "abc"
   }
 
   it should "set properties as system properties if any in setProperties" in {
     val properties = Map("myProp" -> "abc")
-    val capsMap = BasicCapabilities("chrome", None, None, None, Some(true), Some(true), Some(properties)).setSystemProps()
+    val capsMap = SeleniumCapabilities("chrome", None, None, None, Some(true), Some(true), Some(properties)).setSystemProps()
     sys.props.get("myProp").get shouldBe "abc"
   }
 
   it should "do nothing with regards to properties if no properties passed" in {
-    BasicCapabilities("chrome").setSystemProps shouldBe ((): Unit)
+    SeleniumCapabilities("chrome").setSystemProps shouldBe ((): Unit)
   }
 
   behavior of "CapsUtils"
 
   it should "return a Map of capabilities from class properties" in {
-    val basicCapabilities = BasicCapabilities("chrome")
+    val seleniumCapabilities = SeleniumCapabilities("chrome")
     val expected = Map("nativeEvents" -> None,
       "acceptSslCerts" -> Some(true),
       "browserName" -> "chrome",
@@ -69,8 +69,6 @@ class CapabilitiesModelSpec extends FlatSpec with Matchers {
       "properties" -> None,
       "javascriptEnabled" -> Some(true),
       "platform" -> None)
-
-    CapUtils.getCCs(basicCapabilities) shouldBe expected
+    CapUtils.getCCs(seleniumCapabilities) shouldBe expected
   }
-
 }

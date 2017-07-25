@@ -3,10 +3,9 @@ package io.magentys.cinnamon.webdriver.factory
 import io.appium.java_client.remote.{MobileCapabilityType, MobilePlatform}
 import org.openqa.selenium.remote.DesiredCapabilities
 import org.openqa.selenium.{Platform, WebDriver}
-import org.scalatest.mock.MockitoSugar
 import org.scalatest.{FlatSpec, Matchers}
 
-class DriverRegistrySpec extends FlatSpec with Matchers with MockitoSugar {
+class DriverRegistrySpec extends FlatSpec with Matchers {
 
   behavior of "DriverRegistry"
 
@@ -17,13 +16,13 @@ class DriverRegistrySpec extends FlatSpec with Matchers with MockitoSugar {
     actual shouldBe a[ATestDriver]
   }
 
-  it should "return an instance of local selenium FirefoxDriver given firefox desired capabilities" in {
+  it should "return an instance of Selenium FirefoxDriver given firefox desired capabilities" in {
     val firefoxDesiredCapabilities = DesiredCapabilities.firefox
     val actual = DriverRegistry.locals.hasMappingFor(firefoxDesiredCapabilities)
     actual shouldBe true
   }
 
-  it should "return an instance of local appium AndroidDriver given platformName matches android" in {
+  it should "return an instance of Appium AndroidDriver given platformName matches Android" in {
     val androidCapabilities = new DesiredCapabilities(new java.util.HashMap[String, Any] {
       put(MobileCapabilityType.PLATFORM_NAME, MobilePlatform.ANDROID)
     })
@@ -31,7 +30,7 @@ class DriverRegistrySpec extends FlatSpec with Matchers with MockitoSugar {
     actual shouldBe true
   }
 
-  it should "return an instance of local appium IOSDriver given platformName matches iOS" in {
+  it should "return an instance of Appium IOSDriver given platformName matches iOS" in {
     val iOSCapabilities = new DesiredCapabilities(new java.util.HashMap[String, Any] {
       put(MobileCapabilityType.PLATFORM_NAME, MobilePlatform.IOS)
     })
