@@ -36,27 +36,20 @@ object DriverConfig {
     val capabilitiesProfiles = combinedConfig.getConfig(Keys.CAPABILITIES_PROFILES)
 
     //2. Load the basic capabilities.
-    val seleniumCapabilities = Try(capabilitiesProfiles.as[SeleniumCapabilities](browserProfile)).toOption
-    val appiumCapabilities = Try(capabilitiesProfiles.as[AppiumCapabilities](browserProfile)).toOption
-    val basicCapabilities: DesiredCapabilities = {
-      if (seleniumCapabilities.isDefined) new DesiredCapabilities(seleniumCapabilities.get.toMap.asJava)
-      else if (appiumCapabilities.isDefined) new DesiredCapabilities(appiumCapabilities.get.toMap.asJava)
-      else throw new Exception("Capabilities are not defined in the configuration profile.")
-    }
+    val basicCapabilities = Try(capabilitiesProfiles.as[AppiumCapabilities](browserProfile)).getOrElse(capabilitiesProfiles.as[SeleniumCapabilities](browserProfile))
+    val basicCaps = new DesiredCapabilities(basicCapabilities.toMap.asJava)
 
     //3. Bind the driver extras.
     val extraCapabilities = {
       val driverExtras = getDriverExtras(browserProfile, combinedConfig)
-      DriverExtrasBinder.bindExtrasMap(basicCapabilities.getBrowserName, driverExtras)
+      DriverExtrasBinder.bindExtrasMap(basicCaps.getBrowserName, driverExtras)
     }
     val extraCaps = new DesiredCapabilities(extraCapabilities.getCapabilityMap.asJava)
 
     //4. Merge them all, adding remotes if required.
     val capabilities: DesiredCapabilities = {
-      if (remoteCapabilitiesRequired(hubUrl))
-        basicCapabilities.merge(extraCaps).merge(remoteCapabilities(browserProfile, combinedConfig, hubUrl))
-      else
-        basicCapabilities.merge(extraCaps)
+      if (remoteCapabilitiesRequired(hubUrl)) basicCaps.merge(extraCaps).merge(remoteCapabilities(browserProfile, combinedConfig, hubUrl))
+      else basicCaps.merge(extraCaps)
     }
 
     //5. Set the binaryConfig. Skip if a webdriver.*.property has been set in the config or via the command line.

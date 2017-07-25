@@ -4,6 +4,10 @@ import io.magentys.cinnamon.webdriver.Keys
 
 sealed trait CapabilitiesMapper {
 
+  def toMap: Map[String, Any] = {
+    toMap(this)
+  }
+
   //Cleans the options from a Map[String, Any]
   def toMap(cc: AnyRef) = {
     val (option, rest) = CapUtils.getCCs(cc).partition { case (_, x) => x.isInstanceOf[Option[Any]] }
@@ -29,10 +33,6 @@ case class AppiumCapabilities(platformName: String,
                               enablePerformanceLogging: Option[Boolean] = Some(false)) extends CapabilitiesMapper {
 
   require(platformName.nonEmpty, s"platformName is a mandatory field in the configuration profile.")
-
-  def toMap = {
-    super.toMap(this)
-  }
 }
 
 case class SeleniumCapabilities(browserName: String,
@@ -45,7 +45,7 @@ case class SeleniumCapabilities(browserName: String,
 
   require(browserName.nonEmpty, s"browserName is a mandatory field in the configuration profile.")
 
-  def toMap = {
+  override def toMap = {
     setSystemProps()
     super.toMap(this).filter(_._1 != Keys.PROPS)
   }

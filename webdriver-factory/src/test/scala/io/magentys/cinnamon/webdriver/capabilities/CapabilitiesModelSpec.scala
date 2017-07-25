@@ -5,7 +5,7 @@ import org.scalatest.{FlatSpec, Matchers}
 
 class CapabilitiesModelSpec extends FlatSpec with Matchers {
 
-  behavior of "CinnamonCapabilities"
+  behavior of "SeleniumCapabilities"
 
   it should "not allow empty browserName" in {
     intercept[IllegalArgumentException] {
