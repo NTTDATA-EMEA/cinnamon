@@ -1,6 +1,7 @@
 package io.magentys.cinnamon.webdriver.capabilities
 
 import com.typesafe.config.Config
+import io.appium.java_client.remote.MobilePlatform
 import io.github.bonigarcia.wdm.{Architecture, DriverVersion}
 import io.magentys.cinnamon.webdriver.Keys
 import io.magentys.cinnamon.webdriver.remote.{CinnamonRemote, RemoterDetector}
@@ -26,7 +27,7 @@ object DriverConfig {
     * based on whether the user has passed a hubUrl.
     *
     * @param browserProfile user's selected browserProfile from capabilities-profiles
-    * @param combinedConfig final config should be passed in order to bind the correct object based on the selected browserProfile
+    * @param combinedConfig combined config should be passed in order to bind the correct object based on the selected browserProfile
     * @param hubUrl         if this is defined remote capabilities will also be added
     * @return DriverConfig object
     */
@@ -39,20 +40,31 @@ object DriverConfig {
     val basicCapabilities = Try(capabilitiesProfiles.as[AppiumCapabilities](browserProfile)).getOrElse(capabilitiesProfiles.as[SeleniumCapabilities](browserProfile))
     val basicCaps = new DesiredCapabilities(basicCapabilities.toMap.asJava)
 
-    //3. Bind the driver extras.
+    //3. Merge Android or iOS capabilities if platformName is defined.
+    val platformName = Try(basicCaps.getCapability("platformName").toString).toOption
+    if (platformName.isDefined) {
+      val mobileCapabilities = platformName.get match {
+        case MobilePlatform.ANDROID => capabilitiesProfiles.as[AndroidCapabilities](browserProfile)
+        case MobilePlatform.IOS => capabilitiesProfiles.as[IOSCapabilities](browserProfile)
+      }
+      val mobileCaps = new DesiredCapabilities(mobileCapabilities.toMap.asJava)
+      basicCaps.merge(mobileCaps);
+    }
+
+    //4. Bind the driver extras.
     val extraCapabilities = {
       val driverExtras = getDriverExtras(browserProfile, combinedConfig)
       DriverExtrasBinder.bindExtrasMap(basicCaps.getBrowserName, driverExtras)
     }
     val extraCaps = new DesiredCapabilities(extraCapabilities.getCapabilityMap.asJava)
 
-    //4. Merge them all, adding remotes if required.
+    //5. Merge them all, adding remotes if required.
     val capabilities: DesiredCapabilities = {
       if (remoteCapabilitiesRequired(hubUrl)) basicCaps.merge(extraCaps).merge(remoteCapabilities(browserProfile, combinedConfig, hubUrl))
       else basicCaps.merge(extraCaps)
     }
 
-    //5. Set the binaryConfig. Skip if a webdriver.*.property has been set in the config or via the command line.
+    //6. Set the binaryConfig. Skip if a webdriver.*.property has been set in the config or via the command line.
     val browserConfig = capabilitiesProfiles.getConfig(browserProfile)
     val exePath = getExePath(capabilities)
     if (exePath.isEmpty && browserConfig.hasPath(Keys.DRIVER_BINARY)) {
