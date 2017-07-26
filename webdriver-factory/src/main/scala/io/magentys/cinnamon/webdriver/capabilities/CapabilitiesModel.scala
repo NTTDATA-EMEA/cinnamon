@@ -16,6 +16,7 @@ sealed trait CapabilitiesMapper {
 }
 
 case class AppiumCapabilities(platformName: String,
+                              appiumVersion: Option[String] = None,
                               automationName: Option[String] = Some("Appium"),
                               platformVersion: Option[String] = None,
                               deviceName: Option[String] = None,
@@ -26,11 +27,11 @@ case class AppiumCapabilities(platformName: String,
                               locale: Option[String] = None,
                               udid: Option[String] = None,
                               orientation: Option[String] = None,
-                              autoWebview: Option[Boolean] = Some(false),
+                              autoWebview: Option[Boolean] = None,
                               noReset: Option[Boolean] = None,
                               fullReset: Option[Boolean] = None,
-                              eventTimings: Option[Boolean] = Some(false),
-                              enablePerformanceLogging: Option[Boolean] = Some(false)) extends CapabilitiesMapper {
+                              eventTimings: Option[Boolean] = None,
+                              enablePerformanceLogging: Option[Boolean] = None) extends CapabilitiesMapper {
 
   require(platformName.nonEmpty, s"platformName is a mandatory field in the configuration profile.")
 }
