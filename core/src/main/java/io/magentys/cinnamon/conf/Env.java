@@ -2,16 +2,16 @@ package io.magentys.cinnamon.conf;
 
 import com.typesafe.config.Config;
 import com.typesafe.config.ConfigFactory;
-import org.apache.commons.io.FileUtils;
-import org.apache.commons.io.filefilter.RegexFileFilter;
-import org.apache.commons.io.filefilter.TrueFileFilter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
-import java.util.ArrayList;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 /**
@@ -35,13 +35,17 @@ public class Env {
 
     private final Logger log = LoggerFactory.getLogger(this.getClass().getName());
 
-    public static final Env INSTANCE = new Env(ConfigConstants.ENV_PROPERTY);
+    public static final Env INSTANCE = new Env();
 
     private String env;
     public Config config;
 
     public static Env env() {
         return INSTANCE;
+    }
+
+    public Env() {
+        this(ConfigConstants.ENV_PROPERTY);
     }
 
     public Env(String env) {
@@ -60,13 +64,14 @@ public class Env {
         return systemConfig.withFallback(ConfigFactory.parseFile(envConfig)).resolve().getConfig(env);
     }
 
-    private File searchConfigFileInClasspath(String filename) {
-        Stream<File> streamFiles = new ArrayList<>(
-                FileUtils.listFiles(new File(ConfigConstants.PROJECT_DIR), new RegexFileFilter(filename), TrueFileFilter.INSTANCE)).stream()
-                .filter(f -> !f.getAbsolutePath().contains(ConfigConstants.TARGET_DIR));
-
-        List<File> files = new ArrayList<>();
-        streamFiles.forEach(files::add);
+    File searchConfigFileInClasspath(String filename) {
+        final List<File> files;
+        try (Stream<Path> paths = Files.walk(new File(ConfigConstants.PROJECT_DIR).toPath())) {
+            files = paths.filter(p -> p.endsWith(filename)).filter(p -> !p.toString().contains(ConfigConstants.TARGET_DIR)).map(Path::toFile)
+                    .collect(Collectors.toList());
+        } catch (IOException e) {
+            throw new Error(e);
+        }
 
         if (files.size() == 0)
             throw new Error("Config file with name [" + filename + "] could not be found in your classpath.");

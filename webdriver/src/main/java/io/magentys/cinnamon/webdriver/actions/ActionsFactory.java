@@ -13,11 +13,11 @@ public class ActionsFactory {
             return new ChromeActions(webDriver);
         case BrowserType.IE:
             return new InternetExplorerActions(webDriver);
+        case BrowserType.FIREFOX:
         case BrowserType.SAFARI:
-            return new SafariActions(webDriver);
+            return new SyntheticActions(webDriver);
         default:
             return new DefaultActions(webDriver);
         }
     }
-
 }

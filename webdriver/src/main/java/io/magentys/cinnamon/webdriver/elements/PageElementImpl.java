@@ -10,6 +10,7 @@ import io.magentys.cinnamon.webdriver.collections.PageElementCollection;
 import io.magentys.cinnamon.webdriver.conditions.Condition;
 import io.magentys.cinnamon.webdriver.support.pagefactory.PageElementLocator;
 import org.openqa.selenium.By;
+import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.pagefactory.ElementLocator;
@@ -29,7 +30,11 @@ public class PageElementImpl extends WebElementWrapper implements PageElement {
 
     @Override
     public boolean isPresent() {
-        return getWrappedElement() != null;
+        try {
+            return getWrappedElement() != null;
+        } catch (NoSuchElementException e) {
+            return false;
+        }
     }
 
     @Override

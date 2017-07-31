@@ -3,7 +3,7 @@ package io.magentys.cinnamon.webdriver.capabilities
 import org.openqa.selenium.Platform
 import org.scalatest.{FlatSpec, Matchers}
 
-class CapabilitiesModelTest extends FlatSpec with Matchers {
+class CapabilitiesModelSpec extends FlatSpec with Matchers {
 
   behavior of "CinnamonCapabilities"
 
