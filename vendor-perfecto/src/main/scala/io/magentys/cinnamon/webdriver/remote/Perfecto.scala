@@ -10,7 +10,7 @@ class Perfecto extends CinnamonRemote {
   override def matchesHubUrl(url: String): Boolean = url.endsWith("perfectomobile/wd/hub")
 
   override def capabilities(browserProfile: String, config: Config): DesiredCapabilities = {
-    val mainRemoteCaps: DesiredCapabilities = super.capabilities(browserProfile,config)
+    val mainRemoteCaps: DesiredCapabilities = super.capabilities(browserProfile, config)
 
     //TODO Here we can add names, build numbers etc - Dependency on the "handlers"
     val additionalRemoteCaps = new DesiredCapabilities
