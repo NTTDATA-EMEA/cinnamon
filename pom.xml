@@ -266,6 +266,12 @@
 
             <dependency>
                 <groupId>io.magentys</groupId>
+                <artifactId>cinnamon-vendor-perfecto</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>io.magentys</groupId>
                 <artifactId>cinnamon-cucumber</artifactId>
                 <version>${project.version}</version>
             </dependency>
@@ -480,8 +486,8 @@
         <module>vendor-support</module>
         <module>vendor-saucelabs</module>
         <module>vendor-browserstack</module>
-        <module>cucumber</module>
         <module>vendor-perfecto</module>
+        <module>cucumber</module>
     </modules>
 
     <profiles>
