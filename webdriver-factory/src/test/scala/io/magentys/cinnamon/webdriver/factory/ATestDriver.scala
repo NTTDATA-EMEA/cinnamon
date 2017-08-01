@@ -3,9 +3,10 @@ package io.magentys.cinnamon.webdriver.factory
 import java.util
 
 import org.openqa.selenium.WebDriver.{Navigation, Options, TargetLocator}
-import org.openqa.selenium.{By, WebDriver, WebElement}
+import org.openqa.selenium.{By, Capabilities, WebDriver, WebElement}
 
-class ATestDriver extends WebDriver {
+class ATestDriver(capabilities: Capabilities) extends WebDriver {
+
   override def getPageSource: String = ???
 
   override def findElements(by: By): util.List[WebElement] = ???

@@ -22,6 +22,7 @@ object DriverExtrasBinder {
     browserName match {
       case "internet explorer" => InternetExplorerExtras(driverExtrasMap)
       case "chrome" => ChromeExtras(driverExtrasMap)
+      case "Chrome" => ChromeExtras(driverExtrasMap)
       case "firefox" => FirefoxExtras(driverExtrasMap)
       case "safari" => SafariExtras(driverExtrasMap)
       case _ => DefaultExtras(driverExtrasMap)
