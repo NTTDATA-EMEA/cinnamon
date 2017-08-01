@@ -10,6 +10,7 @@ import org.openqa.selenium.internal.WrapsElement;
 import org.openqa.selenium.support.pagefactory.ElementLocator;
 
 import java.util.List;
+import java.util.Optional;
 
 import static io.magentys.cinnamon.webdriver.WebDriverUtils.unwrapDriver;
 import static io.magentys.cinnamon.webdriver.elements.WebElementConverter.elementConverter;
@@ -33,7 +34,9 @@ public class WebElementWrapper implements WebElement, WrapsElement, Locatable, W
 
     @Override
     public WebElement getWrappedElement() {
-        return cache.getElement();
+        return Optional.ofNullable(cache.getElement()).orElseThrow(() -> new NoSuchElementException(
+                String.format("Cannot find element using locator mechanism: %s and conditions: %s", elementLocator.getBy(),
+                        elementLocator.getCondition())));
     }
 
     @Override
