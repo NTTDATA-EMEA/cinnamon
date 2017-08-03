@@ -21,10 +21,9 @@ object DriverExtrasBinder {
   def bindExtrasMap(browserName: String, driverExtrasMap: Map[String, AnyRef]) = {
     browserName match {
       case "internet explorer" => InternetExplorerExtras(driverExtrasMap)
-      case "chrome" => ChromeExtras(driverExtrasMap)
-      case "Chrome" => ChromeExtras(driverExtrasMap)
+      case "chrome" | "Chrome" => ChromeExtras(driverExtrasMap)
       case "firefox" => FirefoxExtras(driverExtrasMap)
-      case "safari" => SafariExtras(driverExtrasMap)
+      case "safari" | "Safari" => SafariExtras(driverExtrasMap)
       case _ => DefaultExtras(driverExtrasMap)
     }
   }

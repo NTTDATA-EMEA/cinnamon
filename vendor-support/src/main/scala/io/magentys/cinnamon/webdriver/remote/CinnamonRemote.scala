@@ -22,22 +22,22 @@ trait CinnamonRemote {
 
   def capabilities(browserProfile: String, config: Config): DesiredCapabilities = {
 
-    val defaultConfig = ConfigFactory.load(name + DEFAULTS_SUFFIX).getConfig(name)
+    val systemConfig: Config = ConfigFactory.systemProperties
+    val defaultConfig = ConfigFactory.load(name + DEFAULTS_SUFFIX)
     val userGlobalConfig = Try(config.getConfig(name)).toOption
     val userProfileConfig = Try(config.getConfig(CAPABILITIES_PROFILES_KEY + "." + browserProfile + "." + name)).toOption
 
     val allConfig = {
       if (userProfileConfig.isDefined && userGlobalConfig.isDefined) {
-        userProfileConfig.get.withFallback(userGlobalConfig.get).withFallback(defaultConfig)
+        systemConfig.withFallback(userProfileConfig.get).withFallback(userGlobalConfig.get).withFallback(defaultConfig).getConfig(name)
       } else if (userProfileConfig.isDefined) {
-        userProfileConfig.get.withFallback(defaultConfig)
+        systemConfig.withFallback(userProfileConfig.get).withFallback(defaultConfig).getConfig(name)
       } else if (userGlobalConfig.isDefined) {
-        userGlobalConfig.get.withFallback(defaultConfig)
+        systemConfig.withFallback(userGlobalConfig.get).withFallback(defaultConfig).getConfig(name)
       } else {
-        defaultConfig
+        systemConfig.withFallback(defaultConfig).getConfig(name)
       }
     }
-
 
     val capsMap: Map[String, AnyRef] = allConfig.entrySet.asScala.map(f => (f.getKey, f.getValue.unwrapped())).toMap
     new DesiredCapabilities(capsMap.asJava)
