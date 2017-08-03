@@ -41,6 +41,9 @@ object DriverRegistry {
     },
     "io.appium.java_client.ios.IOSDriver" -> new util.HashMap[String, Any] {
       put(MobileCapabilityType.PLATFORM_NAME, MobilePlatform.IOS)
+    },
+    "io.appium.java_client.windows.WindowsDriver" -> new util.HashMap[String, Any]() {
+      put(MobileCapabilityType.PLATFORM_NAME, MobilePlatform.WINDOWS)
     }
   )
 

@@ -40,7 +40,7 @@ object DriverConfig {
     val basicCapabilities = Try(capabilitiesProfiles.as[AppiumCapabilities](browserProfile)).getOrElse(capabilitiesProfiles.as[SeleniumCapabilities](browserProfile))
     val basicCaps = new DesiredCapabilities(basicCapabilities.toMap.asJava)
 
-    //3. Merge Android or iOS capabilities if platformName is defined.
+    //3. Merge Android or iOS only capabilities if platformName is defined.
     val platformName = Try(basicCaps.getCapability("platformName").toString).toOption
     if (platformName.isDefined) {
       val mobileCapabilities = platformName.get match {
