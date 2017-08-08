@@ -11,12 +11,13 @@ class Perfecto extends CinnamonRemote {
 
   override def capabilities(browserProfile: String, config: Config): DesiredCapabilities = {
     val mainRemoteCaps: DesiredCapabilities = super.capabilities(browserProfile, config)
-
-    //TODO Here we can add names, build numbers etc - Dependency on the "handlers"
     val additionalRemoteCaps = new DesiredCapabilities
-    //    additionalRemoteCaps.setCapability("name", "someName")
-    //    additionalRemoteCaps.setCapability("build", "someBuild")
-
+    additionalRemoteCaps.setCapability("browserVersion", config.getString("capabilities-profiles." + browserProfile + ".perfecto.browserVersion"))
+    additionalRemoteCaps.setCapability("platformVersion", config.getString("capabilities-profiles." + browserProfile + ".perfecto.platformVersion"))
+    additionalRemoteCaps.setCapability("location", config.getString("capabilities-profiles." + browserProfile + ".perfecto.location"))
+    additionalRemoteCaps.setCapability("resolution", config.getString("capabilities-profiles." + browserProfile + ".perfecto.resolution"))
+    additionalRemoteCaps.setCapability("url", config.getString("hubUrl"))
+    additionalRemoteCaps.setCapability("platformName", config.getString("capabilities-profiles." + browserProfile + ".perfecto.platformName"))
     mainRemoteCaps.merge(additionalRemoteCaps)
   }
 }

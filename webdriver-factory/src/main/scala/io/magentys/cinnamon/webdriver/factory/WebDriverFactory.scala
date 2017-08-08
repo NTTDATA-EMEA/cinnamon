@@ -2,6 +2,7 @@ package io.magentys.cinnamon.webdriver.factory
 
 import java.net.URL
 import java.nio.file.{Files, Paths}
+import java.util.concurrent.TimeUnit
 
 import io.github.bonigarcia.wdm.{BrowserManager, WebDriverManager}
 import io.magentys.cinnamon.webdriver.capabilities.DriverBinary
