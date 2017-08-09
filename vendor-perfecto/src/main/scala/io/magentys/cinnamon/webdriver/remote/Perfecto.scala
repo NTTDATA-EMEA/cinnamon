@@ -13,7 +13,7 @@ class Perfecto extends CinnamonRemote {
     val mainRemoteCaps: DesiredCapabilities = super.capabilities(browserProfile, config)
     val additionalRemoteCaps = new DesiredCapabilities
     val perfectoType = config.getString("capabilities-profiles." + browserProfile + ".perfecto.platformName")
-    if (perfectoType.equals("Windows")) {
+    if (perfectoType.equalsIgnoreCase("windows")) {
     additionalRemoteCaps.setCapability("browserVersion", config.getString("capabilities-profiles." + browserProfile + ".perfecto.browserVersion"))
     additionalRemoteCaps.setCapability("platformVersion", config.getString("capabilities-profiles." + browserProfile + ".perfecto.platformVersion"))
     additionalRemoteCaps.setCapability("location", config.getString("capabilities-profiles." + browserProfile + ".perfecto.location"))
