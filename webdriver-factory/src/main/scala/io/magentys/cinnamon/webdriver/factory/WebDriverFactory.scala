@@ -29,8 +29,13 @@ class WebDriverFactory(factory: WebDriverManagerFactory) {
     */
   def getDriver(capabilities: DesiredCapabilities, hubUrl: Option[String], exePath: Option[String], driverBinary: Option[DriverBinary]): WebDriver = {
 
+
+
     // If a hub url has been passed in then ignore WDM and return an instance of RemoteWebDriver.
     if (hubUrl.isDefined && !hubUrl.get.isEmpty) {
+
+      System.out.println("__CAPABILITIES:" + capabilities)
+
       return new RemoteWebDriver(new URL(hubUrl.get), capabilities)
     }
 
