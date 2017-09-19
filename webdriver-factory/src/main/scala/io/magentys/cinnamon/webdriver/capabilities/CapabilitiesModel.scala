@@ -89,6 +89,7 @@ case class AppiumCapabilities(platformName: String,
                               processArguments: Option[String] = None, //TODO Check type
                               interKeyDelay: Option[Long] = None,
                               showIOSLog: Option[Boolean] = None,
+                              acceptSslCerts: Option[Boolean] = Some(true),
                               sendKeyStrategy: Option[String] = None,
                               screenshotWaitTimeout: Option[Int] = None,
                               waitForAppScript: Option[String] = None,
