@@ -24,7 +24,7 @@ trait CinnamonRemote {
 
     val defaultConfig = {
       ConfigFactory.invalidateCaches()
-      ConfigFactory.load(name + DEFAULTS_SUFFIX, ConfigParseOptions.defaults().setOriginDescription("system properties"), ConfigResolveOptions.defaults()).getConfig(name)
+      ConfigFactory.load(name + DEFAULTS_SUFFIX).getConfig(name)
     }
     val userGlobalConfig = Try(config.getConfig(name)).toOption
     val userProfileConfig = Try(config.getConfig(CAPABILITIES_PROFILES_KEY + "." + browserProfile + "." + name)).toOption
