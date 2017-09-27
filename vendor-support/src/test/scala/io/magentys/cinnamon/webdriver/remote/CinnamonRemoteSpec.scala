@@ -26,16 +26,37 @@ class CinnamonRemoteSpec extends FlatSpec with Matchers {
       |}
     """.stripMargin)
 
+  val remoter = new CinnamonRemote {
+    override def matchesHubUrl(url: String): Boolean = ???
+
+    override val name: String = "testVendor"
+  }
+
   it should "include vendor capabilities" in {
-    val remoter = new CinnamonRemote {
-      override def matchesHubUrl(url: String): Boolean = ???
-
-      override val name: String = "testVendor"
-    }
-
     val actual: DesiredCapabilities = remoter.capabilities("testChrome", config)
     actual.getCapability("platformVersion") shouldBe "9.1.0"
     actual.getCapability("deviceName") shouldBe "Samsung Galaxy"
+  }
+
+  it should "not include system properties in the vendor capabilities" in {
+    try {
+      System.setProperty("some.property", "xyz")
+      val actual: DesiredCapabilities = remoter.capabilities("testChrome", config)
+      actual.getCapability("some.property") shouldBe null
+    } finally {
+      System.clearProperty("some.property")
+    }
+  }
+
+  it should "optionally override settings with system properties in the default vendor capabilities" in {
+    try {
+      System.setProperty("testVendor.user", "myUser")
+      val actual: DesiredCapabilities = remoter.capabilities("testChrome", config)
+      actual.getCapability("user") shouldBe "myUser"
+      actual.getCapability("password") shouldBe null
+    } finally {
+      System.clearProperty("testVendor.user")
+    }
   }
 
 }

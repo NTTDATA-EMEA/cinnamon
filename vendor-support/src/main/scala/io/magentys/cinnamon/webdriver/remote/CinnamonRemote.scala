@@ -1,6 +1,6 @@
 package io.magentys.cinnamon.webdriver.remote
 
-import com.typesafe.config.{Config, ConfigFactory, ConfigObject}
+import com.typesafe.config._
 import org.openqa.selenium.remote.DesiredCapabilities
 
 import scala.collection.JavaConverters._
@@ -22,20 +22,22 @@ trait CinnamonRemote {
 
   def capabilities(browserProfile: String, config: Config): DesiredCapabilities = {
 
-    val systemConfig: Config = ConfigFactory.systemProperties
-    val defaultConfig = ConfigFactory.load(name + DEFAULTS_SUFFIX)
+    val defaultConfig = {
+      ConfigFactory.invalidateCaches()
+      ConfigFactory.load(name + DEFAULTS_SUFFIX, ConfigParseOptions.defaults().setOriginDescription("system properties"), ConfigResolveOptions.defaults()).getConfig(name)
+    }
     val userGlobalConfig = Try(config.getConfig(name)).toOption
     val userProfileConfig = Try(config.getConfig(CAPABILITIES_PROFILES_KEY + "." + browserProfile + "." + name)).toOption
 
     val allConfig = {
       if (userProfileConfig.isDefined && userGlobalConfig.isDefined) {
-        systemConfig.withFallback(userProfileConfig.get).withFallback(userGlobalConfig.get).withFallback(defaultConfig)
+        userProfileConfig.get.withFallback(userGlobalConfig.get).withFallback(defaultConfig)
       } else if (userProfileConfig.isDefined) {
-        systemConfig.withFallback(userProfileConfig.get).withFallback(defaultConfig)
+        userProfileConfig.get.withFallback(defaultConfig)
       } else if (userGlobalConfig.isDefined) {
-        systemConfig.withFallback(userGlobalConfig.get).withFallback(defaultConfig)
+        userGlobalConfig.get.withFallback(defaultConfig)
       } else {
-        systemConfig.withFallback(defaultConfig)
+        defaultConfig
       }
     }
 
