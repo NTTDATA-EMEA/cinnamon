@@ -29,13 +29,13 @@ trait CinnamonRemote {
 
     val allConfig = {
       if (userProfileConfig.isDefined && userGlobalConfig.isDefined) {
-        systemConfig.withFallback(userProfileConfig.get).withFallback(userGlobalConfig.get).withFallback(defaultConfig).getConfig(name)
+        systemConfig.withFallback(userProfileConfig.get).withFallback(userGlobalConfig.get).withFallback(defaultConfig)
       } else if (userProfileConfig.isDefined) {
-        systemConfig.withFallback(userProfileConfig.get).withFallback(defaultConfig).getConfig(name)
+        systemConfig.withFallback(userProfileConfig.get).withFallback(defaultConfig)
       } else if (userGlobalConfig.isDefined) {
-        systemConfig.withFallback(userGlobalConfig.get).withFallback(defaultConfig).getConfig(name)
+        systemConfig.withFallback(userGlobalConfig.get).withFallback(defaultConfig)
       } else {
-        systemConfig.withFallback(defaultConfig).getConfig(name)
+        systemConfig.withFallback(defaultConfig)
       }
     }
 
