@@ -33,9 +33,6 @@ class WebDriverFactory(factory: WebDriverManagerFactory) {
 
     // If a hub url has been passed in then ignore WDM and return an instance of RemoteWebDriver.
     if (hubUrl.isDefined && !hubUrl.get.isEmpty) {
-
-      System.out.println("__CAPABILITIES:" + capabilities)
-
       return new RemoteWebDriver(new URL(hubUrl.get), capabilities)
     }
 
