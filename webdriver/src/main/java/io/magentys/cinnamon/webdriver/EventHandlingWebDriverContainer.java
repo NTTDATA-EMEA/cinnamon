@@ -32,7 +32,7 @@ public class EventHandlingWebDriverContainer implements WebDriverContainer {
     public WebDriver getWebDriver() {
         if (driver.get() == null) {
             driver.set(createDriver());
-            Optional<Object> app = Optional.ofNullable(cinnamonWebDriverConfig.driverConfig().desiredCapabilities().getCapability("app1"));
+            Optional<Object> app = Optional.ofNullable(cinnamonWebDriverConfig.driverConfig().desiredCapabilities().getCapability("app"));
             if (!app.isPresent()) {
                 tracker.set(createWindowTracker());
                 addEventHandler(new TrackWindows(this));
