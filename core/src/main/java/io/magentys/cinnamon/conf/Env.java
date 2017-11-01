@@ -58,7 +58,7 @@ public class Env {
             this.env = env;
             try {
                 config = initConfig();
-            } catch (IOException e) {
+            } catch (Exception e) {
                 e.printStackTrace();
             }
         } else {
@@ -66,7 +66,7 @@ public class Env {
         }
     }
 
-    private Config initConfig() throws IOException {
+    private Config initConfig() throws Exception {
         Config systemConfig = ConfigFactory.systemProperties();
         File envConfig = searchConfigFileInClasspath(ConfigConstants.ENV_CONF_FILE);
         if (envConfig.getName().contains(".yml")) {
@@ -80,24 +80,21 @@ public class Env {
         }
     }
 
-    private Config getConfigFromYml(File file) throws IOException {
-        InputStream inputStream = null;
-        try {
-            inputStream = new FileInputStream(file);
+    private Config getConfigFromYml(File file) throws Exception {
+        try (InputStream inputStream = new FileInputStream(file)) {
+            Yaml yaml = new Yaml();
+            Map<String, Map<String, Object>> data = ((Map<String, Map<String, Object>>) yaml.load(inputStream));
+            Config systemConfig = ConfigFactory.systemProperties();
+            return systemConfig.withFallback(ConfigFactory.parseMap(data)).resolve().getConfig(env);
         } catch (FileNotFoundException e) {
-            e.printStackTrace();
+            throw new Exception("Given file is not a configuration file!");
         }
-        Yaml yaml = new Yaml();
-        Map<String, Map<String, Object>> data = ((Map<String, Map<String, Object>>) yaml
-                .load(inputStream));
-        Config systemConfig = ConfigFactory.systemProperties();
-        return systemConfig.withFallback(ConfigFactory.parseMap(data)).resolve().getConfig(env);
     }
 
     File searchConfigFileInClasspath(String filename) {
         final List<File> files;
         try (Stream<Path> paths = Files.walk(new File(ConfigConstants.PROJECT_DIR).toPath())) {
-            files = paths.filter(p -> p.endsWith(filename)).filter(p -> !p.toString().contains(ConfigConstants.TARGET_DIR)).map(Path::toFile)
+            files = paths.filter(p -> p.toString().matches(".+/"+filename)).filter(p -> !p.toString().contains(ConfigConstants.TARGET_DIR)).map(Path::toFile)
                     .collect(Collectors.toList());
         } catch (IOException e) {
             throw new Error(e);
