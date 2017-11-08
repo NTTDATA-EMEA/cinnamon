@@ -122,6 +122,7 @@ public class CucumberAspect {
     @After("addStepToCounterAndResult() && args(result,..)")
     public void afterAddStepToCounterAndResult(Result result) {
         CucumberAspect.results.get().add(result);
+        EventBusContainer.getEventBus().post(new StepFinishedEvent(result, reporter.get()));
     }
 
     @After("runAfterHooks()")
