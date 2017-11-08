@@ -4,10 +4,8 @@ import cucumber.runtime.junit.ExecutionUnitRunner;
 import cucumber.runtime.junit.FeatureRunner;
 import gherkin.formatter.Reporter;
 import gherkin.formatter.model.Result;
-import io.magentys.cinnamon.cucumber.events.AfterHooksFinishedEvent;
-import io.magentys.cinnamon.cucumber.events.CucumberFinishedEvent;
-import io.magentys.cinnamon.cucumber.events.ScenarioFinishedEvent;
-import io.magentys.cinnamon.cucumber.events.StepFinishedEvent;
+import gherkin.formatter.model.Step;
+import io.magentys.cinnamon.cucumber.events.*;
 import io.magentys.cinnamon.eventbus.EventBusContainer;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.After;
@@ -25,6 +23,7 @@ public class CucumberAspect {
     private static final ThreadLocal<String> scenarioName = new ThreadLocal<>();
     private static final ThreadLocal<Reporter> reporter = new ThreadLocal<>();
     private static final ThreadLocal<List<Result>> results = new ThreadLocal<>();
+    private static final ThreadLocal<Step> stepName = new ThreadLocal<>();
 
     /**
      * Pointcut for <code>cucumber.api.junit.Cucumber.run</code> method.
@@ -123,7 +122,6 @@ public class CucumberAspect {
     @After("addStepToCounterAndResult() && args(result,..)")
     public void afterAddStepToCounterAndResult(Result result) {
         CucumberAspect.results.get().add(result);
-        EventBusContainer.getEventBus().post(new StepFinishedEvent(result, reporter.get()));
     }
 
     @After("runAfterHooks()")

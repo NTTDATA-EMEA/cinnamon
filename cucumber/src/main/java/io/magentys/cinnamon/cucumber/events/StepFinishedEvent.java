@@ -2,6 +2,7 @@ package io.magentys.cinnamon.cucumber.events;
 
 import gherkin.formatter.Reporter;
 import gherkin.formatter.model.Result;
+import gherkin.formatter.model.Step;
 import io.magentys.cinnamon.events.Attachment;
 import io.magentys.cinnamon.events.TestStepFinishedEvent;
 

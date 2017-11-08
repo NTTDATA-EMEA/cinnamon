@@ -1,13 +1,23 @@
 package io.magentys.cinnamon.webdriver;
 
+import com.perfecto.reportium.client.ReportiumClient;
+import com.perfecto.reportium.client.ReportiumClientFactory;
+import com.perfecto.reportium.model.PerfectoExecutionContext;
+import com.perfecto.reportium.model.Project;
+import com.perfecto.reportium.test.TestContext;
+import com.perfecto.reportium.test.result.TestResultFactory;
 import io.magentys.cinnamon.eventbus.EventBusContainer;
 import io.magentys.cinnamon.events.Attachment;
 import io.magentys.cinnamon.webdriver.config.CinnamonWebDriverConfig;
-import io.magentys.cinnamon.webdriver.events.handlers.AttachScreenshot;
-import io.magentys.cinnamon.webdriver.events.handlers.CloseExtraWindows;
-import io.magentys.cinnamon.webdriver.events.handlers.QuitBrowserSession;
-import io.magentys.cinnamon.webdriver.events.handlers.TrackWindows;
+import io.magentys.cinnamon.webdriver.events.handlers.*;
 import io.magentys.cinnamon.webdriver.factory.WebDriverFactory;
+import io.magentys.cinnamon.webdriver.remote.PerfectoLogger;
+import org.junit.AssumptionViolatedException;
+import org.junit.Rule;
+import org.junit.experimental.categories.Category;
+import org.junit.rules.TestRule;
+import org.junit.rules.TestWatcher;
+import org.junit.runner.Description;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebDriverException;
 import org.slf4j.Logger;
@@ -27,19 +37,24 @@ public class EventHandlingWebDriverContainer implements WebDriverContainer {
     private static final ThreadLocal<WebDriver> driver = new ThreadLocal<>();
     private static final ThreadLocal<WindowTracker> tracker = new ThreadLocal<>();
     private final List<Object> eventHandlers = Collections.synchronizedList((new ArrayList<>()));
+    protected static ReportiumClient reportiumClient;
 
     @Override
     public WebDriver getWebDriver() {
         if (driver.get() == null) {
             driver.set(createDriver());
+            //todo
+            reportiumClient = createRemoteReportiumClient(driver.get());
+
             Optional<Object> app = Optional.ofNullable(cinnamonWebDriverConfig.driverConfig().desiredCapabilities().getCapability("app"));
-            if (!app.isPresent()) {
+                        if (!app.isPresent()) {
                 tracker.set(createWindowTracker());
                 addEventHandler(new TrackWindows(this));
                 addEventHandler(new CloseExtraWindows(this));
             }
-
             addEventHandler(new AttachScreenshot(this));
+            //todo
+            addEventHandler(new PerfectoLogger(reportiumClient));
             addEventHandler(new QuitBrowserSession(this));
             registerEventHandlers();
         }
@@ -94,6 +109,14 @@ public class EventHandlingWebDriverContainer implements WebDriverContainer {
         return WebDriverFactory.apply()
                 .getDriver(cinnamonWebDriverConfig.driverConfig().desiredCapabilities(), remoteUrl, cinnamonWebDriverConfig.driverConfig().exePath(),
                         cinnamonWebDriverConfig.driverConfig().driverBinary());
+    }
+
+    private static ReportiumClient createRemoteReportiumClient(WebDriver driver) {
+        PerfectoExecutionContext perfectoExecutionContext = new PerfectoExecutionContext.PerfectoExecutionContextBuilder()
+                .withProject(new Project("Sample Reportium project", "1.0"))
+                .withWebDriver(driver)
+                .build();
+        return new ReportiumClientFactory().createPerfectoReportiumClient(perfectoExecutionContext);
     }
 
     private WindowTracker createWindowTracker() {

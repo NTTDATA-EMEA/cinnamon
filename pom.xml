@@ -20,6 +20,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <maven.build.timestamp.format>yyyy-MM-dd-HHmm</maven.build.timestamp.format>
+        <reportium-sdk.version>1.0.0</reportium-sdk.version>
     </properties>
 
     <licenses>
@@ -473,6 +474,12 @@
                 <groupId>io.appium</groupId>
                 <artifactId>java-client</artifactId>
                 <version>5.0.0-BETA9</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.perfecto.reporting-sdk</groupId>
+                <artifactId>reportium-java</artifactId>
+                <version>${reportium-sdk.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
