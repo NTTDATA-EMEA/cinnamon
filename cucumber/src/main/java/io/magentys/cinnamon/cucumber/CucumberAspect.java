@@ -135,6 +135,14 @@ public class CucumberAspect {
         EventBusContainer.getEventBus().post(new ScenarioFinishedEvent(CucumberAspect.results.get()));
     }
 
+    @Before("runCucumber()")
+    public void beforeRunCucumber() {
+
+        System.out.println("___CUCUMBERASPECT BEFORE RUNCUCUMBER");
+
+        EventBusContainer.getEventBus().register(new ReportiumLogger());
+    }
+
     @After("runCucumber()")
     public void afterRunCucumber() {
         try {

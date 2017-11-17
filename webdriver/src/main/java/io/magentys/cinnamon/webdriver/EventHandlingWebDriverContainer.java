@@ -39,7 +39,7 @@ public class EventHandlingWebDriverContainer implements WebDriverContainer {
         if (driver.get() == null) {
             driver.set(createDriver());
             //TODO This needs to be instantiated in the Perfecto module
-            reportiumClient = createRemoteReportiumClient(driver.get());
+//            reportiumClient = createRemoteReportiumClient(driver.get());
 
             Optional<Object> app = Optional.ofNullable(cinnamonWebDriverConfig.driverConfig().desiredCapabilities().getCapability("app"));
             if (!app.isPresent()) {
@@ -49,7 +49,7 @@ public class EventHandlingWebDriverContainer implements WebDriverContainer {
             }
             addEventHandler(new AttachScreenshot(this));
             //TODO This needs to be moved to the Perfecto module
-            addEventHandler(new PerfectoLogger(reportiumClient));
+//            addEventHandler(new PerfectoLogger(reportiumClient));
             addEventHandler(new QuitBrowserSession(this));
             registerEventHandlers();
         }
