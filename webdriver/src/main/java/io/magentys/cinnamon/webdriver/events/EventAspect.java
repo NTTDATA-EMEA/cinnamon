@@ -10,8 +10,10 @@ public class EventAspect {
 
 //    @Pointcut("call(* *.getDriver(..))")
 //    @Pointcut("execution(org.openqa.selenium..*.get(..))")
-//    @Pointcut("execution(org.openqa.selenium.WebDriver+.new(..)")
-    @Pointcut("execution(* org.seleniumhq.selenium..*.*(..))")
+//    @Pointcut("execution(org.openqa.selenium.WebDriver+.new(..))")
+//    @Pointcut("execution(* org.seleniumhq.selenium..*.*(..))")
+//    @Pointcut("call(* org.openqa.selenium.WebDriver+.get(..))")
+    @Pointcut("execution(* io.magentys.cinnamon.webdriver.EventHandlingWebDriverContainer.getWebDriver(..))")
     public void constructor() {
         // pointcut body must be empty
     }
@@ -26,12 +28,7 @@ public class EventAspect {
 
     @AfterReturning("constructor()")
     public void afterReturningFromConstructor(JoinPoint joinPoint) {
-
-        System.out.println("___EVENTASPECT AFTER CONSTRUCTOR");
-
-        System.out.println("___GETCLASS :"+joinPoint.getThis().getClass());
-
-        EventBusContainer.getEventBus().post(new AfterConstructorEvent((WebDriver) joinPoint.getThis()));
+        EventBusContainer.getEventBus().post(new AfterConstructorEvent());
     }
 
     @Before("click()")

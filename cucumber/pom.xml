@@ -89,7 +89,7 @@
 
         <dependency>
             <groupId>io.magentys</groupId>
-            <artifactId>cinnamon-webdriver</artifactId>
+            <artifactId>reportium-support</artifactId>
         </dependency>
 
         <dependency>
@@ -126,32 +126,12 @@
             <groupId>org.aspectj</groupId>
             <artifactId>aspectjrt</artifactId>
         </dependency>
-
         <dependency>
-            <groupId>com.perfecto.reporting-sdk</groupId>
-            <artifactId>reportium-java</artifactId>
+            <groupId>io.magentys</groupId>
+            <artifactId>reportium-support</artifactId>
+            <version>0.1.1-SNAPSHOT</version>
         </dependency>
+
     </dependencies>
-
-
-    <repositories>
-        <repository>
-            <id>perfectomobile</id>
-            <name>Perfecto mobile</name>
-            <url>http://repository-perfectomobile.forge.cloudbees.com/public</url>
-        </repository>
-        <repository>
-            <id>central</id>
-            <name>Repo1</name>
-            <url>http://repo1.maven.org/maven2</url>
-            <releases>
-                <enabled>true</enabled>
-            </releases>
-            <snapshots>
-                <enabled>false</enabled>
-                <updatePolicy>never</updatePolicy>
-            </snapshots>
-        </repository>
-    </repositories>
 
 </project>

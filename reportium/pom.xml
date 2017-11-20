@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <artifactId>cinnamon</artifactId>
+        <groupId>io.magentys</groupId>
+        <version>0.1.1-SNAPSHOT</version>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+
+    <artifactId>reportium-support</artifactId>
+
+    <build>
+    <plugins>
+        <plugin>
+            <groupId>org.codehaus.mojo</groupId>
+            <artifactId>aspectj-maven-plugin</artifactId>
+            <configuration>
+                <aspectDirectory>src/main/java/io/cinnamon/cucumber</aspectDirectory>
+                <source>1.8</source>
+                <complianceLevel>1.8</complianceLevel>
+                <verbose>true</verbose>
+                <showWeaveInfo>true</showWeaveInfo>
+                <target>1.8</target>
+                <weaveDependencies>
+                    <weaveDependency>
+                        <groupId>info.cukes</groupId>
+                        <artifactId>cucumber-junit</artifactId>
+                    </weaveDependency>
+                    <weaveDependency>
+                        <groupId>info.cukes</groupId>
+                        <artifactId>cucumber-core</artifactId>
+                    </weaveDependency>
+                </weaveDependencies>
+            </configuration>
+            <executions>
+                <execution>
+                    <phase>process-classes</phase>
+                    <goals>
+                        <goal>compile</goal>
+                    </goals>
+                </execution>
+            </executions>
+        </plugin>
+    </plugins>
+    </build>
+
+    <dependencies>
+        <dependency>
+            <groupId>io.magentys</groupId>
+            <artifactId>cinnamon-core</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>io.magentys</groupId>
+            <artifactId>cinnamon-webdriver</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.google.guava</groupId>
+            <artifactId>guava</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-log4j12</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>info.cukes</groupId>
+            <artifactId>cucumber-java</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>info.cukes</groupId>
+            <artifactId>cucumber-guice</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>info.cukes</groupId>
+            <artifactId>cucumber-junit</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.aspectj</groupId>
+            <artifactId>aspectjrt</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.perfecto.reporting-sdk</groupId>
+            <artifactId>reportium-java</artifactId>
+        </dependency>
+
+    </dependencies>
+
+
+    <repositories>
+        <repository>
+            <id>perfectomobile</id>
+            <name>Perfecto mobile</name>
+            <url>http://repository-perfectomobile.forge.cloudbees.com/public</url>
+        </repository>
+        <repository>
+            <id>central</id>
+            <name>Repo1</name>
+            <url>http://repo1.maven.org/maven2</url>
+            <releases>
+                <enabled>true</enabled>
+            </releases>
+            <snapshots>
+                <enabled>false</enabled>
+                <updatePolicy>never</updatePolicy>
+            </snapshots>
+        </repository>
+    </repositories>
+
+
+</project>
