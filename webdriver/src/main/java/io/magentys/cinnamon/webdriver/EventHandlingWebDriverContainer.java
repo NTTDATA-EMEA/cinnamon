@@ -1,9 +1,6 @@
 package io.magentys.cinnamon.webdriver;
 
 import com.perfecto.reportium.client.ReportiumClient;
-import com.perfecto.reportium.client.ReportiumClientFactory;
-import com.perfecto.reportium.model.PerfectoExecutionContext;
-import com.perfecto.reportium.model.Project;
 import io.magentys.cinnamon.eventbus.EventBusContainer;
 import io.magentys.cinnamon.events.Attachment;
 import io.magentys.cinnamon.webdriver.config.CinnamonWebDriverConfig;
@@ -12,7 +9,6 @@ import io.magentys.cinnamon.webdriver.events.handlers.CloseExtraWindows;
 import io.magentys.cinnamon.webdriver.events.handlers.QuitBrowserSession;
 import io.magentys.cinnamon.webdriver.events.handlers.TrackWindows;
 import io.magentys.cinnamon.webdriver.factory.WebDriverFactory;
-import io.magentys.cinnamon.webdriver.remote.PerfectoLogger;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebDriverException;
 import org.slf4j.Logger;
@@ -38,9 +34,6 @@ public class EventHandlingWebDriverContainer implements WebDriverContainer {
     public WebDriver getWebDriver() {
         if (driver.get() == null) {
             driver.set(createDriver());
-            //TODO This needs to be instantiated in the Perfecto module
-//            reportiumClient = createRemoteReportiumClient(driver.get());
-
             Optional<Object> app = Optional.ofNullable(cinnamonWebDriverConfig.driverConfig().desiredCapabilities().getCapability("app"));
             if (!app.isPresent()) {
                 tracker.set(createWindowTracker());
@@ -48,8 +41,6 @@ public class EventHandlingWebDriverContainer implements WebDriverContainer {
                 addEventHandler(new CloseExtraWindows(this));
             }
             addEventHandler(new AttachScreenshot(this));
-            //TODO This needs to be moved to the Perfecto module
-//            addEventHandler(new PerfectoLogger(reportiumClient));
             addEventHandler(new QuitBrowserSession(this));
             registerEventHandlers();
         }
@@ -104,13 +95,6 @@ public class EventHandlingWebDriverContainer implements WebDriverContainer {
         return WebDriverFactory.apply()
                 .getDriver(cinnamonWebDriverConfig.driverConfig().desiredCapabilities(), remoteUrl, cinnamonWebDriverConfig.driverConfig().exePath(),
                         cinnamonWebDriverConfig.driverConfig().driverBinary());
-    }
-
-    //TODO This needs to be moved into the Perfecto module
-    private static ReportiumClient createRemoteReportiumClient(WebDriver driver) {
-        PerfectoExecutionContext perfectoExecutionContext = new PerfectoExecutionContext.PerfectoExecutionContextBuilder()
-                .withProject(new Project("Sample Reportium project", "1.0")).withWebDriver(driver).build();
-        return new ReportiumClientFactory().createPerfectoReportiumClient(perfectoExecutionContext);
     }
 
     private WindowTracker createWindowTracker() {
