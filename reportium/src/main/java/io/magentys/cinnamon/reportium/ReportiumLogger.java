@@ -7,10 +7,7 @@ import com.perfecto.reportium.model.PerfectoExecutionContext;
 import com.perfecto.reportium.model.Project;
 import com.perfecto.reportium.test.TestContext;
 import com.perfecto.reportium.test.result.TestResultFactory;
-import io.magentys.cinnamon.events.FeatureEvent;
-import io.magentys.cinnamon.events.ScenarioEvent;
-import io.magentys.cinnamon.events.TestCaseFinishedEvent;
-import io.magentys.cinnamon.events.TestStepFinishedEvent;
+import io.magentys.cinnamon.events.*;
 import io.magentys.cinnamon.webdriver.WebDriverContainer;
 import io.magentys.cinnamon.webdriver.events.AfterConstructorEvent;
 import org.openqa.selenium.WebDriver;
@@ -40,7 +37,21 @@ public class ReportiumLogger {
     @Subscribe
     public void handleEvent(final FeatureEvent event) {
         featureName = event.getFeatureName().replaceFirst("Feature: ", "");
+    }
 
+    @Subscribe
+    public void handleEvent(final BeforeHookEvent event) {
+        System.out.println("___AFTER BEFOREHOOK");
+
+        if (!failed) {
+            if (event.isFailed()) {
+                reportiumClient.testStep("before hook name status: " + event.getStatus());
+                reportiumClient.testStop(TestResultFactory.createFailure(event.getErrorMessage(), event.getError()));
+                failed = true;
+            } else {
+                reportiumClient.testStep("before hook name status: " + event.getStatus());
+            }
+        }
     }
 
     @Subscribe

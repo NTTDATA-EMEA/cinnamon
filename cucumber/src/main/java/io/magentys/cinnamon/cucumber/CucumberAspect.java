@@ -2,6 +2,8 @@ package io.magentys.cinnamon.cucumber;
 
 import cucumber.runtime.junit.ExecutionUnitRunner;
 import cucumber.runtime.junit.FeatureRunner;
+import cucumber.runtime.junit.ScenarioOutlineRunner;
+
 import gherkin.formatter.Reporter;
 import gherkin.formatter.model.Result;
 import gherkin.formatter.model.Step;
@@ -9,10 +11,7 @@ import io.magentys.cinnamon.cucumber.events.*;
 import io.magentys.cinnamon.eventbus.EventBusContainer;
 import io.magentys.cinnamon.reportium.ReportiumLogger;
 import org.aspectj.lang.JoinPoint;
-import org.aspectj.lang.annotation.After;
-import org.aspectj.lang.annotation.Aspect;
-import org.aspectj.lang.annotation.Before;
-import org.aspectj.lang.annotation.Pointcut;
+import org.aspectj.lang.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -63,6 +62,11 @@ public class CucumberAspect {
      */
     @Pointcut("execution(public void cucumber.runtime.Runtime.runBeforeHooks(..))")
     public void runBeforeHooks() {
+        // pointcut body must be empty
+    }
+
+    @Pointcut("execution(* cucumber.runtime.Runtime.addHookToCounterAndResult(..))")
+    public void addHookToCounterAndResult() {
         // pointcut body must be empty
     }
 
@@ -125,13 +129,15 @@ public class CucumberAspect {
     @After("addStepToCounterAndResult() && args(result,..)")
     public void afterAddStepToCounterAndResult(Result result) {
         CucumberAspect.results.get().add(result);
-
-        System.out.println("__DURATION "+result.getDuration());
-        System.out.println("___ERRORMESSAGE "+result.getErrorMessage());
-        System.out.println("___ERROR "+result.getError());
-        System.out.println("___STATUS "+result.getStatus());
-
         EventBusContainer.getEventBus().post(new StepFinishedEvent(result, reporter.get(), result.getErrorMessage(), result.getError()));
+    }
+
+    @After("addHookToCounterAndResult() && args(result,..)")
+    public void afterAddHookToCounterAndResult(Result result) {
+
+        System.out.println("___ AFTER BEFORE HOOKS");
+
+        EventBusContainer.getEventBus().post(new BeforeHooksFinishedEvent(result, result.getErrorMessage(), result.getError()));
     }
 
     @After("runAfterHooks()")
@@ -151,10 +157,14 @@ public class CucumberAspect {
     }
 
     //TODO find the executor where the step name can be obtained
-    @After("runStep()")
+    @Before("runStep()")
     public void afterRunStep(JoinPoint joinPoint) {
 
-        System.out.println("___BEFORERUNSTEP CUCUMBERTASPECT");
+//        ScenarioOutlineRunner scenarioOutlineRunner = (ScenarioOutlineRunner) joinPoint.getTarget();
+
+//        System.out.println("___NAME:"+scenarioOutlineRunner.getName());
+
+//        System.out.println("___BEFORERUNSTEP CUCUMBERTASPECT");
 
     }
 
