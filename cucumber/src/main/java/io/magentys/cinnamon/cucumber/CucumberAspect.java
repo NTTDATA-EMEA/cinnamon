@@ -6,6 +6,7 @@ import cucumber.runtime.junit.FeatureRunner;
 import gherkin.formatter.Reporter;
 import gherkin.formatter.model.Result;
 import gherkin.formatter.model.Step;
+import gherkin.formatter.model.Tag;
 import io.magentys.cinnamon.cucumber.events.*;
 import io.magentys.cinnamon.eventbus.EventBusContainer;
 import io.magentys.cinnamon.reportium.ReportiumLogger;
@@ -13,7 +14,9 @@ import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.*;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.Set;
 
 @Aspect
 public class CucumberAspect {
@@ -101,6 +104,15 @@ public class CucumberAspect {
         // pointcut body must be empty
     }
 
+
+    @Before("runBeforeHooks()")
+    public void beforeRunBeforeHooks(JoinPoint joinPoint) {
+        Set<Tag> tags = (Set<Tag>)joinPoint.getArgs()[1];
+        List<String> list = new ArrayList<String>();
+        tags.stream().forEach(a->list.add(a.getName()));
+        EventBusContainer.getEventBus().post(new TagsEvent(list));
+    }
+
     @Before("runFeature()")
     public void beforeRunFeature(JoinPoint joinPoint) {
         FeatureRunner featureRunner = (FeatureRunner) joinPoint.getTarget();
@@ -131,6 +143,8 @@ public class CucumberAspect {
         EventBusContainer.getEventBus().post(new StepFinishedEvent(result, reporter.get(), result.getErrorMessage(), result.getError()));
     }
 
+
+
     @After("addHookToCounterAndResult() && args(result,..)")
     public void afterAddHookToCounterAndResult(Result result) {
         EventBusContainer.getEventBus().post(new BeforeHooksFinishedEvent(result, result.getErrorMessage(), result.getError()));
@@ -148,8 +162,8 @@ public class CucumberAspect {
 
     //TODO this would need to move to reportium module
     @Before("runCucumber()")
-    public void beforeRunCucumber(JoinPoint joinPoint) {
-//        EventBusContainer.getEventBus().register(new ReportiumLogger());
+    public void beforeRunCucumber() {
+        EventBusContainer.getEventBus().register(new ReportiumLogger());
     }
 
     @Before("runStep()")

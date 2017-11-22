@@ -3,16 +3,17 @@ package io.magentys.cinnamon.cucumber.events;
 import gherkin.formatter.model.Tag;
 import io.magentys.cinnamon.events.TagEvent;
 
+import java.util.List;
 import java.util.Set;
 
 public class TagsEvent implements TagEvent {
-    String tags;
+    List<String> tags;
 
-    public TagsEvent(String tags) {
+    public TagsEvent(List<String> tags) {
         this.tags=tags;
     }
 
-    public String getTags() {
-        return this.tags;
+    public List<String> getTags() {
+        return tags;
     }
 }

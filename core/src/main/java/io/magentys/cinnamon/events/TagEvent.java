@@ -1,6 +1,8 @@
 package io.magentys.cinnamon.events;
 
+import java.util.List;
+
 public interface TagEvent {
 
-    String getTags();
+    List<String> getTags();
 }

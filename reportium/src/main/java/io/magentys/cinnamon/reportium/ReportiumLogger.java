@@ -12,6 +12,10 @@ import io.magentys.cinnamon.webdriver.WebDriverContainer;
 import io.magentys.cinnamon.webdriver.events.AfterConstructorEvent;
 import org.openqa.selenium.WebDriver;
 
+import java.util.Arrays;
+import java.util.List;
+import java.util.Set;
+
 
 public class ReportiumLogger {
 
@@ -20,14 +24,15 @@ public class ReportiumLogger {
     String scenarioName;
     String featureName;
     boolean failed = false;
-    String tags;
+    List<String> tags;
     String stepName;
 
     @Subscribe
     public void handleEvent(AfterConstructorEvent event) {
         if (reportiumClient == null) {
         reportiumClient = createRemoteReportiumClient(WebDriverContainer.getWebDriverContainer().getWebDriver());
-        reportiumClient.testStart(featureName + "-" +scenarioName, new TestContext("Sanity"));
+        String[] tagsArray = tags.toArray(new String[tags.size()]);
+        reportiumClient.testStart(featureName + "-" +scenarioName, new TestContext(tagsArray));
         }
     }
 
@@ -44,6 +49,11 @@ public class ReportiumLogger {
     @Subscribe
     public void handleEvent(final StepEvent event) {
         stepName = event.getName();
+    }
+
+    @Subscribe
+    public void handleEvent(final TagEvent event) {
+        tags = event.getTags();
     }
 
     @Subscribe
