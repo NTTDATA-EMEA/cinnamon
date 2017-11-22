@@ -20,6 +20,8 @@ public class ReportiumLogger {
     String scenarioName;
     String featureName;
     boolean failed = false;
+    String tags;
+    String stepName;
 
     @Subscribe
     public void handleEvent(AfterConstructorEvent event) {
@@ -40,10 +42,13 @@ public class ReportiumLogger {
     }
 
     @Subscribe
-    public void handleEvent(final BeforeHookEvent event) {
-        System.out.println("___AFTER BEFOREHOOK");
+    public void handleEvent(final StepEvent event) {
+        stepName = event.getName();
+    }
 
-        if (!failed) {
+    @Subscribe
+    public void handleEvent(final BeforeHookEvent event) {
+         if (!failed) {
             if (event.isFailed()) {
                 reportiumClient.testStep("before hook name status: " + event.getStatus());
                 reportiumClient.testStop(TestResultFactory.createFailure(event.getErrorMessage(), event.getError()));
@@ -58,11 +63,11 @@ public class ReportiumLogger {
     public void handleEvent(final TestStepFinishedEvent event) {
         if (!failed) {
             if (event.isFailed()) {
-                reportiumClient.testStep("stepName status: " + event.getStatus());
+                reportiumClient.testStep(stepName + " -> " + event.getStatus());
                 reportiumClient.testStop(TestResultFactory.createFailure(event.getErrorMessage(), event.getError()));
                 failed = true;
             } else {
-                reportiumClient.testStep("stepName status: " + event.getStatus());
+                reportiumClient.testStep(stepName + " -> " + event.getStatus());
             }
         }
     }

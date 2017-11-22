@@ -32,6 +32,10 @@
                         <groupId>info.cukes</groupId>
                         <artifactId>cucumber-core</artifactId>
                     </weaveDependency>
+                    <weaveDependency>
+                        <groupId>org.seleniumhq.selenium</groupId>
+                        <artifactId>selenium-java</artifactId>
+                    </weaveDependency>
                 </weaveDependencies>
             </configuration>
             <executions>

@@ -2,7 +2,6 @@ package io.magentys.cinnamon.cucumber;
 
 import cucumber.runtime.junit.ExecutionUnitRunner;
 import cucumber.runtime.junit.FeatureRunner;
-import cucumber.runtime.junit.ScenarioOutlineRunner;
 
 import gherkin.formatter.Reporter;
 import gherkin.formatter.model.Result;
@@ -134,9 +133,6 @@ public class CucumberAspect {
 
     @After("addHookToCounterAndResult() && args(result,..)")
     public void afterAddHookToCounterAndResult(Result result) {
-
-        System.out.println("___ AFTER BEFORE HOOKS");
-
         EventBusContainer.getEventBus().post(new BeforeHooksFinishedEvent(result, result.getErrorMessage(), result.getError()));
     }
 
@@ -152,20 +148,13 @@ public class CucumberAspect {
 
     //TODO this would need to move to reportium module
     @Before("runCucumber()")
-    public void beforeRunCucumber() {
-        EventBusContainer.getEventBus().register(new ReportiumLogger());
+    public void beforeRunCucumber(JoinPoint joinPoint) {
+//        EventBusContainer.getEventBus().register(new ReportiumLogger());
     }
 
-    //TODO find the executor where the step name can be obtained
     @Before("runStep()")
-    public void afterRunStep(JoinPoint joinPoint) {
-
-//        ScenarioOutlineRunner scenarioOutlineRunner = (ScenarioOutlineRunner) joinPoint.getTarget();
-
-//        System.out.println("___NAME:"+scenarioOutlineRunner.getName());
-
-//        System.out.println("___BEFORERUNSTEP CUCUMBERTASPECT");
-
+    public void beforeRunStep(JoinPoint joinPoint) {
+        EventBusContainer.getEventBus().post(new AfterStepEvent(((Step)joinPoint.getArgs()[1]).getName()));
     }
 
     @After("runCucumber()")
