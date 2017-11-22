@@ -8,11 +8,6 @@ import org.openqa.selenium.WebDriver;
 @Aspect
 public class EventAspect {
 
-//    @Pointcut("call(* *.getDriver(..))")
-//    @Pointcut("execution(org.openqa.selenium..*.get(..))")
-//    @Pointcut("execution(org.openqa.selenium.WebDriver+.new(..))")
-//    @Pointcut("execution(* org.seleniumhq.selenium..*.*(..))")
-//    @Pointcut("call(* org.openqa.selenium.WebDriver+.get(..))")
     @Pointcut("execution(* io.magentys.cinnamon.webdriver.EventHandlingWebDriverContainer.getWebDriver(..))")
     public void constructor() {
         // pointcut body must be empty
