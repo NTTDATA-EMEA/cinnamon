@@ -163,7 +163,7 @@ public class CucumberAspect {
     //TODO this would need to move to reportium module
     @Before("runCucumber()")
     public void beforeRunCucumber() {
-        EventBusContainer.getEventBus().register(new ReportiumLogger());
+//        EventBusContainer.getEventBus().register(new ReportiumLogger());
     }
 
     @Before("runStep()")
