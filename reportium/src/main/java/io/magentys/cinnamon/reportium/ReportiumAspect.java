@@ -9,15 +9,12 @@ import org.aspectj.lang.annotation.Pointcut;
 public class ReportiumAspect {
 
 
-//    @Pointcut("execution(* cucumber.api.junit.Cucumber.*(..))")
-//    @Pointcut("execution(public * cucumber.runtime.junit.FeatureRunner.run(..))")
-//    @Pointcut("execution(public void cucumber.runtime.Runtime.runStep(..))")
-    @Pointcut("execution(* io.magentys.cinnamon.conf.Env.initConfig(..))")
-    public void runCucumber() {
+    @Pointcut("execution(* cucumber.api.junit.Cucumber.*(..))")
+    public void run() {
         // pointcut body must be empty
     }
 
-    @Before("runCucumber()")
+    @Before("run()")
     public void beforeRunCucumber() {
         System.out.println("___REPORTIUMASPECT THROWN");
 

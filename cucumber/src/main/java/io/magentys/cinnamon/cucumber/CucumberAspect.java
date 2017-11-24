@@ -9,12 +9,11 @@ import gherkin.formatter.model.Step;
 import gherkin.formatter.model.Tag;
 import io.magentys.cinnamon.cucumber.events.*;
 import io.magentys.cinnamon.eventbus.EventBusContainer;
-import io.magentys.cinnamon.reportium.ReportiumLogger;
+//import io.magentys.cinnamon.reportium.ReportiumLogger;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.*;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
 
@@ -107,6 +106,9 @@ public class CucumberAspect {
 
     @Before("runBeforeHooks()")
     public void beforeRunBeforeHooks(JoinPoint joinPoint) {
+
+        System.out.println("___ BEFORE RUN HOOKS");
+
         Set<Tag> tags = (Set<Tag>)joinPoint.getArgs()[1];
         List<String> list = new ArrayList<String>();
         tags.stream().forEach(a->list.add(a.getName()));
@@ -118,6 +120,8 @@ public class CucumberAspect {
         FeatureRunner featureRunner = (FeatureRunner) joinPoint.getTarget();
         CucumberAspect.featureName.set(featureRunner.getName());
         EventBusContainer.getEventBus().post(new BeforeFeatureScenario(featureRunner.getName()));
+
+        System.out.println("___ BEFORE RUN FEATURE");
     }
 
     @Before("runScenario()")
@@ -125,6 +129,8 @@ public class CucumberAspect {
         ExecutionUnitRunner executionUnitRunner = (ExecutionUnitRunner) joinPoint.getTarget();
         CucumberAspect.scenarioName.set(executionUnitRunner.getName());
         EventBusContainer.getEventBus().post(new BeforeScenarioEvent(executionUnitRunner.getName(), executionUnitRunner.getDescription().toString()));
+
+        System.out.println("___ BEFORE RUN SCENARIO");
     }
 
     @Before("buildBackendWorlds() && args(reporter,..)")
@@ -139,11 +145,11 @@ public class CucumberAspect {
 
     @After("addStepToCounterAndResult() && args(result,..)")
     public void afterAddStepToCounterAndResult(Result result) {
+        System.out.println("___ AFTER STEP RUN");
+
         CucumberAspect.results.get().add(result);
         EventBusContainer.getEventBus().post(new StepFinishedEvent(result, reporter.get(), result.getErrorMessage(), result.getError()));
     }
-
-
 
     @After("addHookToCounterAndResult() && args(result,..)")
     public void afterAddHookToCounterAndResult(Result result) {
@@ -158,12 +164,6 @@ public class CucumberAspect {
     @After("disposeBackendWorlds()")
     public void afterDisposeBackendWorlds() {
         EventBusContainer.getEventBus().post(new ScenarioFinishedEvent(CucumberAspect.results.get()));
-    }
-
-    //TODO this would need to move to reportium module
-    @Before("runCucumber()")
-    public void beforeRunCucumber() {
-//        EventBusContainer.getEventBus().register(new ReportiumLogger());
     }
 
     @Before("runStep()")
