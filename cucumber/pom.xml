@@ -87,11 +87,6 @@
             <artifactId>cinnamon-core</artifactId>
         </dependency>
 
-        <!--<dependency>-->
-            <!--<groupId>io.magentys</groupId>-->
-            <!--<artifactId>reportium-support</artifactId>-->
-        <!--</dependency>-->
-
         <dependency>
             <groupId>com.google.guava</groupId>
             <artifactId>guava</artifactId>
@@ -126,11 +121,6 @@
             <groupId>org.aspectj</groupId>
             <artifactId>aspectjrt</artifactId>
         </dependency>
-        <!--<dependency>-->
-            <!--<groupId>io.magentys</groupId>-->
-            <!--<artifactId>reportium-support</artifactId>-->
-            <!--<version>0.1.1-SNAPSHOT</version>-->
-        <!--</dependency>-->
 
     </dependencies>
 

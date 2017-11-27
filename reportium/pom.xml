@@ -25,6 +25,10 @@
                 <target>1.8</target>
                 <weaveDependencies>
                     <weaveDependency>
+                        <groupId>io.magentys</groupId>
+                        <artifactId>cinnamon-core</artifactId>
+                    </weaveDependency>
+                    <weaveDependency>
                         <groupId>info.cukes</groupId>
                         <artifactId>cucumber-junit</artifactId>
                     </weaveDependency>
@@ -33,8 +37,8 @@
                         <artifactId>cucumber-core</artifactId>
                     </weaveDependency>
                     <weaveDependency>
-                        <groupId>org.seleniumhq.selenium</groupId>
-                        <artifactId>selenium-java</artifactId>
+                        <groupId>io.magentys</groupId>
+                        <artifactId>cinnamon-webdriver</artifactId>
                     </weaveDependency>
                 </weaveDependencies>
             </configuration>
@@ -77,13 +81,8 @@
         </dependency>
 
         <dependency>
-            <groupId>info.cukes</groupId>
-            <artifactId>cucumber-java</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>info.cukes</groupId>
-            <artifactId>cucumber-guice</artifactId>
+            <groupId>org.aspectj</groupId>
+            <artifactId>aspectjrt</artifactId>
         </dependency>
 
         <dependency>
@@ -92,13 +91,20 @@
         </dependency>
 
         <dependency>
-            <groupId>org.aspectj</groupId>
-            <artifactId>aspectjrt</artifactId>
+            <groupId>info.cukes</groupId>
+            <artifactId>cucumber-core</artifactId>
+            <version>1.2.4</version>
         </dependency>
 
         <dependency>
             <groupId>com.perfecto.reporting-sdk</groupId>
             <artifactId>reportium-java</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>info.cukes</groupId>
+            <artifactId>gherkin</artifactId>
+            <version>2.12.2</version>
         </dependency>
 
     </dependencies>

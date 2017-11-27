@@ -27,8 +27,6 @@ public class ReportiumLogger {
 
     @Subscribe
     public void handleEvent(AfterConstructorEvent event) {
-        System.out.println("___ AFTERCONSTRUCTOREVENT REPORTIUMLOGGER");
-
         if (reportiumClient == null) {
         reportiumClient = createRemoteReportiumClient(WebDriverContainer.getWebDriverContainer().getWebDriver());
         String[] tagsArray = tags.toArray(new String[tags.size()]);
@@ -38,29 +36,21 @@ public class ReportiumLogger {
 
     @Subscribe
     public void handleEvent(final ScenarioEvent event) {
-        System.out.println("___ SCENRAIO EVENT REPORTIUMLOGGER");
-
         scenarioName = event.getScenarioName().replaceFirst("Scenario: ", "");
     }
 
     @Subscribe
     public void handleEvent(final FeatureEvent event) {
-        System.out.println("___ FEATURE EVENT REPORTIUMLOGGER");
-
         featureName = event.getFeatureName().replaceFirst("Feature: ", "");
     }
 
     @Subscribe
     public void handleEvent(final StepEvent event) {
-        System.out.println("___ STEP EVENT REPORTIUMLOGGER");
-
         stepName = event.getName();
     }
 
     @Subscribe
     public void handleEvent(final TagEvent event) {
-        System.out.println("___ TAG EVENT REPORTIUMLOGGER");
-
         tags = event.getTags();
     }
 
@@ -68,11 +58,11 @@ public class ReportiumLogger {
     public void handleEvent(final BeforeHookEvent event) {
          if (!failed) {
             if (event.isFailed()) {
-                reportiumClient.testStep("before hook name status: " + event.getStatus());
+                reportiumClient.testStep("before hook name - " + event.getStatus());
                 reportiumClient.testStop(TestResultFactory.createFailure(event.getErrorMessage(), event.getError()));
                 failed = true;
             } else {
-                reportiumClient.testStep("before hook name status: " + event.getStatus());
+                reportiumClient.testStep("before hook name - " + event.getStatus());
             }
         }
     }
@@ -81,11 +71,11 @@ public class ReportiumLogger {
     public void handleEvent(final TestStepFinishedEvent event) {
         if (!failed) {
             if (event.isFailed()) {
-                reportiumClient.testStep(stepName + " -> " + event.getStatus());
+                reportiumClient.testStep(stepName + " - " + event.getStatus());
                 reportiumClient.testStop(TestResultFactory.createFailure(event.getErrorMessage(), event.getError()));
                 failed = true;
             } else {
-                reportiumClient.testStep(stepName + " -> " + event.getStatus());
+                reportiumClient.testStep(stepName + " - " + event.getStatus());
             }
         }
     }

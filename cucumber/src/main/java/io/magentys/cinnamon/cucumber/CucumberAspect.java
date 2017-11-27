@@ -9,7 +9,6 @@ import gherkin.formatter.model.Step;
 import gherkin.formatter.model.Tag;
 import io.magentys.cinnamon.cucumber.events.*;
 import io.magentys.cinnamon.eventbus.EventBusContainer;
-//import io.magentys.cinnamon.reportium.ReportiumLogger;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.*;
 
