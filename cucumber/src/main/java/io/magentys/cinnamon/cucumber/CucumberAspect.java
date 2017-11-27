@@ -1,20 +1,23 @@
-package io.magentys.cinnamon.cucumber;
 
-import cucumber.runtime.junit.ExecutionUnitRunner;
-import cucumber.runtime.junit.FeatureRunner;
+        package io.magentys.cinnamon.cucumber;
 
-import gherkin.formatter.Reporter;
-import gherkin.formatter.model.Result;
-import gherkin.formatter.model.Step;
-import gherkin.formatter.model.Tag;
-import io.magentys.cinnamon.cucumber.events.*;
-import io.magentys.cinnamon.eventbus.EventBusContainer;
-import org.aspectj.lang.JoinPoint;
-import org.aspectj.lang.annotation.*;
+        import cucumber.runtime.junit.ExecutionUnitRunner;
+        import cucumber.runtime.junit.FeatureRunner;
+        import gherkin.formatter.Reporter;
+        import gherkin.formatter.model.Result;
+        import io.magentys.cinnamon.cucumber.events.AfterHooksFinishedEvent;
+        import io.magentys.cinnamon.cucumber.events.CucumberFinishedEvent;
+        import io.magentys.cinnamon.cucumber.events.ScenarioFinishedEvent;
+        import io.magentys.cinnamon.cucumber.events.StepFinishedEvent;
+        import io.magentys.cinnamon.eventbus.EventBusContainer;
+        import org.aspectj.lang.JoinPoint;
+        import org.aspectj.lang.annotation.After;
+        import org.aspectj.lang.annotation.Aspect;
+        import org.aspectj.lang.annotation.Before;
+        import org.aspectj.lang.annotation.Pointcut;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Set;
+        import java.util.ArrayList;
+        import java.util.List;
 
 @Aspect
 public class CucumberAspect {
@@ -23,7 +26,6 @@ public class CucumberAspect {
     private static final ThreadLocal<String> scenarioName = new ThreadLocal<>();
     private static final ThreadLocal<Reporter> reporter = new ThreadLocal<>();
     private static final ThreadLocal<List<Result>> results = new ThreadLocal<>();
-    private static final ThreadLocal<Step> stepName = new ThreadLocal<>();
 
     /**
      * Pointcut for <code>cucumber.api.junit.Cucumber.run</code> method.
@@ -65,11 +67,6 @@ public class CucumberAspect {
         // pointcut body must be empty
     }
 
-    @Pointcut("execution(* cucumber.runtime.Runtime.addHookToCounterAndResult(..))")
-    public void addHookToCounterAndResult() {
-        // pointcut body must be empty
-    }
-
     /**
      * Pointcut for <code>cucumber.runtime.Runtime.runStep</code> method.
      */
@@ -102,34 +99,16 @@ public class CucumberAspect {
         // pointcut body must be empty
     }
 
-
-    @Before("runBeforeHooks()")
-    public void beforeRunBeforeHooks(JoinPoint joinPoint) {
-
-        System.out.println("___ BEFORE RUN HOOKS");
-
-        Set<Tag> tags = (Set<Tag>)joinPoint.getArgs()[1];
-        List<String> list = new ArrayList<String>();
-        tags.stream().forEach(a->list.add(a.getName()));
-        EventBusContainer.getEventBus().post(new TagsEvent(list));
-    }
-
     @Before("runFeature()")
     public void beforeRunFeature(JoinPoint joinPoint) {
         FeatureRunner featureRunner = (FeatureRunner) joinPoint.getTarget();
         CucumberAspect.featureName.set(featureRunner.getName());
-        EventBusContainer.getEventBus().post(new BeforeFeatureScenario(featureRunner.getName()));
-
-        System.out.println("___ BEFORE RUN FEATURE");
     }
 
     @Before("runScenario()")
     public void beforeRunScenario(JoinPoint joinPoint) {
         ExecutionUnitRunner executionUnitRunner = (ExecutionUnitRunner) joinPoint.getTarget();
         CucumberAspect.scenarioName.set(executionUnitRunner.getName());
-        EventBusContainer.getEventBus().post(new BeforeScenarioEvent(executionUnitRunner.getName(), executionUnitRunner.getDescription().toString()));
-
-        System.out.println("___ BEFORE RUN SCENARIO");
     }
 
     @Before("buildBackendWorlds() && args(reporter,..)")
@@ -144,15 +123,8 @@ public class CucumberAspect {
 
     @After("addStepToCounterAndResult() && args(result,..)")
     public void afterAddStepToCounterAndResult(Result result) {
-        System.out.println("___ AFTER STEP RUN");
-
         CucumberAspect.results.get().add(result);
-        EventBusContainer.getEventBus().post(new StepFinishedEvent(result, reporter.get(), result.getErrorMessage(), result.getError()));
-    }
-
-    @After("addHookToCounterAndResult() && args(result,..)")
-    public void afterAddHookToCounterAndResult(Result result) {
-        EventBusContainer.getEventBus().post(new BeforeHooksFinishedEvent(result, result.getErrorMessage(), result.getError()));
+        EventBusContainer.getEventBus().post(new StepFinishedEvent(result, reporter.get()));
     }
 
     @After("runAfterHooks()")
@@ -163,11 +135,6 @@ public class CucumberAspect {
     @After("disposeBackendWorlds()")
     public void afterDisposeBackendWorlds() {
         EventBusContainer.getEventBus().post(new ScenarioFinishedEvent(CucumberAspect.results.get()));
-    }
-
-    @Before("runStep()")
-    public void beforeRunStep(JoinPoint joinPoint) {
-        EventBusContainer.getEventBus().post(new AfterStepEvent(((Step)joinPoint.getArgs()[1]).getName()));
     }
 
     @After("runCucumber()")

@@ -23,12 +23,3 @@ class Perfecto extends CinnamonRemote {
     mainRemoteCaps.merge(additionalRemoteCaps)
   }
 }
-
-class PerfectoLogger(reportiumClient: ReportiumClient) {
-
-  @Subscribe
-  private def handleEvent(event: TestStepFinishedEvent) = {
-    System.out.println("_____STEPFINISHEDEVENT")
-    reportiumClient.testStep(event.getStatus)
-  }
-}

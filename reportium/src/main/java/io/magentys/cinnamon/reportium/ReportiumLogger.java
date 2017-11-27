@@ -18,7 +18,6 @@ import java.util.List;
 public class ReportiumLogger {
 
     ReportiumClient reportiumClient;
-    boolean stepResult;
     String scenarioName;
     String featureName;
     boolean failed = false;
@@ -58,11 +57,11 @@ public class ReportiumLogger {
     public void handleEvent(final BeforeHookEvent event) {
          if (!failed) {
             if (event.isFailed()) {
-                reportiumClient.testStep("before hook name - " + event.getStatus());
+                reportiumClient.testStep("Before Hook - " + event.getStatus());
                 reportiumClient.testStop(TestResultFactory.createFailure(event.getErrorMessage(), event.getError()));
                 failed = true;
             } else {
-                reportiumClient.testStep("before hook name - " + event.getStatus());
+                reportiumClient.testStep("Before Hook - " + event.getStatus());
             }
         }
     }
@@ -90,7 +89,8 @@ public class ReportiumLogger {
 
     private static ReportiumClient createRemoteReportiumClient(WebDriver driver) {
         PerfectoExecutionContext perfectoExecutionContext = new PerfectoExecutionContext.PerfectoExecutionContextBuilder()
-                .withProject(new Project("Sample Reportium project", "1.0")).withWebDriver(driver).build();
+                .withProject(new Project(System.getProperty("project.dir").replaceAll("\\/.+\\/", ""), "1.0"))
+                .withWebDriver(driver).build();
         return new ReportiumClientFactory().createPerfectoReportiumClient(perfectoExecutionContext);
     }
 
