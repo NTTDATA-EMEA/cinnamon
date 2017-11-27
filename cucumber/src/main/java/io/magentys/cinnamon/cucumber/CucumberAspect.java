@@ -1,23 +1,22 @@
+package io.magentys.cinnamon.cucumber;
 
-        package io.magentys.cinnamon.cucumber;
+import cucumber.runtime.junit.ExecutionUnitRunner;
+import cucumber.runtime.junit.FeatureRunner;
+import gherkin.formatter.Reporter;
+import gherkin.formatter.model.Result;
+import io.magentys.cinnamon.cucumber.events.AfterHooksFinishedEvent;
+import io.magentys.cinnamon.cucumber.events.CucumberFinishedEvent;
+import io.magentys.cinnamon.cucumber.events.ScenarioFinishedEvent;
+import io.magentys.cinnamon.cucumber.events.StepFinishedEvent;
+import io.magentys.cinnamon.eventbus.EventBusContainer;
+import org.aspectj.lang.JoinPoint;
+import org.aspectj.lang.annotation.After;
+import org.aspectj.lang.annotation.Aspect;
+import org.aspectj.lang.annotation.Before;
+import org.aspectj.lang.annotation.Pointcut;
 
-        import cucumber.runtime.junit.ExecutionUnitRunner;
-        import cucumber.runtime.junit.FeatureRunner;
-        import gherkin.formatter.Reporter;
-        import gherkin.formatter.model.Result;
-        import io.magentys.cinnamon.cucumber.events.AfterHooksFinishedEvent;
-        import io.magentys.cinnamon.cucumber.events.CucumberFinishedEvent;
-        import io.magentys.cinnamon.cucumber.events.ScenarioFinishedEvent;
-        import io.magentys.cinnamon.cucumber.events.StepFinishedEvent;
-        import io.magentys.cinnamon.eventbus.EventBusContainer;
-        import org.aspectj.lang.JoinPoint;
-        import org.aspectj.lang.annotation.After;
-        import org.aspectj.lang.annotation.Aspect;
-        import org.aspectj.lang.annotation.Before;
-        import org.aspectj.lang.annotation.Pointcut;
-
-        import java.util.ArrayList;
-        import java.util.List;
+import java.util.ArrayList;
+import java.util.List;
 
 @Aspect
 public class CucumberAspect {
