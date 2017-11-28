@@ -116,7 +116,9 @@ public class ReportiumAspect {
 
     @Before("runFeature()")
     public void beforeRunFeature(JoinPoint joinPoint) {
+        if (System.getProperties().stringPropertyNames().contains("hubUrl") && System.getProperty("hubUrl").contains("perfectomobile")) {
         EventBusContainer.getEventBus().register(new ReportiumLogger());
+        }
         FeatureRunner featureRunner = (FeatureRunner) joinPoint.getTarget();
         ReportiumAspect.featureName.set(featureRunner.getName());
         EventBusContainer.getEventBus().post(new BeforeFeatureScenario(featureRunner.getName()));
