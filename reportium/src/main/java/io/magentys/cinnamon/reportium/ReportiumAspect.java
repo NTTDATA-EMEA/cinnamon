@@ -1,25 +1,26 @@
-package io.magentys.cinnamon.cucumber;
+package io.magentys.cinnamon.reportium;
 
-import cucumber.runtime.junit.ExecutionUnitRunner;
-import cucumber.runtime.junit.FeatureRunner;
-import gherkin.formatter.Reporter;
-import gherkin.formatter.model.Result;
-import io.magentys.cinnamon.cucumber.events.AfterHooksFinishedEvent;
-import io.magentys.cinnamon.cucumber.events.CucumberFinishedEvent;
-import io.magentys.cinnamon.cucumber.events.ScenarioFinishedEvent;
-import io.magentys.cinnamon.cucumber.events.StepFinishedEvent;
 import io.magentys.cinnamon.eventbus.EventBusContainer;
+import io.magentys.cinnamon.reportium.events.*;
+import io.magentys.cinnamon.webdriver.events.AfterConstructorEvent;
 import org.aspectj.lang.JoinPoint;
-import org.aspectj.lang.annotation.After;
-import org.aspectj.lang.annotation.Aspect;
-import org.aspectj.lang.annotation.Before;
-import org.aspectj.lang.annotation.Pointcut;
+import org.aspectj.lang.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
+
+import cucumber.runtime.junit.ExecutionUnitRunner;
+import cucumber.runtime.junit.FeatureRunner;
+
+import gherkin.formatter.Reporter;
+import gherkin.formatter.model.Result;
+import gherkin.formatter.model.Step;
+import gherkin.formatter.model.Tag;
+import org.openqa.selenium.WebDriver;
 
 @Aspect
-public class CucumberAspect {
+public class ReportiumAspect {
 
     private static final ThreadLocal<String> featureName = new ThreadLocal<>();
     private static final ThreadLocal<String> scenarioName = new ThreadLocal<>();
@@ -47,7 +48,7 @@ public class CucumberAspect {
      */
     @Pointcut("execution(public * cucumber.runtime.junit.ExecutionUnitRunner.run(..))")
     public void runScenario() {
-        // pointcut body must be empty
+         // pointcut body must be empty
     }
 
     /**
@@ -63,6 +64,11 @@ public class CucumberAspect {
      */
     @Pointcut("execution(public void cucumber.runtime.Runtime.runBeforeHooks(..))")
     public void runBeforeHooks() {
+        // pointcut body must be empty
+    }
+
+    @Pointcut("execution(* cucumber.runtime.Runtime.addHookToCounterAndResult(..))")
+    public void addHookToCounterAndResult() {
         // pointcut body must be empty
     }
 
@@ -98,32 +104,61 @@ public class CucumberAspect {
         // pointcut body must be empty
     }
 
+    @Pointcut("execution(org.openqa.selenium.remote.RemoteWebDriver.new(..))")
+    public void constructor() {
+        // pointcut body must be empty
+    }
+
+    @AfterReturning("constructor()")
+    public void afterReturningFromConstructor(JoinPoint joinPoint) {
+        EventBusContainer.getEventBus().post(new AfterConstructorEvent((WebDriver) joinPoint.getThis()));
+    }
+
+    @Before("runBeforeHooks()")
+    public void beforeRunBeforeHooks(JoinPoint joinPoint) {
+        Set<Tag> tags = (Set<Tag>)joinPoint.getArgs()[1];
+        List<String> list = new ArrayList<String>();
+        tags.stream().forEach(a->list.add(a.getName()));
+        EventBusContainer.getEventBus().post(new TagsEvent(list));
+    }
+
     @Before("runFeature()")
     public void beforeRunFeature(JoinPoint joinPoint) {
+        if (System.getProperties().stringPropertyNames().contains("hubUrl")
+                && System.getProperty("hubUrl").contains("perfectomobile")) {
+            EventBusContainer.getEventBus().register(new ReportiumLogger());
+        }
         FeatureRunner featureRunner = (FeatureRunner) joinPoint.getTarget();
-        CucumberAspect.featureName.set(featureRunner.getName());
+        ReportiumAspect.featureName.set(featureRunner.getName());
+        EventBusContainer.getEventBus().post(new BeforeFeatureScenario(featureRunner.getName()));
     }
 
     @Before("runScenario()")
     public void beforeRunScenario(JoinPoint joinPoint) {
         ExecutionUnitRunner executionUnitRunner = (ExecutionUnitRunner) joinPoint.getTarget();
-        CucumberAspect.scenarioName.set(executionUnitRunner.getName());
+        ReportiumAspect.scenarioName.set(executionUnitRunner.getName());
+        EventBusContainer.getEventBus().post(new BeforeScenarioEvent(executionUnitRunner.getName(), executionUnitRunner.getDescription().toString()));
     }
 
     @Before("buildBackendWorlds() && args(reporter,..)")
     public void beforeBuildBackendWorlds(Reporter reporter) {
-        CucumberAspect.reporter.set(reporter);
+        ReportiumAspect.reporter.set(reporter);
     }
 
     @After("buildBackendWorlds()")
     public void afterBuildBackendWorlds() {
-        CucumberAspect.results.set(new ArrayList<>());
+        ReportiumAspect.results.set(new ArrayList<>());
     }
 
     @After("addStepToCounterAndResult() && args(result,..)")
     public void afterAddStepToCounterAndResult(Result result) {
-        CucumberAspect.results.get().add(result);
-        EventBusContainer.getEventBus().post(new StepFinishedEvent(result, reporter.get()));
+        ReportiumAspect.results.get().add(result);
+        EventBusContainer.getEventBus().post(new StepFinishedEvent(result, reporter.get(), result.getErrorMessage(), result.getError()));
+    }
+
+    @After("addHookToCounterAndResult() && args(result,..)")
+    public void afterAddHookToCounterAndResult(Result result) {
+        EventBusContainer.getEventBus().post(new BeforeHooksFinishedEvent(result, result.getErrorMessage(), result.getError()));
     }
 
     @After("runAfterHooks()")
@@ -133,7 +168,12 @@ public class CucumberAspect {
 
     @After("disposeBackendWorlds()")
     public void afterDisposeBackendWorlds() {
-        EventBusContainer.getEventBus().post(new ScenarioFinishedEvent(CucumberAspect.results.get()));
+        EventBusContainer.getEventBus().post(new ScenarioFinishedEvent(ReportiumAspect.results.get()));
+    }
+
+    @Before("runStep()")
+    public void beforeRunStep(JoinPoint joinPoint) {
+        EventBusContainer.getEventBus().post(new AfterStepEvent(((Step)joinPoint.getArgs()[1]).getName()));
     }
 
     @After("runCucumber()")

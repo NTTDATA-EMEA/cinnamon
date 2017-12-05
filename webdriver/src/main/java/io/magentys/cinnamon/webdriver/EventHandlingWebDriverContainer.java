@@ -38,7 +38,6 @@ public class EventHandlingWebDriverContainer implements WebDriverContainer {
                 addEventHandler(new TrackWindows(this));
                 addEventHandler(new CloseExtraWindows(this));
             }
-
             addEventHandler(new AttachScreenshot(this));
             addEventHandler(new QuitBrowserSession(this));
             registerEventHandlers();

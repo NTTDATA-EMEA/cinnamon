@@ -2,7 +2,7 @@ package io.magentys.cinnamon.webdriver.events.handlers;
 
 import com.google.common.eventbus.Subscribe;
 import io.magentys.cinnamon.events.TestCaseFinishedEvent;
-import io.magentys.cinnamon.events.TestSuiteFinishedEvent;
+import io.magentys.cinnamon.events.TestRunnerFinishedEvent;
 import io.magentys.cinnamon.webdriver.WebDriverContainer;
 
 public class QuitBrowserSession {
@@ -21,7 +21,7 @@ public class QuitBrowserSession {
     }
 
     @Subscribe
-    public void handleEvent(final TestSuiteFinishedEvent event) {
+    public void handleEvent(final TestRunnerFinishedEvent event) {
         webDriverContainer.quitWebDriver();
     }
 }

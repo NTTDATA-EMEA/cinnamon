@@ -20,6 +20,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <maven.build.timestamp.format>yyyy-MM-dd-HHmm</maven.build.timestamp.format>
+        <reportium-sdk.version>1.0.0</reportium-sdk.version>
     </properties>
 
     <licenses>
@@ -277,6 +278,12 @@
             </dependency>
 
             <dependency>
+                <groupId>io.magentys</groupId>
+                <artifactId>reportium-support</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+            <dependency>
                 <groupId>org.scala-lang</groupId>
                 <artifactId>scala-library</artifactId>
                 <version>2.11.7</version>
@@ -310,6 +317,12 @@
             <dependency>
                 <groupId>org.seleniumhq.selenium</groupId>
                 <artifactId>selenium-server</artifactId>
+                <version>${selenium.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.openqa.selenium</groupId>
+                <artifactId>selenium-remote-driver</artifactId>
                 <version>${selenium.version}</version>
             </dependency>
 
@@ -474,6 +487,12 @@
                 <artifactId>java-client</artifactId>
                 <version>5.0.0-BETA9</version>
             </dependency>
+
+            <dependency>
+                <groupId>com.perfecto.reporting-sdk</groupId>
+                <artifactId>reportium-java</artifactId>
+                <version>${reportium-sdk.version}</version>
+            </dependency>
         </dependencies>
     </dependencyManagement>
 
@@ -488,6 +507,7 @@
         <module>vendor-browserstack</module>
         <module>vendor-perfecto</module>
         <module>cucumber</module>
+        <module>reportium</module>
     </modules>
 
     <profiles>

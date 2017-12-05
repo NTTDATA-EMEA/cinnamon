@@ -1,6 +1,11 @@
 package io.magentys.cinnamon.events;
 
-public interface TestStepFinishedEvent extends StatusEvent, AttachmentEvent {
+public interface BeforeHookEvent {
+
+    boolean isFailed();
+
+    String getStatus();
+
     String getErrorMessage();
 
     Throwable getError();

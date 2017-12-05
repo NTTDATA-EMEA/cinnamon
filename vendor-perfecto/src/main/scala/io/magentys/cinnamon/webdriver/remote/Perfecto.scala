@@ -1,6 +1,9 @@
 package io.magentys.cinnamon.webdriver.remote
 
+import com.google.common.eventbus.Subscribe
+import com.perfecto.reportium.client.ReportiumClient
 import com.typesafe.config.Config
+import io.magentys.cinnamon.events.TestStepFinishedEvent
 import org.openqa.selenium.remote.DesiredCapabilities
 
 class Perfecto extends CinnamonRemote {

@@ -2,9 +2,7 @@ package io.magentys.cinnamon.webdriver.events;
 
 import io.magentys.cinnamon.eventbus.EventBusContainer;
 import org.aspectj.lang.JoinPoint;
-import org.aspectj.lang.annotation.Aspect;
-import org.aspectj.lang.annotation.Before;
-import org.aspectj.lang.annotation.Pointcut;
+import org.aspectj.lang.annotation.*;
 
 @Aspect
 public class EventAspect {

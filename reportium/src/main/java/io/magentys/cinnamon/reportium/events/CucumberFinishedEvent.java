@@ -1,4 +1,4 @@
-package io.magentys.cinnamon.cucumber.events;
+package io.magentys.cinnamon.reportium.events;
 
 import io.magentys.cinnamon.events.TestRunnerFinishedEvent;
 

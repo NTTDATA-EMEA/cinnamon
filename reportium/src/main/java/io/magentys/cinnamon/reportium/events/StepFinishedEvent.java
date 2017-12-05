@@ -1,19 +1,29 @@
-package io.magentys.cinnamon.cucumber.events;
+package io.magentys.cinnamon.reportium.events;
 
 import gherkin.formatter.Reporter;
 import gherkin.formatter.model.Result;
-import gherkin.formatter.model.Step;
 import io.magentys.cinnamon.events.Attachment;
-import io.magentys.cinnamon.events.TestStepFinishedCucumberEvent;
 import io.magentys.cinnamon.events.TestStepFinishedEvent;
 
-public class StepFinishedEvent implements TestStepFinishedCucumberEvent {
+public class StepFinishedEvent implements TestStepFinishedEvent {
     private final Result result;
     private final Reporter reporter;
+    private final String errorMessage;
+    private final Throwable error;
 
-    public StepFinishedEvent(final Result result, final Reporter reporter) {
+    public StepFinishedEvent(final Result result, final Reporter reporter, final String errorMessage, final Throwable error) {
         this.result = result;
         this.reporter = reporter;
+        this.error = error;
+        this.errorMessage = errorMessage;
+    }
+
+    public String getErrorMessage() {
+        return this.errorMessage;
+    }
+
+    public Throwable getError() {
+        return this.error;
     }
 
     @Override
