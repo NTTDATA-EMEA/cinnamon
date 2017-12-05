@@ -112,11 +112,6 @@
             <artifactId>mockito-core</artifactId>
         </dependency>
 
-        <dependency>
-            <groupId>io.magentys</groupId>
-            <artifactId>cinnamon-vendor-perfecto</artifactId>
-        </dependency>
-
     </dependencies>
 
     <repositories>

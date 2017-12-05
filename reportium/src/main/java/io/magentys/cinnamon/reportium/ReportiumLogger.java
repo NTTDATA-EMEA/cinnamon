@@ -8,7 +8,6 @@ import com.perfecto.reportium.model.Project;
 import com.perfecto.reportium.test.TestContext;
 import com.perfecto.reportium.test.result.TestResultFactory;
 import io.magentys.cinnamon.events.*;
-import io.magentys.cinnamon.webdriver.WebDriverContainer;
 import io.magentys.cinnamon.webdriver.events.AfterConstructorEvent;
 import org.openqa.selenium.WebDriver;
 
@@ -27,7 +26,7 @@ public class ReportiumLogger {
     @Subscribe
     public void handleEvent(AfterConstructorEvent event) {
         if (reportiumClient == null) {
-        reportiumClient = createRemoteReportiumClient(WebDriverContainer.getWebDriverContainer().getWebDriver());
+            reportiumClient = createRemoteReportiumClient(event.getThis());
         String[] tagsArray = tags.toArray(new String[tags.size()]);
         reportiumClient.testStart(featureName + "-" +scenarioName, new TestContext(tagsArray));
         }

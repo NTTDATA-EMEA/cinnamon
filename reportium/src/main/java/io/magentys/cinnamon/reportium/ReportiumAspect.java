@@ -2,11 +2,9 @@ package io.magentys.cinnamon.reportium;
 
 import io.magentys.cinnamon.eventbus.EventBusContainer;
 import io.magentys.cinnamon.reportium.events.*;
+import io.magentys.cinnamon.webdriver.events.AfterConstructorEvent;
 import org.aspectj.lang.JoinPoint;
-import org.aspectj.lang.annotation.After;
-import org.aspectj.lang.annotation.Aspect;
-import org.aspectj.lang.annotation.Before;
-import org.aspectj.lang.annotation.Pointcut;
+import org.aspectj.lang.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,6 +17,7 @@ import gherkin.formatter.Reporter;
 import gherkin.formatter.model.Result;
 import gherkin.formatter.model.Step;
 import gherkin.formatter.model.Tag;
+import org.openqa.selenium.WebDriver;
 
 @Aspect
 public class ReportiumAspect {
@@ -27,7 +26,6 @@ public class ReportiumAspect {
     private static final ThreadLocal<String> scenarioName = new ThreadLocal<>();
     private static final ThreadLocal<Reporter> reporter = new ThreadLocal<>();
     private static final ThreadLocal<List<Result>> results = new ThreadLocal<>();
-    private static final ThreadLocal<Step> stepName = new ThreadLocal<>();
 
     /**
      * Pointcut for <code>cucumber.api.junit.Cucumber.run</code> method.
@@ -50,7 +48,7 @@ public class ReportiumAspect {
      */
     @Pointcut("execution(public * cucumber.runtime.junit.ExecutionUnitRunner.run(..))")
     public void runScenario() {
-        // pointcut body must be empty
+         // pointcut body must be empty
     }
 
     /**
@@ -106,6 +104,16 @@ public class ReportiumAspect {
         // pointcut body must be empty
     }
 
+    @Pointcut("execution(org.openqa.selenium.remote.RemoteWebDriver.new(..))")
+    public void constructor() {
+        // pointcut body must be empty
+    }
+
+    @AfterReturning("constructor()")
+    public void afterReturningFromConstructor(JoinPoint joinPoint) {
+        EventBusContainer.getEventBus().post(new AfterConstructorEvent((WebDriver) joinPoint.getThis()));
+    }
+
     @Before("runBeforeHooks()")
     public void beforeRunBeforeHooks(JoinPoint joinPoint) {
         Set<Tag> tags = (Set<Tag>)joinPoint.getArgs()[1];
@@ -116,8 +124,9 @@ public class ReportiumAspect {
 
     @Before("runFeature()")
     public void beforeRunFeature(JoinPoint joinPoint) {
-        if (System.getProperties().stringPropertyNames().contains("hubUrl") && System.getProperty("hubUrl").contains("perfectomobile")) {
-        EventBusContainer.getEventBus().register(new ReportiumLogger());
+        if (System.getProperties().stringPropertyNames().contains("hubUrl")
+                && System.getProperty("hubUrl").contains("perfectomobile")) {
+            EventBusContainer.getEventBus().register(new ReportiumLogger());
         }
         FeatureRunner featureRunner = (FeatureRunner) joinPoint.getTarget();
         ReportiumAspect.featureName.set(featureRunner.getName());

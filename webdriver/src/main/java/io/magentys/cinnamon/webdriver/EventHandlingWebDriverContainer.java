@@ -1,6 +1,5 @@
 package io.magentys.cinnamon.webdriver;
 
-import com.perfecto.reportium.client.ReportiumClient;
 import io.magentys.cinnamon.eventbus.EventBusContainer;
 import io.magentys.cinnamon.events.Attachment;
 import io.magentys.cinnamon.webdriver.config.CinnamonWebDriverConfig;
@@ -28,7 +27,6 @@ public class EventHandlingWebDriverContainer implements WebDriverContainer {
     private static final ThreadLocal<WebDriver> driver = new ThreadLocal<>();
     private static final ThreadLocal<WindowTracker> tracker = new ThreadLocal<>();
     private final List<Object> eventHandlers = Collections.synchronizedList((new ArrayList<>()));
-    protected static ReportiumClient reportiumClient;
 
     @Override
     public WebDriver getWebDriver() {
