@@ -76,7 +76,7 @@ public class Env {
             return systemConfig.withFallback(ConfigFactory.parseFile(envConfig)).resolve().getConfig(env);
         }
         else {
-            throw new Error("The file [" + envConfig.getAbsolutePath() + "] is not an environment config file.");
+            throw new Error("Unsupported configuration format : [" + envConfig.getAbsolutePath() + "].");
         }
     }
 
