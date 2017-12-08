@@ -1,23 +1,16 @@
-{
-  "default": {
-    "local-pages-url": "http://localhost:18080", 
-    "db": {
-      "url": "some/url", 
-      "username": "${?dbUsername}", 
-      "password": "${?dbPassword}"
-    }, 
-    "google-url": "http://www.google.co.uk/"
-  }, 
-  "bamboo": {
-    "local-pages-url": "https://london.magentys.io/testing-resources", 
-    "google-url": "http://www.google.co.uk/"
-  }, 
-  "st": {
-    "local-pages-url": "http://localhost:18080", 
-    "google-url": "http://www.google.co.uk/"
-  }, 
-  "sit": {
-    "local-pages-url": "http://localhost:18080", 
-    "google-url": "http://www.google.co.uk/"
-  }
-}
+default:
+  local-pages-url: http://localhost:18080
+  db:
+    url: some/url
+    username: "${?dbUsername}"
+    password: "${?dbPassword}"
+  google-url: http://www.google.co.uk/
+bamboo:
+  local-pages-url: https://london.magentys.io/testing-resources
+  google-url: http://www.google.co.uk/
+st:
+  local-pages-url: http://localhost:18080
+  google-url: http://www.google.co.uk/
+sit:
+  local-pages-url: http://localhost:18080
+  google-url: http://www.google.co.uk/
