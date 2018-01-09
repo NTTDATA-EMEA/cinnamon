@@ -59,8 +59,6 @@ public class Env {
             try {
                 config = initConfig();
 
-            } catch (NullPointerException e) {
-                throw new RuntimeException("No environment profile found for parameter : '" + env + "'!" );
             } catch (Exception e) {
                 e.printStackTrace();
             }
