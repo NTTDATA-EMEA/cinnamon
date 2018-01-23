@@ -17,6 +17,7 @@ import scala.Option;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 public class EventHandlingWebDriverContainer implements WebDriverContainer {
@@ -31,10 +32,14 @@ public class EventHandlingWebDriverContainer implements WebDriverContainer {
     public WebDriver getWebDriver() {
         if (driver.get() == null) {
             driver.set(createDriver());
-            tracker.set(createWindowTracker());
+            Optional<Object> app = Optional.ofNullable(cinnamonWebDriverConfig.driverConfig().desiredCapabilities().getCapability("app"));
+            if (!app.isPresent()) {
+                tracker.set(createWindowTracker());
+                addEventHandler(new TrackWindows(this));
+                addEventHandler(new CloseExtraWindows(this));
+            }
+
             addEventHandler(new AttachScreenshot(this));
-            addEventHandler(new TrackWindows(this));
-            addEventHandler(new CloseExtraWindows(this));
             addEventHandler(new QuitBrowserSession(this));
             registerEventHandlers();
         }
