@@ -11,8 +11,6 @@ tooling such as WebDriver. You can mix and match various [modules](https://githu
 As a company, we have faced many challenges with tooling across many clients in various sectors. Cinnamon incorporates our [solutions](https://github.com/MagenTys/cinnamon/wiki/What-does-it-solve%3F)
 to these challenges, which means that you don’t have to invest time in solving them yourself.
 
-Have a look at our full documentation found at:           
-[http://cinnamonframe.work](http://cinnamonframe.work).
 
 ## Road map
 
