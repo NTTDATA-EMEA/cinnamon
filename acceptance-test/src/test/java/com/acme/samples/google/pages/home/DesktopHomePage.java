@@ -2,6 +2,7 @@ package com.acme.samples.google.pages.home;
 
 import com.acme.samples.google.context.GoogleContext;
 import io.magentys.cinnamon.conf.Env;
+import org.openqa.selenium.Keys;
 
 import javax.inject.Inject;
 
@@ -22,7 +23,7 @@ public class DesktopHomePage extends AbstractHomePage {
     @Override
     public void enterSearchTerm(final String searchTerm) {
         // Enter the search term.
-        searchInput.waitUntil(clickable.and(positionUnchanged(500))).replaceText(searchTerm);
+        searchInput.waitUntil(clickable.and(positionUnchanged(500))).replaceText(searchTerm).sendKeys(Keys.ENTER);
         context.setSearchFilter(searchTerm);
     }
 }

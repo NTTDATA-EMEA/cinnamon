@@ -1,6 +1,6 @@
 package io.magentys.cinnamon.webdriver.remote
 
-import com.typesafe.config.{Config, ConfigFactory, ConfigObject}
+import com.typesafe.config._
 import org.openqa.selenium.remote.DesiredCapabilities
 
 import scala.collection.JavaConverters._
@@ -22,7 +22,10 @@ trait CinnamonRemote {
 
   def capabilities(browserProfile: String, config: Config): DesiredCapabilities = {
 
-    val defaultConfig = ConfigFactory.load(name + DEFAULTS_SUFFIX).getConfig(name)
+    val defaultConfig = {
+      ConfigFactory.invalidateCaches()
+      ConfigFactory.load(name + DEFAULTS_SUFFIX).getConfig(name)
+    }
     val userGlobalConfig = Try(config.getConfig(name)).toOption
     val userProfileConfig = Try(config.getConfig(CAPABILITIES_PROFILES_KEY + "." + browserProfile + "." + name)).toOption
 
@@ -37,7 +40,6 @@ trait CinnamonRemote {
         defaultConfig
       }
     }
-
 
     val capsMap: Map[String, AnyRef] = allConfig.entrySet.asScala.map(f => (f.getKey, f.getValue.unwrapped())).toMap
     new DesiredCapabilities(capsMap.asJava)
