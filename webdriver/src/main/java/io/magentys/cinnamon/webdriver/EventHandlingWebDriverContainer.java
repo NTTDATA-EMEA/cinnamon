@@ -17,7 +17,7 @@ import scala.Option;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.stream.Collectors;
+import java.util.Optional;
 
 public class EventHandlingWebDriverContainer implements WebDriverContainer {
 
@@ -31,10 +31,15 @@ public class EventHandlingWebDriverContainer implements WebDriverContainer {
     public WebDriver getWebDriver() {
         if (driver.get() == null) {
             driver.set(createDriver());
-            tracker.set(createWindowTracker());
+
+            Optional<Object> app = Optional.ofNullable(cinnamonWebDriverConfig.driverConfig().desiredCapabilities().getCapability("app"));
+            if (!app.isPresent()) {
+                tracker.set(createWindowTracker());
+                addEventHandler(new TrackWindows(this));
+                addEventHandler(new CloseExtraWindows(this));
+            }
+
             addEventHandler(new AttachScreenshot(this));
-            addEventHandler(new TrackWindows(this));
-            addEventHandler(new CloseExtraWindows(this));
             addEventHandler(new QuitBrowserSession(this));
             registerEventHandlers();
         }
@@ -64,7 +69,7 @@ public class EventHandlingWebDriverContainer implements WebDriverContainer {
 
     @Override
     public void closeExtraWindows() {
-        List<String> windowHandles = driver.get().getWindowHandles().stream().collect(Collectors.toList());
+        List<String> windowHandles = new ArrayList<>(driver.get().getWindowHandles());
         windowHandles.stream().skip(1).forEach(h -> driver.get().switchTo().window(h).close());
         driver.get().switchTo().window(windowHandles.get(0));
         tracker.get().setCount(1);
@@ -88,7 +93,7 @@ public class EventHandlingWebDriverContainer implements WebDriverContainer {
         Option<String> remoteUrl = Option.apply(cinnamonWebDriverConfig.hubUrl());
         return WebDriverFactory.apply()
                 .getDriver(cinnamonWebDriverConfig.driverConfig().desiredCapabilities(), remoteUrl, cinnamonWebDriverConfig.driverConfig().exePath(),
-                        cinnamonWebDriverConfig.driverConfig().binaryConfig());
+                        cinnamonWebDriverConfig.driverConfig().driverBinary());
     }
 
     private WindowTracker createWindowTracker() {

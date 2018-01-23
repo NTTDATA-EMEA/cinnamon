@@ -130,7 +130,7 @@ public final class Browser {
         }
     }
 
-    private static WebDriver getWebDriver() {
+    public static WebDriver getWebDriver() {
         return getWebDriverContainer().getWebDriver();
     }
 

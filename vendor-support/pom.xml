@@ -19,6 +19,11 @@
             <plugin>
                 <groupId>org.scalatest</groupId>
                 <artifactId>scalatest-maven-plugin</artifactId>
+                <configuration>
+                    <suites>
+                        io.magentys.cinnamon.webdriver.remote.CinnamonRemoteSpec
+                    </suites>
+                </configuration>
             </plugin>
         </plugins>
     </build>
