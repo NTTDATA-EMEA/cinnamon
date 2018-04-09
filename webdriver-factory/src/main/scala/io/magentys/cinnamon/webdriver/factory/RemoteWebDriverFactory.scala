@@ -11,7 +11,7 @@ object RemoteWebDriverFactory {
   def getRemoteDriver(capabilities: DesiredCapabilities, hubUrl: Option[String]): RemoteWebDriver = {
 
     if (capabilities.getCapability("platformName").equals("Android")) {
-      return new AndroidDriver(new URL(hubUrl.get), capabilities).asInstanceOf[RemoteWebDriver]
+      return new AndroidDriver(new URL(hubUrl.get), capabilities)
     }
 
     if (capabilities.getCapability("platformName").equals("iOS")) {
