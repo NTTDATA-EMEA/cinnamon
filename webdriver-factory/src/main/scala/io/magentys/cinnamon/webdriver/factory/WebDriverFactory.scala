@@ -1,8 +1,10 @@
 package io.magentys.cinnamon.webdriver.factory
 
-import java.net.URL
 import java.nio.file.{Files, Paths}
+import java.net.URL
 
+import io.appium.java_client.android.AndroidDriver
+import io.appium.java_client.ios.IOSDriver
 import io.github.bonigarcia.wdm.{BrowserManager, WebDriverManager}
 import io.magentys.cinnamon.webdriver.capabilities.DriverBinary
 import org.openqa.selenium.remote.{DesiredCapabilities, RemoteWebDriver}
@@ -28,9 +30,8 @@ class WebDriverFactory(factory: WebDriverManagerFactory) {
     */
   def getDriver(capabilities: DesiredCapabilities, hubUrl: Option[String], exePath: Option[String], driverBinary: Option[DriverBinary]): WebDriver = {
 
-    // If a hub url has been passed in then ignore WDM and return an instance of RemoteWebDriver.
     if (hubUrl.isDefined && !hubUrl.get.isEmpty) {
-      return new RemoteWebDriver(new URL(hubUrl.get), capabilities)
+      return getRemoteDriver(capabilities, hubUrl)
     }
 
     val driverClass = DriverRegistry.getDriverClass(capabilities) match {
@@ -49,6 +50,15 @@ class WebDriverFactory(factory: WebDriverManagerFactory) {
     }
     driverClass.getDeclaredConstructor(classOf[Capabilities]).newInstance(capabilities)
   }
+
+  def getRemoteDriver(capabilities: DesiredCapabilities, hubUrl: Option[String]): RemoteWebDriver = {
+    capabilities.getCapability("platformName") match {
+      case "Android" => new AndroidDriver(new URL(hubUrl.get), capabilities)
+      case "iOS" => new IOSDriver(new URL(hubUrl.get), capabilities)
+      case _ => new RemoteWebDriver(new URL(hubUrl.get), capabilities)
+    }
+  }
+
 }
 
 object WebDriverFactory {
