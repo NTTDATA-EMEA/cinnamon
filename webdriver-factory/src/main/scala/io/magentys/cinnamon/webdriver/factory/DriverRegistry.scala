@@ -55,16 +55,16 @@ object DriverRegistry {
     Try(Class.forName(driverClassNames.head).asSubclass(classOf[WebDriver])).toOption
   }
 
-  def registerDriverClass(driverClass: String, capabilitiesMatcher: java.util.Map[String, Any]) {
-    require(!driverClassToCapabilities.contains(driverClass), s"The driver class has already been registered.")
-    driverClassToCapabilities += (driverClass -> capabilitiesMatcher)
-  }
-
   def getRemoteDriverClass(capabilities: DesiredCapabilities): Option[Class[_ <: RemoteWebDriver]] = {
     capabilities.getCapability("platformName") match {
       case "Android" => Try(Class.forName("io.appium.java_client.android.AndroidDriver").asSubclass(classOf[RemoteWebDriver])).toOption
       case "iOS" => Try(Class.forName("io.appium.java_client.android.IOSDriver").asSubclass(classOf[RemoteWebDriver])).toOption
       case _ => Try(Class.forName("org.openqa.selenium.remote.RemoteWebDriver").asSubclass(classOf[RemoteWebDriver])).toOption
     }
+  }
+
+  def registerDriverClass(driverClass: String, capabilitiesMatcher: java.util.Map[String, Any]) {
+    require(!driverClassToCapabilities.contains(driverClass), s"The driver class has already been registered.")
+    driverClassToCapabilities += (driverClass -> capabilitiesMatcher)
   }
 }
