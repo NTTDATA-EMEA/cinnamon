@@ -68,3 +68,4 @@ class WebDriverFactorySpec extends FunSpec with MockitoSugar with Matchers with 
     }
   }
 }
+
