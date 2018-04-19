@@ -1,10 +1,13 @@
 package io.magentys.cinnamon.webdriver.factory
 
+import java.net.URL
 import java.util
 
+import io.appium.java_client.android.AndroidDriver
+import io.appium.java_client.ios.IOSDriver
 import io.appium.java_client.remote.{MobileCapabilityType, MobilePlatform}
 import org.openqa.selenium.WebDriver
-import org.openqa.selenium.remote.{BrowserType, CapabilityType, DesiredCapabilities}
+import org.openqa.selenium.remote.{BrowserType, CapabilityType, DesiredCapabilities, RemoteWebDriver}
 
 import scala.collection.mutable
 import scala.util.Try
@@ -55,5 +58,13 @@ object DriverRegistry {
   def registerDriverClass(driverClass: String, capabilitiesMatcher: java.util.Map[String, Any]) {
     require(!driverClassToCapabilities.contains(driverClass), s"The driver class has already been registered.")
     driverClassToCapabilities += (driverClass -> capabilitiesMatcher)
+  }
+
+  def getRemoteDriverClass(capabilities: DesiredCapabilities): Option[Class[_ <: RemoteWebDriver]] = {
+    capabilities.getCapability("platformName") match {
+      case "Android" => Try(Class.forName("io.appium.java_client.android.AndroidDriver").asSubclass(classOf[RemoteWebDriver])).toOption
+      case "iOS" => Try(Class.forName("io.appium.java_client.android.IOSDriver").asSubclass(classOf[RemoteWebDriver])).toOption
+      case _ => Try(Class.forName("org.openqa.selenium.remote.RemoteWebDriver").asSubclass(classOf[RemoteWebDriver])).toOption
+    }
   }
 }
