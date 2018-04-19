@@ -33,7 +33,7 @@ class WebDriverFactory(factory: WebDriverManagerFactory) {
         case Some(clazz) => clazz
         case None => throw new Exception("Cannot find the remote driver class in the driver registry.")
       }
-      return remoteDriverClass.getDeclaredConstructor(classOf[URL], classOf[Capabilities]).newInstance(hubUrl.get, capabilities)
+      return remoteDriverClass.getDeclaredConstructor(classOf[URL], classOf[Capabilities]).newInstance(new URL(hubUrl.get), capabilities)
     }
 
     val driverClass = DriverRegistry.getDriverClass(capabilities) match {
