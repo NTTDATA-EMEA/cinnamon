@@ -30,8 +30,23 @@ class WebDriverFactory(factory: WebDriverManagerFactory) {
     */
   def getDriver(capabilities: DesiredCapabilities, hubUrl: Option[String], exePath: Option[String], driverBinary: Option[DriverBinary]): WebDriver = {
 
+//    if (hubUrl.isDefined && !hubUrl.get.isEmpty) {
+//      return getRemoteDriver(capabilities, hubUrl)
+//    }
+
     if (hubUrl.isDefined && !hubUrl.get.isEmpty) {
-      return getRemoteDriver(capabilities, hubUrl)
+
+      System.out.println(DriverRegistry.getRemoteDriverClass(capabilities))
+
+      val remoteDriverClass = DriverRegistry.getRemoteDriverClass(capabilities) match {
+        case Some(clazz) => clazz
+        case None => throw new Exception("Cannot find the driver class in the driver registry.")
+      }
+
+      System.out.println(capabilities)
+      System.out.println(remoteDriverClass)
+
+      remoteDriverClass.getDeclaredConstructor(classOf[URL], classOf[Capabilities]).newInstance(hubUrl.get, capabilities)
     }
 
     val driverClass = DriverRegistry.getDriverClass(capabilities) match {
@@ -51,13 +66,13 @@ class WebDriverFactory(factory: WebDriverManagerFactory) {
     driverClass.getDeclaredConstructor(classOf[Capabilities]).newInstance(capabilities)
   }
 
-  def getRemoteDriver(capabilities: DesiredCapabilities, hubUrl: Option[String]): RemoteWebDriver = {
-    capabilities.getCapability("platformName") match {
-      case "Android" => new AndroidDriver(new URL(hubUrl.get), capabilities)
-      case "iOS" => new IOSDriver(new URL(hubUrl.get), capabilities)
-      case _ => new RemoteWebDriver(new URL(hubUrl.get), capabilities)
-    }
-  }
+//  def getRemoteDriver(capabilities: DesiredCapabilities, hubUrl: Option[String]): RemoteWebDriver = {
+//    capabilities.getCapability("platformName") match {
+//      case "Android" => new AndroidDriver(new URL(hubUrl.get), capabilities)
+//      case "iOS" => new IOSDriver(new URL(hubUrl.get), capabilities)
+//      case _ => new RemoteWebDriver(new URL(hubUrl.get), capabilities)
+//    }
+//  }
 
 }
 
