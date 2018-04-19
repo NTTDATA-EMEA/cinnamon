@@ -1,17 +1,10 @@
 package io.magentys.cinnamon.webdriver.factory
 
-import com.github.tomakehurst.wiremock.WireMockServer
-import com.github.tomakehurst.wiremock.client.WireMock
-import com.github.tomakehurst.wiremock.client.WireMock.post
-import com.github.tomakehurst.wiremock.client.WireMock.stubFor
-import com.github.tomakehurst.wiremock.client.WireMock.urlMatching
-import com.github.tomakehurst.wiremock.client.WireMock.aResponse
-import com.github.tomakehurst.wiremock.core.WireMockConfiguration._
-import io.github.bonigarcia.wdm.{Architecture, BrowserManager, WebDriverManager}
+import io.github.bonigarcia.wdm.{Architecture, BrowserManager}
 import io.magentys.cinnamon.webdriver.capabilities.DriverBinary
 import org.mockito.Matchers._
 import org.mockito.Mockito._
-import org.openqa.selenium.remote.{DesiredCapabilities, RemoteWebDriver}
+import org.openqa.selenium.remote.DesiredCapabilities
 import org.openqa.selenium.{Platform, WebDriver}
 import org.scalatest.mock.MockitoSugar
 import org.scalatest.{BeforeAndAfterEach, FunSpec, Matchers}
@@ -23,14 +16,7 @@ class WebDriverFactorySpec extends FunSpec with MockitoSugar with Matchers with 
   var webDriverFactory: WebDriverFactory = _
   val capabilities = DesiredCapabilities.htmlUnit
 
-  val Port = 8080
-  val Host = "localhost"
-  val wireMockServer = new WireMockServer(wireMockConfig().port(Port))
-
   override protected def beforeEach(): Unit = {
-    wireMockServer.start()
-    WireMock.configureFor(Host, Port)
-
     factoryMock = mock[WebDriverManagerFactory]
     browserManagerMock = mock[BrowserManager]
 
@@ -40,10 +26,6 @@ class WebDriverFactorySpec extends FunSpec with MockitoSugar with Matchers with 
     when(browserManagerMock.version(any[String])).thenReturn(browserManagerMock)
 
     webDriverFactory = new WebDriverFactory(factoryMock)
-  }
-
-  override def afterEach {
-    wireMockServer.stop()
   }
 
   describe("WebDriverFactory") {
@@ -82,14 +64,6 @@ class WebDriverFactorySpec extends FunSpec with MockitoSugar with Matchers with 
       it("does not use WebDriverManager if exePath exists") {
         webDriverFactory.getDriver(capabilities, None, Some("."), None)
         verify(factoryMock, never()).driverManagerClass(any())
-      }
-
-      it("checks whether the right appium driver is returned when trying remote") {
-        stubFor(post(urlMatching("/registration")).willReturn(aResponse().withStatus(200)))
-
-//        val driver = webDriverFactory.getRemoteDriver(DesiredCapabilities.chrome(), Option("http://"+Host+":"+Port+"/registrationŸ"))
-
-//        verify(driver.getClass).equals("RemoteWebDriver")
       }
     }
   }
