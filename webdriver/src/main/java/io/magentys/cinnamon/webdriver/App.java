@@ -7,25 +7,22 @@ public final class App {
     /**
      * Appium function - will close the running app
      */
-    public static void closeApp() {
-        AppiumDriver driver = getAppiumDriver();
-        driver.closeApp();
+    public static void close() {
+        getAppiumDriver().closeApp();
     }
 
     /**
      * Appium function - will start the app provided in the webdriver conf
      */
-    public static void startApp() {
-        AppiumDriver driver = getAppiumDriver();
-        driver.launchApp();
+    public static void start() {
+        getAppiumDriver().launchApp();
     }
 
     /**
      * Appium function - will rest and restart the running app
      */
-    public static void resetApp() {
-        AppiumDriver driver = getAppiumDriver();
-        driver.resetApp();
+    public static void reset() {
+        getAppiumDriver().resetApp();
     }
 
     static AppiumDriver getAppiumDriver() {
