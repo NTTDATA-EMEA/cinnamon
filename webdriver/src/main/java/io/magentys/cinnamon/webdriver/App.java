@@ -28,7 +28,7 @@ public final class App {
         driver.resetApp();
     }
 
-    private static AppiumDriver getAppiumDriver() {
+    static AppiumDriver getAppiumDriver() {
         return (AppiumDriver) Browser.getWebDriver();
     }
 }
