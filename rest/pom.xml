@@ -5,7 +5,7 @@
     <parent>
         <artifactId>cinnamon</artifactId>
         <groupId>io.magentys</groupId>
-        <version>0.1.2</version>
+        <version>0.1.3-SNAPSHOT</version>
     </parent>
     <artifactId>cinnamon-rest</artifactId>
 
