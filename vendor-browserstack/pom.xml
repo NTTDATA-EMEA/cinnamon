@@ -5,7 +5,7 @@
     <parent>
         <artifactId>cinnamon</artifactId>
         <groupId>io.magentys</groupId>
-        <version>0.1.2-SNAPSHOT</version>
+        <version>0.1.2</version>
     </parent>
     <artifactId>cinnamon-vendor-browserstack</artifactId>
 
