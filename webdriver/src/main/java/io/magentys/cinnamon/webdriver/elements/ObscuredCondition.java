@@ -16,7 +16,8 @@ public class ObscuredCondition extends Condition<WebElement> {
             JavascriptExecutor js = (JavascriptExecutor) unwrapDriver(element);
             return (Boolean) js.executeScript(
                     "var element = document.elementFromPoint(arguments[1], arguments[2]);" + "return element.parentNode !== arguments[0].parentNode",
-                    element, element.getLocation().x, element.getLocation().y);
+                    element, element.getLocation().x + element.getSize().width / 2, element.getLocation().y + element.getSize().height / 2);
+//                    element, element.getLocation().x, element.getLocation().y);
         } catch (NullPointerException | WebDriverException e) {
             return false;
         }
