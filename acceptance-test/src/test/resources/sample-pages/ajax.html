@@ -18,8 +18,10 @@
     (function($){
        $.ajax = function(params) {
            if(params.url == "/magentys"){
+               jQuery.active = 1;
                setTimeout(function() {
-                   params.success('response text');
+                   params.success('Some text response');
+                   jQuery.active = 0;
                }, 5500);
            }
        };
