@@ -2,25 +2,28 @@
 <html>
 <head>
     <title>Test App</title>
-    <script src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
-    <script type="text/javascript" src="jquery.mockjax.js"></script>
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
     <script type="text/javascript">
+
     function clicketyClick() {
-       $.mockjax({
-        url: "/magentys",
-        // Just enough to fail the default timeout
-        responseTime: 5500,
-        responseText: 'Some text response'
-    });
+        $.ajax({
+            type: "GET",
+            url: "/magentys",
+            success: function(data) {
+                $('#latent_text').html(data);
+            }
+        });
+    };
 
-    $.ajax({
-        url: "/magentys"
-    }).done(function (response) {
-        $('#latent_text').html(response);
-        $.mockjaxClear();
-    });
-    }
-
+    (function($){
+       $.ajax = function(params) {
+           if(params.url == "/magentys"){
+               setTimeout(function() {
+                   params.success('response text');
+               }, 5500);
+           }
+       };
+    })(jQuery);
     </script>
 </head>
 <body>
