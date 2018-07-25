@@ -1,7 +1,5 @@
 package io.magentys.cinnamon.webdriver.conditions;
 
-import io.magentys.cinnamon.webdriver.conditions.Condition;
-
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebDriverException;
