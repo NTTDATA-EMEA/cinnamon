@@ -4,7 +4,7 @@
 
     <groupId>io.magentys</groupId>
     <artifactId>cinnamon</artifactId>
-    <version>0.1.3-SNAPSHOT</version>
+    <version>0.1.3</version>
     <packaging>pom</packaging>
 
     <name>cinnamon</name>
@@ -62,7 +62,7 @@
     <scm>
         <developerConnection>scm:git:git@github.com:MagenTys/cinnamon.git</developerConnection>
         <url>https://github.com/MagenTys/cinnamon</url>
-        <tag>HEAD</tag>
+        <tag>cinnamon-0.1.3</tag>
     </scm>
 
     <distributionManagement>
