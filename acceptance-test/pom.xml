@@ -7,7 +7,7 @@
         <groupId>io.magentys</groupId>
         <artifactId>cinnamon</artifactId>
         <relativePath>../pom.xml</relativePath>
-        <version>0.1.3-SNAPSHOT</version>
+        <version>0.1.4-SNAPSHOT</version>
     </parent>
     <artifactId>cinnamon-acceptance-test</artifactId>
 
