@@ -2,8 +2,8 @@ package io.magentys.cinnamon.cucumber;
 
 import cucumber.runtime.junit.ExecutionUnitRunner;
 import cucumber.runtime.junit.FeatureRunner;
-import gherkin.formatter.Reporter;
-import gherkin.formatter.model.Result;
+import cucumber.api.event.EventListener;
+import cucumber.api.Result;
 import io.magentys.cinnamon.cucumber.events.AfterHooksFinishedEvent;
 import io.magentys.cinnamon.cucumber.events.CucumberFinishedEvent;
 import io.magentys.cinnamon.cucumber.events.ScenarioFinishedEvent;
@@ -23,7 +23,7 @@ public class CucumberAspect {
 
     private static final ThreadLocal<String> featureName = new ThreadLocal<>();
     private static final ThreadLocal<String> scenarioName = new ThreadLocal<>();
-    private static final ThreadLocal<Reporter> reporter = new ThreadLocal<>();
+    private static final ThreadLocal<EventListener> reporter = new ThreadLocal<>();
     private static final ThreadLocal<List<Result>> results = new ThreadLocal<>();
 
     /**
@@ -110,9 +110,9 @@ public class CucumberAspect {
         CucumberAspect.scenarioName.set(executionUnitRunner.getName());
     }
 
-    @Before("buildBackendWorlds() && args(reporter,..)")
-    public void beforeBuildBackendWorlds(Reporter reporter) {
-        CucumberAspect.reporter.set(reporter);
+    @Before("buildBackendWorlds() && args(eventListener,..)")
+    public void beforeBuildBackendWorlds(EventListener eventListener) {
+        CucumberAspect.reporter.set(eventListener);
     }
 
     @After("buildBackendWorlds()")

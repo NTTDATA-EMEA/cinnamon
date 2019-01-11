@@ -81,6 +81,12 @@
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
         </dependency>
+        <dependency>
+            <groupId>io.cucumber</groupId>
+            <artifactId>cucumber-core</artifactId>
+            <version>4.0.0</version>
+            <scope>compile</scope>
+        </dependency>
     </dependencies>
 
 </project>
