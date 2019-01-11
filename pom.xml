@@ -319,6 +319,12 @@
             </dependency>
 
             <dependency>
+                <groupId>io.cucumber</groupId>
+                <artifactId>cucumber-core</artifactId>
+                <version>${cucumber.jvm.version}</version>
+            </dependency>
+
+            <dependency>
                 <groupId>com.google.inject</groupId>
                 <artifactId>guice</artifactId>
                 <version>4.0</version>
@@ -346,12 +352,6 @@
                 <groupId>io.cucumber</groupId>
                 <artifactId>cucumber-html</artifactId>
                 <version>0.2.7</version>
-            </dependency>
-
-            <dependency>
-                <groupId>io.cucumber</groupId>
-                <artifactId>gherkin</artifactId>
-                <version>3.2.0</version>
             </dependency>
 
             <dependency>
