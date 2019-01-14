@@ -1,10 +1,15 @@
 package com.acme.samples.local.stepdef;
 
+import com.acme.samples.local.pages.input.DisplayedElement;
+import com.acme.samples.local.pages.table.PivotValue;
+import com.acme.samples.local.pages.table.TranslationTable;
 import io.cucumber.datatable.DataTable;
 import io.magentys.cinnamon.webdriver.elements.Table.RowAdapter;
 import io.magentys.cinnamon.webdriver.elements.TableElement.MatchingCell;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.inject.Inject;
 
@@ -63,27 +68,47 @@ public class TableStepDef {
 
     @Then("^table2 should contain:$")
     public void table_should_contain(final DataTable expected) throws Throwable {
-        expected.diff(page.table2Content());
+        List<TranslationTable> expectedElements = expected.asList(TranslationTable.class);
+
+        List<TranslationTable> actualElements = page.table2Content();
+
+        Assertions.assertThat(actualElements).equals(expectedElements);
     }
 
     @Then("^table \"(.*?)\" should contain:$")
     public void table_should_contain(final String tableId, final DataTable expected) throws Throwable {
-        expected.diff(page.tableContent(tableId));
+        List<TranslationTable> expectedElements = expected.asList(TranslationTable.class);
+
+        List<TranslationTable> actualElements = page.tableContent(tableId);
+
+        Assertions.assertThat(actualElements).equals(expectedElements);
     }
 
     @Then("^pivot table \"(.*?)\" should contain:$")
     public void pivot_table_should_contain(final String tableId, final DataTable expected) throws Throwable {
-        expected.diff(page.pivotContent(tableId));
+        List<PivotValue> expectedElements = expected.asList(PivotValue.class);
+
+        List<PivotValue> actualElements = page.pivotContent(tableId);
+
+        Assertions.assertThat(actualElements).equals(expectedElements);
     }
 
     @Then("^pivot table \"(.*?)\" with colspan of (\\d+) should contain:$")
     public void pivot_table_with_colspan_of_should_contain(final String tableId, final int n, final DataTable expected) throws Throwable {
-        expected.diff(page.pivotContent(tableId, n));
+        List<PivotValue> expectedElements = expected.asList(PivotValue.class);
+
+        List<PivotValue> actualElements = page.pivotContent(tableId, n);
+
+        Assertions.assertThat(actualElements).equals(expectedElements);
     }
 
     @Then("^multicell pivot table \"(.*?)\" with colspan of (\\d+) should contain:$")
     public void multicell_pivot_table_with_colspan_of_should_contain(final String tableId, final int n, final DataTable expected) throws Throwable {
-        expected.diff(page.pivotMulticellContent(tableId, n));
+        List<PivotValue> expectedElements = expected.asList(PivotValue.class);
+
+        List<PivotValue> actualElements = page.pivotMulticellContent(tableId, n);
+
+        Assertions.assertThat(actualElements).equals(expectedElements);
     }
 
     @When("^I choose to adapt \"(.*?)\" using a row adapter$")

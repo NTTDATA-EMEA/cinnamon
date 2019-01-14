@@ -1,5 +1,6 @@
 package com.acme.samples.local.pages.input;
 
+import io.cucumber.datatable.DataTable;
 import io.magentys.cinnamon.webdriver.collections.PageElementCollection;
 import io.magentys.cinnamon.webdriver.elements.PageElement;
 import io.magentys.cinnamon.webdriver.support.FindByKey;
