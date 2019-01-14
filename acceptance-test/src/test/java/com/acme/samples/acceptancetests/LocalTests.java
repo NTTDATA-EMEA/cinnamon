@@ -10,6 +10,6 @@ import cucumber.api.junit.Cucumber;
  */
 @RunWith(Cucumber.class)
 @CucumberOptions(glue = { "cucumber.runtime.junit", "io.jmcore", "com.acme" }, features = "src/test/resources/features",
-        plugin = {"pretty", "json:target/cucumber-json-report.json"}, tags = { "@local", "@complete,@accepted" })
+        plugin = {"pretty", "json:target/cucumber-reports/cucumber.json"}, tags = { "@local", "@complete,@accepted" })
 public class LocalTests {
 }
