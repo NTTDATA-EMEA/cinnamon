@@ -1,5 +1,6 @@
 package com.acme.samples.local.stepdef;
 
+import io.cucumber.datatable.DataTable;
 import io.magentys.cinnamon.webdriver.elements.Table.RowAdapter;
 import io.magentys.cinnamon.webdriver.elements.TableElement.MatchingCell;
 
@@ -15,7 +16,6 @@ import org.openqa.selenium.WebElement;
 import com.acme.samples.local.context.TableContext;
 import com.acme.samples.local.pages.table.TablePage;
 
-import cucumber.api.DataTable;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
