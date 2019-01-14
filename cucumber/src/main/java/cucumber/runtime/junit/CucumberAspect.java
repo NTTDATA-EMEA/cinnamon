@@ -1,7 +1,5 @@
-package io.magentys.cinnamon.cucumber;
+package cucumber.runtime.junit;
 
-import cucumber.runtime.junit.ExecutionUnitRunner;
-import cucumber.runtime.junit.FeatureRunner;
 import cucumber.api.event.EventListener;
 import cucumber.api.Result;
 import io.magentys.cinnamon.cucumber.events.AfterHooksFinishedEvent;
@@ -45,7 +43,7 @@ public class CucumberAspect {
     /**
      * Pointcut for <code>cucumber.runtime.junit.ExecutionUnitRunner.run</code> method.
      */
-    @Pointcut("execution(public * cucumber.runtime.junit.ExecutionUnitRunner.run(..))")
+    @Pointcut("within(cucumber.runtime.junit.PickleRunners.PickleRunner+) && execution(* run(..))")
     public void runScenario() {
         // pointcut body must be empty
     }
@@ -106,8 +104,11 @@ public class CucumberAspect {
 
     @Before("runScenario()")
     public void beforeRunScenario(JoinPoint joinPoint) {
-        ExecutionUnitRunner executionUnitRunner = (ExecutionUnitRunner) joinPoint.getTarget();
-        CucumberAspect.scenarioName.set(executionUnitRunner.getName());
+
+        System.out.println("against all probability i am in my beforeRunScenario hook... tidy.");
+
+        PickleRunners.PickleRunner pickleRunner = (PickleRunners.PickleRunner) joinPoint.getTarget();
+        CucumberAspect.scenarioName.set(pickleRunner.getDescription().getDisplayName());
     }
 
     @Before("buildBackendWorlds() && args(eventListener,..)")
