@@ -104,9 +104,6 @@ public class CucumberAspect {
 
     @Before("runScenario()")
     public void beforeRunScenario(JoinPoint joinPoint) {
-
-        System.out.println("against all probability i am in my beforeRunScenario hook... tidy.");
-
         PickleRunners.PickleRunner pickleRunner = (PickleRunners.PickleRunner) joinPoint.getTarget();
         CucumberAspect.scenarioName.set(pickleRunner.getDescription().getDisplayName());
     }
