@@ -6,6 +6,6 @@ import cucumber.api.CucumberOptions;
 import cucumber.api.junit.Cucumber;
 
 @RunWith(Cucumber.class)
-@CucumberOptions(glue = { "io.jmcore", "com.acme" }, features = "src/test/resources/features", plugin = {"pretty", "json:target/cucumber-json-report.json" }, tags = { "@complete,@accepted,@dev" }, dryRun = true, strict = true)
+@CucumberOptions(glue = { "cucumber.runtime.junit", "io.jmcore", "com.acme" }, features = "src/test/resources/features", plugin = "json:target/cucumber-json-report.json", tags = { "@complete,@accepted,@dev" }, dryRun = true, strict = true)
 public class DryRunTests {
 }

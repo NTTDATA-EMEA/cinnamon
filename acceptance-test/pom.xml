@@ -12,7 +12,7 @@
     <artifactId>cinnamon-acceptance-test</artifactId>
 
     <properties>
-        <cucumber.options>--tags @complete</cucumber.options>
+        <cucumber.options>--tags @complete --plugin json:${project.build.directory}/cucumber-reports/cucumber-junit-report.json</cucumber.options>
         <failsafe.fork.count>4</failsafe.fork.count>
         <env>default</env>
         <jetty.http.port>18080</jetty.http.port>
@@ -80,7 +80,7 @@
                         </goals>
                         <configuration>
                             <!-- Mandatory -->
-                            <glue>io.magentys.cinnamon,com.acme</glue>
+                            <glue>cucumber.runtime.junit,io.magentys.cinnamon,com.acme</glue>
                             <!-- These are the default values -->
                             <outputDirectory>${project.build.directory}/generated-test-sources/cucumber</outputDirectory>
                             <featuresDirectory>src/test/resources/features/</featuresDirectory>

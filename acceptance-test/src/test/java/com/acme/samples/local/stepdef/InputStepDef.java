@@ -1,6 +1,7 @@
 package com.acme.samples.local.stepdef;
 
 import com.acme.samples.local.context.LocalContext;
+import com.acme.samples.local.pages.input.DisplayedElement;
 import com.acme.samples.local.pages.input.InputPage;
 import com.google.common.base.Stopwatch;
 import cucumber.api.java.en.Given;
@@ -13,8 +14,10 @@ import org.junit.Assert;
 import org.openqa.selenium.Keys;
 
 import javax.inject.Inject;
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
 @ScenarioScoped
@@ -102,7 +105,13 @@ public class InputStepDef {
 
     @Then("^the following elements shall be displayed:$")
     public void the_following_elements_shall_be_displayed(final DataTable expected) throws Throwable {
-        expected.unorderedDiff(page.getDisplayedSameLocator());
+        List<DisplayedElement> expectedElements = expected.asList(DisplayedElement.class);
+        Set<DisplayedElement> unorderedExpectedElements = new HashSet<DisplayedElement>(expectedElements);
+
+        List<DisplayedElement> actualElements = page.getDisplayedSameLocator();
+        Set<DisplayedElement> unorderedActualElements = new HashSet<DisplayedElement>(actualElements);
+
+        Assertions.assertThat(unorderedActualElements).equals(unorderedExpectedElements);
     }
 
     @When("^I choose to type \"(.*?)\" from \"(.*?)\" with keystroke delay (\\d+) milliseconds$")
