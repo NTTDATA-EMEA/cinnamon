@@ -9,7 +9,7 @@ import cucumber.api.junit.Cucumber;
  * Convenience runner to execute local tests only. Useful if working offline.
  */
 @RunWith(Cucumber.class)
-@CucumberOptions(glue = { "cucumber.runtime.junit", "io.jmcore", "com.acme" }, features = "src/test/resources/features",
+@CucumberOptions(glue = { "io.jmcore", "com.acme" }, features = "src/test/resources/features",
         plugin = {"pretty", "json:target/cucumber-reports/cucumber.json"}, tags = { "@local", "@complete,@accepted" })
 public class LocalTests {
 }
