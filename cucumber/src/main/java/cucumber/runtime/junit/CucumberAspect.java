@@ -49,10 +49,10 @@ public class CucumberAspect {
     }
 
     /**
-     * Pointcut for <code>cucumber.runtime.Runtime.buildBackendWorlds</code> method.
+     * Pointcut for <code>cucumber.runtime.formatter.Plugins.addPlugin</code> method.
      */
-    @Pointcut("execution(public void cucumber.runtime.Runtime.buildBackendWorlds(..))")
-    public void buildBackendWorlds() {
+    @Pointcut("execution(private * cucumber.runtime.formatter.Plugins.addPlugin(..))")
+    public void addPlugin() {
         // pointcut body must be empty
     }
 
@@ -64,13 +64,13 @@ public class CucumberAspect {
         // pointcut body must be empty
     }
 
-    /**
-     * Pointcut for <code>cucumber.runtime.Runtime.runStep</code> method.
-     */
-    @Pointcut("execution(public void cucumber.runtime.Runtime.runStep(..))")
-    public void runStep() {
-        // pointcut body must be empty
-    }
+//    /**
+//     * Pointcut for <code>cucumber.runtime.Runtime.runStep</code> method.
+//     */
+//    @Pointcut("execution(public void cucumber.runtime.Runtime.runStep(..))")
+//    public void runStep() {
+//        // pointcut body must be empty
+//    }
 
     /**
      * Pointcut for <code>cucumber.runtime.Runtime.addStepToCounterAndResult</code> method.
@@ -114,18 +114,18 @@ public class CucumberAspect {
         CucumberAspect.scenarioName.set(pickleRunner.getDescription().getDisplayName());
     }
 
-    @Before("buildBackendWorlds() && args(eventListener,..)")
-    public void beforeBuildBackendWorlds(EventListener eventListener) {
+    @Before("addPlugin() && args(..,eventListener)")
+    public void beforeAddPlugin(EventListener eventListener) {
 
-        System.out.println("@Before(\"buildBackendWorlds() && args(eventListener,..)\")");
-
+        System.out.println("@Before(\"addPlugin() && args(eventListener,..)\")");
+        System.out.println("---> intercepted eventListener :: " + eventListener);
         CucumberAspect.reporter.set(eventListener);
     }
 
-    @After("buildBackendWorlds()")
-    public void afterBuildBackendWorlds() {
+    @After("addPlugin()")
+    public void afterAddPlugin() {
 
-        System.out.println("@After(\"buildBackendWorlds()\")");
+        System.out.println("@After(\"addPlugin()\")");
 
         CucumberAspect.results.set(new ArrayList<>());
     }
