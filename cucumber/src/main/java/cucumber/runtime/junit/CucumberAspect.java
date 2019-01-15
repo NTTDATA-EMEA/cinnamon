@@ -27,7 +27,7 @@ public class CucumberAspect {
     /**
      * Pointcut for <code>cucumber.api.junit.Cucumber.run</code> method.
      */
-    @Pointcut("execution(public * cucumber.api.junit.Cucumber.run(..))")
+    @Pointcut("within(org.junit.runners.ParentRunner+) && execution(* run(..))")
     public void runCucumber() {
         // pointcut body must be empty
     }
