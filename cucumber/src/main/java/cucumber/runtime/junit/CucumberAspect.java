@@ -41,7 +41,7 @@ public class CucumberAspect {
     }
 
     /**
-     * Pointcut for <code>cucumber.runtime.junit.ExecutionUnitRunner.run</code> method.
+     * Pointcut for <code>cucumber.runtime.junit.PickleRunners.PickleRunner.run</code> method.
      */
     @Pointcut("within(cucumber.runtime.junit.PickleRunners.PickleRunner+) && execution(* run(..))")
     public void runScenario() {
@@ -98,44 +98,68 @@ public class CucumberAspect {
 
     @Before("runFeature()")
     public void beforeRunFeature(JoinPoint joinPoint) {
+
+        System.out.println("@Before(\"runFeature()\")");
+
         FeatureRunner featureRunner = (FeatureRunner) joinPoint.getTarget();
         CucumberAspect.featureName.set(featureRunner.getName());
     }
 
     @Before("runScenario()")
     public void beforeRunScenario(JoinPoint joinPoint) {
+
+        System.out.println("@Before(\"runScenario()\")");
+
         PickleRunners.PickleRunner pickleRunner = (PickleRunners.PickleRunner) joinPoint.getTarget();
         CucumberAspect.scenarioName.set(pickleRunner.getDescription().getDisplayName());
     }
 
     @Before("buildBackendWorlds() && args(eventListener,..)")
     public void beforeBuildBackendWorlds(EventListener eventListener) {
+
+        System.out.println("@Before(\"buildBackendWorlds() && args(eventListener,..)\")");
+
         CucumberAspect.reporter.set(eventListener);
     }
 
     @After("buildBackendWorlds()")
     public void afterBuildBackendWorlds() {
+
+        System.out.println("@After(\"buildBackendWorlds()\")");
+
         CucumberAspect.results.set(new ArrayList<>());
     }
 
     @After("addStepToCounterAndResult() && args(result,..)")
     public void afterAddStepToCounterAndResult(Result result) {
+
+        System.out.println("@After(\"addStepToCounterAndResult() && args(result,..)\")");
+
         CucumberAspect.results.get().add(result);
         EventBusContainer.getEventBus().post(new StepFinishedEvent(result, reporter.get()));
     }
 
     @After("runAfterHooks()")
     public void afterRunAfterHooks() {
+
+        System.out.println("@After(\"runAfterHooks()\")");
+
         EventBusContainer.getEventBus().post(new AfterHooksFinishedEvent());
     }
 
     @After("disposeBackendWorlds()")
     public void afterDisposeBackendWorlds() {
+
+        System.out.println("@After(\"disposeBackendWorlds()\")");
+
         EventBusContainer.getEventBus().post(new ScenarioFinishedEvent(CucumberAspect.results.get()));
     }
 
     @After("runCucumber()")
     public void afterRunCucumber() {
+
+        System.out.println("@After(\"runCucumber()\")");
+
         try {
             EventBusContainer.getEventBus().post(new CucumberFinishedEvent());
         } finally {
