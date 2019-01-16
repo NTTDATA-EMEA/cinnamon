@@ -25,7 +25,7 @@ public class CucumberAspect {
     private static final ThreadLocal<List<Result>> results = new ThreadLocal<>();
 
     /**
-     * Pointcut for <code>cucumber.api.junit.Cucumber.run</code> method.
+     * Pointcut for <code>org.junit.runners.ParentRunner.run</code> method.
      */
     @Pointcut("within(org.junit.runners.ParentRunner+) && execution(* run(..))")
     public void runCucumber() {
@@ -57,109 +57,93 @@ public class CucumberAspect {
     }
 
     /**
-     * Pointcut for <code>cucumber.runtime.Runtime.runBeforeHooks</code> method.
+     * Pointcut for <code>cucumber.runner.Runner.buildBackendWorlds</code> method.
      */
-    @Pointcut("execution(public void cucumber.runtime.Runtime.runBeforeHooks(..))")
-    public void runBeforeHooks() {
+    @Pointcut("execution(private * cucumber.runner.Runner.buildBackendWorlds(..))")
+    public void buildBackendWorlds() {
         // pointcut body must be empty
     }
 
 //    /**
-//     * Pointcut for <code>cucumber.runtime.Runtime.runStep</code> method.
+//     * Pointcut for <code>cucumber.runtime.Runtime.runBeforeHooks</code> method.
 //     */
-//    @Pointcut("execution(public void cucumber.runtime.Runtime.runStep(..))")
-//    public void runStep() {
+//    @Pointcut("execution(public void cucumber.runtime.Runtime.runBeforeHooks(..))")
+//    public void runBeforeHooks() {
 //        // pointcut body must be empty
 //    }
 
     /**
-     * Pointcut for <code>cucumber.runtime.Runtime.addStepToCounterAndResult</code> method.
+     * Pointcut for <code>cucumber.runner.Scenario.add</code> method.
      */
-    @Pointcut("execution(* cucumber.runtime.Runtime.addStepToCounterAndResult(..))")
-    public void addStepToCounterAndResult() {
+    @Pointcut("execution(* cucumber.runner.Scenario.add(..))")
+    public void addResult() {
         // pointcut body must be empty
     }
 
     /**
      * Pointcut for <code>cucumber.runtime.Runtime.runAfterHooks</code> method.
      */
-    @Pointcut("execution(public void cucumber.runtime.Runtime.runAfterHooks(..))")
+    @Pointcut("execution(* cucumber.runner.TestCase.run(..))")
     public void runAfterHooks() {
         // pointcut body must be empty
     }
 
+//    /**
+//     * Pointcut for <code>cucumber.runtime.Runtime.runAfterHooks</code> method.
+//     */
+//    @Pointcut("execution(public void cucumber.runtime.Runtime.runAfterHooks(..))")
+//    public void runAfterHooks() {
+//        // pointcut body must be empty
+//    }
+
     /**
-     * Pointcut for <code>cucumber.runtime.Runtime.disposeBackendWorlds</code> method.
+     * Pointcut for <code>cucumber.runner.Runner.disposeBackendWorlds</code> method.
      */
-    @Pointcut("execution(public void cucumber.runtime.Runtime.disposeBackendWorlds(..))")
+    @Pointcut("execution(private void cucumber.runner.Runner.disposeBackendWorlds(..))")
     public void disposeBackendWorlds() {
         // pointcut body must be empty
     }
 
     @Before("runFeature()")
     public void beforeRunFeature(JoinPoint joinPoint) {
-
-        System.out.println("@Before(\"runFeature()\")");
-
         FeatureRunner featureRunner = (FeatureRunner) joinPoint.getTarget();
         CucumberAspect.featureName.set(featureRunner.getName());
     }
 
     @Before("runScenario()")
     public void beforeRunScenario(JoinPoint joinPoint) {
-
-        System.out.println("@Before(\"runScenario()\")");
-
         PickleRunners.PickleRunner pickleRunner = (PickleRunners.PickleRunner) joinPoint.getTarget();
         CucumberAspect.scenarioName.set(pickleRunner.getDescription().getDisplayName());
     }
 
     @Before("addPlugin() && args(..,eventListener)")
     public void beforeAddPlugin(EventListener eventListener) {
-
-        System.out.println("@Before(\"addPlugin() && args(eventListener,..)\")");
-        System.out.println("---> intercepted eventListener :: " + eventListener);
         CucumberAspect.reporter.set(eventListener);
     }
 
-    @After("addPlugin()")
-    public void afterAddPlugin() {
-
-        System.out.println("@After(\"addPlugin()\")");
-
+    @After("buildBackendWorlds()")
+    public void afterBuildBackendWorlds() {
         CucumberAspect.results.set(new ArrayList<>());
     }
 
-    @After("addStepToCounterAndResult() && args(result,..)")
-    public void afterAddStepToCounterAndResult(Result result) {
-
-        System.out.println("@After(\"addStepToCounterAndResult() && args(result,..)\")");
-
+    @After("addResult() && args(result,..)")
+    public void afterAddResult(Result result) {
         CucumberAspect.results.get().add(result);
         EventBusContainer.getEventBus().post(new StepFinishedEvent(result, reporter.get()));
     }
 
     @After("runAfterHooks()")
     public void afterRunAfterHooks() {
-
-        System.out.println("@After(\"runAfterHooks()\")");
-
         EventBusContainer.getEventBus().post(new AfterHooksFinishedEvent());
     }
 
     @After("disposeBackendWorlds()")
     public void afterDisposeBackendWorlds() {
-
-        System.out.println("@After(\"disposeBackendWorlds()\")");
-
         EventBusContainer.getEventBus().post(new ScenarioFinishedEvent(CucumberAspect.results.get()));
     }
 
     @After("runCucumber()")
     public void afterRunCucumber() {
-
-        System.out.println("@After(\"runCucumber()\")");
-
         try {
             EventBusContainer.getEventBus().post(new CucumberFinishedEvent());
         } finally {
