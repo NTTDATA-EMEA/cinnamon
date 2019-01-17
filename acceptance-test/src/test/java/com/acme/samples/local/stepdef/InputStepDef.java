@@ -105,13 +105,7 @@ public class InputStepDef {
 
     @Then("^the following elements shall be displayed:$")
     public void the_following_elements_shall_be_displayed(final DataTable expected) throws Throwable {
-        List<DisplayedElement> expectedElements = expected.asList(DisplayedElement.class);
-        Set<DisplayedElement> unorderedExpectedElements = new HashSet<DisplayedElement>(expectedElements);
-
-        List<DisplayedElement> actualElements = page.getDisplayedSameLocator();
-        Set<DisplayedElement> unorderedActualElements = new HashSet<DisplayedElement>(actualElements);
-
-        Assertions.assertThat(unorderedActualElements).equals(unorderedExpectedElements);
+        expected.unorderedDiff(page.getDisplayedSameLocator());
     }
 
     @When("^I choose to type \"(.*?)\" from \"(.*?)\" with keystroke delay (\\d+) milliseconds$")

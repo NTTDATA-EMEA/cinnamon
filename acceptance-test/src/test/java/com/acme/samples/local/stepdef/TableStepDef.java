@@ -68,47 +68,27 @@ public class TableStepDef {
 
     @Then("^table2 should contain:$")
     public void table_should_contain(final DataTable expected) throws Throwable {
-        List<TranslationTable> expectedElements = expected.asList(TranslationTable.class);
-
-        List<TranslationTable> actualElements = page.table2Content();
-
-        Assertions.assertThat(actualElements).equals(expectedElements);
+        expected.diff(page.table2Content());
     }
 
     @Then("^table \"(.*?)\" should contain:$")
     public void table_should_contain(final String tableId, final DataTable expected) throws Throwable {
-        List<TranslationTable> expectedElements = expected.asList(TranslationTable.class);
-
-        List<TranslationTable> actualElements = page.tableContent(tableId);
-
-        Assertions.assertThat(actualElements).equals(expectedElements);
+        expected.diff(page.tableContent(tableId));
     }
 
     @Then("^pivot table \"(.*?)\" should contain:$")
     public void pivot_table_should_contain(final String tableId, final DataTable expected) throws Throwable {
-        List<PivotValue> expectedElements = expected.asList(PivotValue.class);
-
-        List<PivotValue> actualElements = page.pivotContent(tableId);
-
-        Assertions.assertThat(actualElements).equals(expectedElements);
+        expected.diff(page.pivotContent(tableId));
     }
 
     @Then("^pivot table \"(.*?)\" with colspan of (\\d+) should contain:$")
     public void pivot_table_with_colspan_of_should_contain(final String tableId, final int n, final DataTable expected) throws Throwable {
-        List<PivotValue> expectedElements = expected.asList(PivotValue.class);
-
-        List<PivotValue> actualElements = page.pivotContent(tableId, n);
-
-        Assertions.assertThat(actualElements).equals(expectedElements);
+        expected.diff(page.pivotContent(tableId, n));
     }
 
     @Then("^multicell pivot table \"(.*?)\" with colspan of (\\d+) should contain:$")
     public void multicell_pivot_table_with_colspan_of_should_contain(final String tableId, final int n, final DataTable expected) throws Throwable {
-        List<PivotValue> expectedElements = expected.asList(PivotValue.class);
-
-        List<PivotValue> actualElements = page.pivotMulticellContent(tableId, n);
-
-        Assertions.assertThat(actualElements).equals(expectedElements);
+        expected.diff(page.pivotMulticellContent(tableId, n));
     }
 
     @When("^I choose to adapt \"(.*?)\" using a row adapter$")

@@ -1,6 +1,7 @@
 package com.acme.samples.local.pages.table;
 
 import com.acme.samples.local.stepdef.TableMatchParams;
+import io.cucumber.datatable.DataTable;
 import io.magentys.cinnamon.conf.Env;
 import io.magentys.cinnamon.webdriver.collections.PageElementCollection;
 import io.magentys.cinnamon.webdriver.elements.PageElement;
@@ -13,6 +14,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 
 import javax.inject.Inject;
+import java.util.Arrays;
 import java.util.List;
 
 import static io.magentys.cinnamon.webdriver.Browser.open;
@@ -62,39 +64,24 @@ public class TablePage {
         return result.text().contains(text);
     }
 
-    public List<TranslationTable> table2Content() {
-        return table2.asList(TranslationTable.class);
+    public DataTable table2Content() {
+        return table2.asDataTable();
     }
 
-    public List<TranslationTable> tableContent(final String tableId) {
-        return table(tableId).asList(TranslationTable.class);
+    public DataTable tableContent(final String tableId) {
+        return table(tableId).asDataTable();
     }
 
-    public List<PivotValue> pivotContent(final String tableId) {
-        return table(tableId).asPivot(pivotCellAdapter());
+    public DataTable pivotContent(final String tableId) {
+        return table(tableId).asPivotDataTable(Arrays.asList("colour", "year", "value"));
     }
 
-    private CellAdapter<PivotValue> pivotCellAdapter() {
-        return (columnHeading, rowHeading, cell) -> new PivotValue(rowHeading.getText(), columnHeading.getText(), cell.getText());
+    public DataTable pivotContent(final String tableId, final int colspan) {
+        return table(tableId).withRowHeaderColspan(colspan).asPivotDataTable(Arrays.asList("colour", "year", "value"));
     }
 
-    public List<PivotValue> pivotContent(final String tableId, final int colspan) {
-        return table(tableId).withRowHeaderColspan(colspan).asPivot(pivotCellAdapter());
-    }
-
-    public List<PivotValue> pivotMulticellContent(final String tableId, final int n) {
-        return table(tableId).withRowHeaderColspan(n).asPivot(new MultiCellAdapter<PivotValue>() {
-
-            @Override
-            public PivotValue adapt(final List<WebElement> columnHeading, final WebElement rowHeading, final WebElement cell) {
-                if (columnHeading.size() == 2) {
-                    // remove the "year" heading
-                    columnHeading.remove(0);
-                }
-
-                return new PivotValue(rowHeading.getText(), columnHeading.get(0).getText(), cell.getText());
-            }
-        });
+    public DataTable pivotMulticellContent(final String tableId, final int colspan) {
+        return table(tableId).withRowHeaderColspan(colspan).asPivotDataTable(Arrays.asList("colour", "year", "value"));
     }
 
     public MatchingCell getMatchingCell(final String tableId, final TableMatchParams tableParams) {

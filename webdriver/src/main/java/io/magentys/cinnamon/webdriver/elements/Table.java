@@ -2,6 +2,7 @@ package io.magentys.cinnamon.webdriver.elements;
 
 import java.util.List;
 
+import io.cucumber.datatable.DataTable;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebElement;
 
@@ -15,6 +16,9 @@ public interface Table {
     interface RowAdapter<AdaptedResult> {
         AdaptedResult adapt(List<WebElement> columnHeaders, List<WebElement> cells);
     }
+
+    //TODO Javadoc
+    DataTable asDataTable();
 
     /**
      * Convert the rows of this table into a list of the given type. Converts the column headings of the table into
@@ -91,6 +95,9 @@ public interface Table {
      * 
      */
     <T> List<T> asList(RowAdapter<T> adapter);
+
+    //TODO JavaDoc
+    DataTable asPivotDataTable(List<String> headers);
 
     /**
      * Convert this pivot table into a list of cells using the given adapter. It will iterate through each row in the
