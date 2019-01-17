@@ -1,15 +1,10 @@
 package com.acme.samples.local.stepdef;
 
-import com.acme.samples.local.pages.input.DisplayedElement;
-import com.acme.samples.local.pages.table.PivotValue;
-import com.acme.samples.local.pages.table.TranslationTable;
 import io.cucumber.datatable.DataTable;
 import io.magentys.cinnamon.webdriver.elements.Table.RowAdapter;
 import io.magentys.cinnamon.webdriver.elements.TableElement.MatchingCell;
 
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 import javax.inject.Inject;
 

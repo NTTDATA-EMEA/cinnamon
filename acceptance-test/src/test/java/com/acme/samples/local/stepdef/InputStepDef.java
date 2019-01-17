@@ -1,7 +1,6 @@
 package com.acme.samples.local.stepdef;
 
 import com.acme.samples.local.context.LocalContext;
-import com.acme.samples.local.pages.input.DisplayedElement;
 import com.acme.samples.local.pages.input.InputPage;
 import com.google.common.base.Stopwatch;
 import cucumber.api.java.en.Given;
@@ -14,10 +13,8 @@ import org.junit.Assert;
 import org.openqa.selenium.Keys;
 
 import javax.inject.Inject;
-import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
 @ScenarioScoped
