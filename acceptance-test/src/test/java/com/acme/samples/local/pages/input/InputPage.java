@@ -6,6 +6,7 @@ import io.magentys.cinnamon.webdriver.elements.PageElement;
 import io.magentys.cinnamon.webdriver.support.FindByKey;
 import org.openqa.selenium.WebElement;
 
+import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -69,13 +70,15 @@ public class InputPage {
         sameLocators.first(attributeEquals(attribute, attributeValue)).replaceText(textToEnter);
     }
 
-    public List<DisplayedElement> getDisplayedSameLocator() {
+    public DataTable getDisplayedSameLocator() {
         final List<WebElement> elements = sameLocators.getWrappedElements();
 
-        final List<DisplayedElement> displayed = elements.stream()
-                .map(element -> new DisplayedElement("sameLocator", element.getAttribute("name"), element.getAttribute("value")))
+        final List<List<String>> displayed = elements.stream()
+                .map(element -> Arrays.asList("sameLocator", element.getAttribute("name"), element.getAttribute("value")))
                 .collect(Collectors.toCollection(LinkedList::new));
 
-        return displayed;
+        displayed.add(Arrays.asList("sameLocator", "name", "value"));
+
+        return DataTable.create(displayed);
     }
 }

@@ -22,26 +22,26 @@ Feature: Tables
   @complete
   Scenario: Compare a table
 	Then table2 should contain:
-	  | english | pirate   		| lol     |
-	  | Given	  | yarrrrr! 		| bobbins |
-	  | When    |	avast!	 		| bobbins |
-      | Then    |	walk the plank!	| bobbins |
+	  | English | Pirate   		    | Lol     |
+	  | Given	| yarrrrr! 		    | bobbins |
+	  | When    | avast!	 		| bobbins |
+      | Then    | walk the plank!	| bobbins |
     
   @complete
   Scenario: Compare a table, found from a collection
 	Then table "table2" should contain:
-	  | english | pirate   		| lol     |
-	  | Given	  | yarrrrr! 		| bobbins |
-	  | When    |	avast!	 		| bobbins |
-      | Then    |	walk the plank!	| bobbins |
+	  | English | Pirate   		  | Lol     |
+	  | Given	| yarrrrr! 		  | bobbins |
+	  | When    | avast!	 	  | bobbins |
+      | Then    | walk the plank! | bobbins |
 
   @complete 
   Scenario: Compare a table, found from a collection
 	Then table "table1" should contain:
-	  | english | pirate   		| lol       |
-	  | Given	  | Gangway! 		| I CAN HAZ |
-	  | When    |	Blimey!	 		| WEN       |
-      | Then    |	Let go and haul!| DEN       |
+	  | English | Pirate   		    | Lol       |
+	  | Given	| Gangway! 		    | I CAN HAZ |
+	  | When    | Blimey!	 	    | WEN       |
+      | Then    | Let go and haul!  | DEN       |
 
   @complete
   Scenario Outline: Compare a pivot table, found from a collection
