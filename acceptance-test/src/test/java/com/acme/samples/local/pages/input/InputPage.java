@@ -77,7 +77,7 @@ public class InputPage {
                 .map(element -> Arrays.asList("sameLocator", element.getAttribute("name"), element.getAttribute("value")))
                 .collect(Collectors.toCollection(LinkedList::new));
 
-        displayed.add(Arrays.asList("sameLocator", "name", "value"));
+        displayed.add(0, Arrays.asList("sameLocator", "name", "value"));
 
         return DataTable.create(displayed);
     }

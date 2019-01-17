@@ -6,7 +6,7 @@ import cucumber.api.CucumberOptions;
 import cucumber.api.junit.Cucumber;
 
 @RunWith(Cucumber.class)
-@CucumberOptions(glue = { "io.jmcore", "com.acme" }, features = "src/test/resources/features",
-        plugin = {"pretty", "json:target/cucumber-reports/cucumber.json"}, tags = { "@dev,@wip" })
+@CucumberOptions(glue = { "io.jmcore", "com.acme" }, features = "src/test/resources/features", plugin = {"pretty",
+        "json:target/cucumber-reports/cucumber.json"}, tags = { "@dev,@wip" })
 public class DevTests {
 }
