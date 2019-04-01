@@ -7,6 +7,7 @@ import cucumber.runtime.java.guice.InjectorSource;
 import io.magentys.cinnamon.guice.CinnamonModule;
 
 public class GuiceInjectorSource implements InjectorSource {
+
     @Override
     public Injector getInjector() {
         return Guice.createInjector(CucumberModules.createScenarioModule(), new CinnamonModule(), new AcmeModule());
