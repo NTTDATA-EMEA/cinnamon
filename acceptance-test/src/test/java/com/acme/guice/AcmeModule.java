@@ -10,6 +10,7 @@ import com.google.inject.AbstractModule;
 import cucumber.runtime.java.guice.ScenarioScoped;
 
 public final class AcmeModule extends AbstractModule {
+
     @Override
     public void configure() {
         try {
@@ -17,8 +18,8 @@ public final class AcmeModule extends AbstractModule {
             // scenario.
             bind(GoogleContext.class).in(ScenarioScoped.class);
             bind(LocalContext.class).in(ScenarioScoped.class);
-            bind(HomePage.class).toProvider(HomePageProvider.class).in(ScenarioScoped.class);
-            bind(ResultsPage.class).toProvider(ResultsPageProvider.class).in(ScenarioScoped.class);
+            bind(HomePage.class).toProvider(HomePageProvider.class);
+            bind(ResultsPage.class).toProvider(ResultsPageProvider.class);
         } catch (Exception e) {
             addError(e.getMessage());
         }
