@@ -1,27 +1,21 @@
 package com.acme.samples.local.stepdef;
 
+import com.acme.samples.local.context.TableContext;
+import com.acme.samples.local.pages.table.TablePage;
+import cucumber.api.java.en.Given;
+import cucumber.api.java.en.Then;
+import cucumber.api.java.en.When;
 import io.cucumber.datatable.DataTable;
 import io.magentys.cinnamon.webdriver.elements.Table.RowAdapter;
 import io.magentys.cinnamon.webdriver.elements.TableElement.MatchingCell;
-
-import java.util.List;
-
-import javax.inject.Inject;
-
 import org.fest.assertions.api.Assertions;
 import org.junit.Assert;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebElement;
 
-import com.acme.samples.local.context.TableContext;
-import com.acme.samples.local.pages.table.TablePage;
+import javax.inject.Inject;
+import java.util.List;
 
-import cucumber.api.java.en.Given;
-import cucumber.api.java.en.Then;
-import cucumber.api.java.en.When;
-import cucumber.runtime.java.guice.ScenarioScoped;
-
-@ScenarioScoped
 public class TableStepDef {
 
     private final TablePage page;
@@ -116,8 +110,7 @@ public class TableStepDef {
 
         for (final Object[] invocation : adapted) {
 
-            @SuppressWarnings("unchecked")
-            final List<WebElement> itemsToCheck = (List<WebElement>) invocation[adaptedIdx];
+            @SuppressWarnings("unchecked") final List<WebElement> itemsToCheck = (List<WebElement>) invocation[adaptedIdx];
 
             Assertions.assertThat(itemsToCheck).hasSize(count);
 

@@ -13,8 +13,8 @@
     <properties>
         <java.version>1.8</java.version>
         <aspectj.version>1.8.7</aspectj.version>
-        <guice.version>4.0</guice.version>
-        <cucumber.jvm.version>4.2.1</cucumber.jvm.version>
+        <guice.version>4.2.0</guice.version>
+        <cucumber.jvm.version>4.2.6</cucumber.jvm.version>
         <selenium.version>3.4.0</selenium.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
@@ -94,12 +94,17 @@
                 <plugin>
                     <groupId>net.alchim31.maven</groupId>
                     <artifactId>scala-maven-plugin</artifactId>
-                    <version>3.2.1</version>
+                    <version>3.3.1</version>
                     <configuration>
                         <args>
                             <arg>-unchecked</arg>
                             <arg>-deprecation</arg>
                         </args>
+                        <jvmArgs>
+                            <jvmArg>-Xss4m</jvmArg>
+                            <jvmArg>-Xms512m</jvmArg>
+                            <jvmArg>-Xmx1024m</jvmArg>
+                        </jvmArgs>
                         <addJavacArgs>-deprecation</addJavacArgs>
                         <source>1.8</source>
                         <target>1.8</target>
