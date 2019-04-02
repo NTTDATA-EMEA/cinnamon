@@ -3,6 +3,7 @@ package com.acme.samples.local.stepdef;
 import com.acme.samples.local.context.LocalContext;
 import com.acme.samples.local.pages.input.InputPage;
 import com.google.common.base.Stopwatch;
+import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
 import org.fest.assertions.api.Assertions;
@@ -12,9 +13,8 @@ import org.openqa.selenium.Keys;
 import javax.inject.Inject;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.TimeUnit;
-
-//import io.cucumber.datatable.DataTable;
 
 public class InputStepDef {
 
@@ -87,10 +87,10 @@ public class InputStepDef {
         Assert.assertEquals(should, page.isElementVisibleInViewpoint(id));
     }
 
-  /*@Given("^the following elements:$")
-  public void the_following_elements(final DataTable elements) throws Throwable {
-    // This is for documentation purposes only.
-  }*/
+    @Given("^the following elements:$")
+    public void the_following_elements(final List<List<String>> elements) throws Throwable {
+        // This is for documentation purposes only.
+    }
 
     @When("^I choose to type \"(.*?)\" for element \"(.*?)\" with \"(.*?)\" \"(.*?)\"$")
     public void i_choose_to_type_for_element_with(final String text, final String locator, final String attribute, final String value)
@@ -98,10 +98,10 @@ public class InputStepDef {
         page.typeTextIntoSameLocator(text, attribute, value);
     }
 
-  /*@Then("^the following elements shall be displayed:$")
-  public void the_following_elements_shall_be_displayed(final DataTable expected) throws Throwable {
-    expected.unorderedDiff(page.getDisplayedSameLocator());
-  }*/
+    @Then("^the following elements shall be displayed:$")
+    public void the_following_elements_shall_be_displayed(final List<Map<String, String>> expected) throws Throwable {
+        Assert.assertEquals(expected, page.getDisplayedSameLocator());
+    }
 
     @When("^I choose to type \"(.*?)\" from \"(.*?)\" with keystroke delay (\\d+) milliseconds$")
     public void i_choose_to_type_from_with_keystroke_delay_milliseconds(final String textToType, final String id, final int delayMillis)

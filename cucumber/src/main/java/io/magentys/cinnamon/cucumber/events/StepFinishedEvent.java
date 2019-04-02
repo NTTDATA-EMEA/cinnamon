@@ -1,21 +1,25 @@
 package io.magentys.cinnamon.cucumber.events;
 
-import cucumber.api.event.EmbedEvent;
-import cucumber.api.event.Event;
-import cucumber.api.event.EventListener;
 import cucumber.api.Result;
+import cucumber.api.TestCase;
+import cucumber.api.event.EmbedEvent;
+import cucumber.runner.EventBus;
 import io.magentys.cinnamon.events.Attachment;
 import io.magentys.cinnamon.events.TestStepFinishedEvent;
-
-import java.util.Date;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class StepFinishedEvent implements TestStepFinishedEvent {
-    private final Result result;
-    private final EventListener eventListener;
 
-    public StepFinishedEvent(final Result result, final EventListener eventListener) {
+    private final Logger logger = LoggerFactory.getLogger(getClass());
+    private final EventBus bus;
+    private final TestCase testCase;
+    private final Result result;
+
+    public StepFinishedEvent(final EventBus bus, final TestCase testCase, final Result result) {
+        this.bus = bus;
+        this.testCase = testCase;
         this.result = result;
-        this.eventListener = eventListener;
     }
 
     @Override
@@ -24,15 +28,15 @@ public class StepFinishedEvent implements TestStepFinishedEvent {
     }
 
     @Override
-    public Result.Type getStatus() {
-        return result.getStatus();
+    public String getStatus() {
+        return result.getStatus().lowerCaseName();
     }
 
     @Override
     public void attach(Attachment attachment) {
-        //TODO should i be creating my own timestamp here, or does it need to be passed in somehow/somewhere
-        Long timestamp = new Date().getTime();
-        //TODO provide TestCase here...
-        Event event =  new EmbedEvent(timestamp, null, attachment.getBytes(), attachment.getMimeType());
+        if (bus != null) {
+            logger.debug("Firing embed event for scenario: " + testCase.getName());
+            bus.send(new EmbedEvent(bus.getTime(), testCase, attachment.getBytes(), attachment.getMimeType()));
+        }
     }
 }

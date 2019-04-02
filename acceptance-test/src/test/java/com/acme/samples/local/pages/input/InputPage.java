@@ -1,14 +1,14 @@
 package com.acme.samples.local.pages.input;
 
-import io.cucumber.datatable.DataTable;
 import io.magentys.cinnamon.webdriver.collections.PageElementCollection;
 import io.magentys.cinnamon.webdriver.elements.PageElement;
 import io.magentys.cinnamon.webdriver.support.FindByKey;
 import org.openqa.selenium.WebElement;
 
-import java.util.Arrays;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 import static io.magentys.cinnamon.webdriver.conditions.ElementConditions.attributeEquals;
@@ -70,15 +70,15 @@ public class InputPage {
         sameLocators.first(attributeEquals(attribute, attributeValue)).replaceText(textToEnter);
     }
 
-    public DataTable getDisplayedSameLocator() {
+    public List<Map<String, String>> getDisplayedSameLocator() {
         final List<WebElement> elements = sameLocators.getWrappedElements();
 
-        final List<List<String>> displayed = elements.stream()
-                .map(element -> Arrays.asList("sameLocator", element.getAttribute("name"), element.getAttribute("value")))
-                .collect(Collectors.toCollection(LinkedList::new));
+        final List<Map<String, String>> displayed = elements.stream().map(element -> new HashMap<String, String>() {{
+            put("locator", "sameLocator");
+            put("name attribute", element.getAttribute("name"));
+            put("value", element.getAttribute("value"));
+        }}).collect(Collectors.toCollection(LinkedList::new));
 
-        displayed.add(0, Arrays.asList("sameLocator", "name", "value"));
-
-        return DataTable.create(displayed);
+        return displayed;
     }
 }

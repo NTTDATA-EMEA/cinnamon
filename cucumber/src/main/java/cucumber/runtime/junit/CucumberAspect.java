@@ -1,17 +1,15 @@
 package cucumber.runtime.junit;
 
-import cucumber.api.event.EventListener;
 import cucumber.api.Result;
+import cucumber.api.TestCase;
+import cucumber.runner.EventBus;
 import io.magentys.cinnamon.cucumber.events.AfterHooksFinishedEvent;
 import io.magentys.cinnamon.cucumber.events.CucumberFinishedEvent;
 import io.magentys.cinnamon.cucumber.events.ScenarioFinishedEvent;
 import io.magentys.cinnamon.cucumber.events.StepFinishedEvent;
 import io.magentys.cinnamon.eventbus.EventBusContainer;
 import org.aspectj.lang.JoinPoint;
-import org.aspectj.lang.annotation.After;
-import org.aspectj.lang.annotation.Aspect;
-import org.aspectj.lang.annotation.Before;
-import org.aspectj.lang.annotation.Pointcut;
+import org.aspectj.lang.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,9 +18,10 @@ import java.util.List;
 public class CucumberAspect {
 
     private static final ThreadLocal<String> featureName = new ThreadLocal<>();
-    private static final ThreadLocal<String> scenarioName = new ThreadLocal<>();
-    private static final ThreadLocal<EventListener> reporter = new ThreadLocal<>();
+    private static final ThreadLocal<String> scenarioName = new ThreadLocal<>(); //TODO Do we still need this?
     private static final ThreadLocal<List<Result>> results = new ThreadLocal<>();
+    private static final ThreadLocal<EventBus> bus = new ThreadLocal<>();
+    private static final ThreadLocal<TestCase> testCase = new ThreadLocal<>();
 
     /**
      * Pointcut for <code>org.junit.runners.ParentRunner.run</code> method.
@@ -49,14 +48,6 @@ public class CucumberAspect {
     }
 
     /**
-     * Pointcut for <code>cucumber.runtime.formatter.Plugins.addPlugin</code> method.
-     */
-    @Pointcut("execution(private * cucumber.runtime.formatter.Plugins.addPlugin(..))")
-    public void addPlugin() {
-        // pointcut body must be empty
-    }
-
-    /**
      * Pointcut for <code>cucumber.runner.Runner.buildBackendWorlds</code> method.
      */
     @Pointcut("execution(private * cucumber.runner.Runner.buildBackendWorlds(..))")
@@ -64,13 +55,21 @@ public class CucumberAspect {
         // pointcut body must be empty
     }
 
-//    /**
-//     * Pointcut for <code>cucumber.runtime.Runtime.runBeforeHooks</code> method.
-//     */
-//    @Pointcut("execution(public void cucumber.runtime.Runtime.runBeforeHooks(..))")
-//    public void runBeforeHooks() {
-//        // pointcut body must be empty
-//    }
+    /**
+     * Pointcut for <code>cucumber.runner.Runner.getBus</code> method.
+     */
+    @Pointcut("execution(public * cucumber.runner.Runner.getBus(..))")
+    public void getBus() {
+        // pointcut body must be empty
+    }
+
+    /**
+     * Pointcut for <code>cucumber.runner.Runner.createTestCaseForPickle</code> method.
+     */
+    @Pointcut("execution(private * cucumber.runner.Runner.createTestCaseForPickle(..))")
+    public void createTestCaseForPickle() {
+        // pointcut body must be empty
+    }
 
     /**
      * Pointcut for <code>cucumber.runner.Scenario.add</code> method.
@@ -81,20 +80,12 @@ public class CucumberAspect {
     }
 
     /**
-     * Pointcut for <code>cucumber.runtime.Runtime.runAfterHooks</code> method.
+     * Pointcut for <code>cucumber.runner.TestCase.run</code> method.
      */
     @Pointcut("execution(* cucumber.runner.TestCase.run(..))")
     public void runAfterHooks() {
         // pointcut body must be empty
     }
-
-//    /**
-//     * Pointcut for <code>cucumber.runtime.Runtime.runAfterHooks</code> method.
-//     */
-//    @Pointcut("execution(public void cucumber.runtime.Runtime.runAfterHooks(..))")
-//    public void runAfterHooks() {
-//        // pointcut body must be empty
-//    }
 
     /**
      * Pointcut for <code>cucumber.runner.Runner.disposeBackendWorlds</code> method.
@@ -110,15 +101,20 @@ public class CucumberAspect {
         CucumberAspect.featureName.set(featureRunner.getName());
     }
 
+    @AfterReturning(pointcut = "getBus()", returning = "bus")
+    public void afterReturningBus(EventBus bus) {
+        this.bus.set(bus);
+    }
+
+    @AfterReturning(pointcut = "createTestCaseForPickle()", returning = "testCase")
+    public void afterReturningTestCase(TestCase testCase) {
+        this.testCase.set(testCase);
+    }
+
     @Before("runScenario()")
     public void beforeRunScenario(JoinPoint joinPoint) {
         PickleRunners.PickleRunner pickleRunner = (PickleRunners.PickleRunner) joinPoint.getTarget();
         CucumberAspect.scenarioName.set(pickleRunner.getDescription().getDisplayName());
-    }
-
-    @Before("addPlugin() && args(..,eventListener)")
-    public void beforeAddPlugin(EventListener eventListener) {
-        CucumberAspect.reporter.set(eventListener);
     }
 
     @After("buildBackendWorlds()")
@@ -129,7 +125,7 @@ public class CucumberAspect {
     @After("addResult() && args(result,..)")
     public void afterAddResult(Result result) {
         CucumberAspect.results.get().add(result);
-        EventBusContainer.getEventBus().post(new StepFinishedEvent(result, reporter.get()));
+        EventBusContainer.getEventBus().post(new StepFinishedEvent(bus.get(), testCase.get(), result));
     }
 
     @After("runAfterHooks()")
@@ -147,7 +143,8 @@ public class CucumberAspect {
         try {
             EventBusContainer.getEventBus().post(new CucumberFinishedEvent());
         } finally {
-            reporter.remove();
+            bus.remove();
+            testCase.remove();
             results.remove();
             scenarioName.remove();
             featureName.remove();
