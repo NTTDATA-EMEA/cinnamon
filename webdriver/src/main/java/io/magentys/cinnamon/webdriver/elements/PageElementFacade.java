@@ -1,6 +1,5 @@
 package io.magentys.cinnamon.webdriver.elements;
 
-import io.cucumber.datatable.DataTable;
 import io.magentys.cinnamon.webdriver.Timeout;
 import io.magentys.cinnamon.webdriver.actions.Action;
 import io.magentys.cinnamon.webdriver.actions.KeyStrokeActions;
@@ -233,16 +232,6 @@ public class PageElementFacade implements PageElement, TableElement {
     @Override
     public String text() {
         return pageElement.text();
-    }
-
-    @Override
-    public DataTable asDataTable() {
-        return tableElement.asDataTable();
-    }
-
-    @Override
-    public DataTable asPivotDataTable(List<String> headers) {
-        return tableElement.asPivotDataTable(headers);
     }
 
     @Override

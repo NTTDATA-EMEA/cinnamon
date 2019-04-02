@@ -2,20 +2,17 @@ package io.magentys.cinnamon.webdriver.elements;
 
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
-import io.cucumber.datatable.DataTable;
+import io.magentys.cinnamon.webdriver.conditions.Condition;
 import io.magentys.cinnamon.webdriver.elements.TableElement.CellAdapter;
 import io.magentys.cinnamon.webdriver.elements.TableElement.MatchingCell;
 import io.magentys.cinnamon.webdriver.elements.TableElement.MultiCellAdapter;
-import io.magentys.cinnamon.webdriver.conditions.Condition;
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.pagefactory.ElementLocator;
 
-import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import static io.magentys.cinnamon.webdriver.WebDriverUtils.unwrapDriver;
 import static org.openqa.selenium.support.pagefactory.ElementLocator.constructFrom;
@@ -44,44 +41,12 @@ public class TableElementImpl implements Table {
     }
 
     @Override
-    public DataTable asDataTable() {
-        return DataTable.create(this.asUntypedTable());
-    }
-
-    private List<List<String>> asUntypedTable() {
-        final List<WebElement> columnHeaderElements = cache.getElement().findElements(columnFinder);
-        final List<WebElement> rows = findAllRows();
-
-        final List<List<String>> mappedRows = new LinkedList<>();
-
-        mappedRows.add(
-            columnHeaderElements.stream()
-                .map(headerElement -> headerElement.getText())
-                .collect(Collectors.toCollection(LinkedList::new))
-        );
-
-
-        for (final WebElement row : rows) {
-            final List<WebElement> cells = row.findElements(cellLocator);
-                mappedRows.add(
-                    cells.stream()
-                        .map(element -> element.getText())
-                        .collect(Collectors.toCollection(LinkedList::new))
-                );
-
-        }
-
-        return mappedRows;
-    }
-
-    @Override
     public <T> List<T> asList(final Class<T> type) {
         return asList(new ColumnHeadingToClassFieldMappingAdapter<>(type));
     }
 
     @Override
     public <T> List<T> asList(final RowAdapter<T> adapter) {
-
         final List<WebElement> columnHeaderElements = cache.getElement().findElements(columnFinder);
         final List<WebElement> rows = findAllRows();
 
@@ -94,54 +59,10 @@ public class TableElementImpl implements Table {
         }
 
         return mappedRows;
-
-    }
-
-    //TODO JavaDoc
-    @Override
-    public DataTable asPivotDataTable(List<String> headers) {
-        return DataTable.create(asUntypedPivot(headers));
-    }
-
-    private CellAdapter<List<String>> pivotCellAdapter() {
-        return (columnHeading, rowHeading, cell) -> Arrays.asList(rowHeading.getText(), columnHeading.getText(), cell.getText());
-    }
-
-    private List<List<String>> asUntypedPivot(List<String> headers) {
-        final CellVisitor<List<List<String>>> collatingCellAdapter = new CellVisitor<List<List<String>>>() {
-            final List<List<String>> adaptedCells = new LinkedList<>();
-
-            CellAdapter<List<String>> adapter = pivotCellAdapter();
-
-            @Override
-            public void visit(final List<WebElement> columnHeaders, final WebElement rowHeader, final WebElement cell) {
-                // Adapt the first column header only - maintains backward
-                // compatability for CellAdapter
-                adaptedCells.add(adapter.adapt(columnHeaders.get(0), rowHeader, cell));
-            }
-
-            @Override
-            public List<List<String>> result() {
-                return adaptedCells;
-            }
-
-            @Override
-            public boolean isFinished() {
-                // process all cells
-                return false;
-            }
-        };
-
-        final List<List<String>> cells = visitCells(collatingCellAdapter);
-
-        cells.add(0, headers);
-
-        return cells;
     }
 
     @Override
     public <T> List<T> asPivot(final CellAdapter<T> adapter) {
-
         final CellVisitor<List<T>> collatingCellAdapter = new CellVisitor<List<T>>() {
             final List<T> adaptedCells = new LinkedList<>();
 
