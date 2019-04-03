@@ -18,7 +18,6 @@ import java.util.List;
 public class CucumberAspect {
 
     private static final ThreadLocal<String> featureName = new ThreadLocal<>();
-    private static final ThreadLocal<String> scenarioName = new ThreadLocal<>(); //TODO Do we still need this?
     private static final ThreadLocal<List<Result>> results = new ThreadLocal<>();
     private static final ThreadLocal<EventBus> bus = new ThreadLocal<>();
     private static final ThreadLocal<TestCase> testCase = new ThreadLocal<>();
@@ -36,14 +35,6 @@ public class CucumberAspect {
      */
     @Pointcut("execution(public * cucumber.runtime.junit.FeatureRunner.run(..))")
     public void runFeature() {
-        // pointcut body must be empty
-    }
-
-    /**
-     * Pointcut for <code>cucumber.runtime.junit.PickleRunners.PickleRunner.run</code> method.
-     */
-    @Pointcut("within(cucumber.runtime.junit.PickleRunners.PickleRunner+) && execution(* run(..))")
-    public void runScenario() {
         // pointcut body must be empty
     }
 
@@ -101,6 +92,11 @@ public class CucumberAspect {
         CucumberAspect.featureName.set(featureRunner.getName());
     }
 
+    @After("buildBackendWorlds()")
+    public void afterBuildBackendWorlds() {
+        CucumberAspect.results.set(new ArrayList<>());
+    }
+
     @AfterReturning(pointcut = "getBus()", returning = "bus")
     public void afterReturningBus(EventBus bus) {
         this.bus.set(bus);
@@ -109,17 +105,6 @@ public class CucumberAspect {
     @AfterReturning(pointcut = "createTestCaseForPickle()", returning = "testCase")
     public void afterReturningTestCase(TestCase testCase) {
         this.testCase.set(testCase);
-    }
-
-    @Before("runScenario()")
-    public void beforeRunScenario(JoinPoint joinPoint) {
-        PickleRunners.PickleRunner pickleRunner = (PickleRunners.PickleRunner) joinPoint.getTarget();
-        CucumberAspect.scenarioName.set(pickleRunner.getDescription().getDisplayName());
-    }
-
-    @After("buildBackendWorlds()")
-    public void afterBuildBackendWorlds() {
-        CucumberAspect.results.set(new ArrayList<>());
     }
 
     @After("addResult() && args(result,..)")
@@ -146,7 +131,6 @@ public class CucumberAspect {
             bus.remove();
             testCase.remove();
             results.remove();
-            scenarioName.remove();
             featureName.remove();
         }
     }
