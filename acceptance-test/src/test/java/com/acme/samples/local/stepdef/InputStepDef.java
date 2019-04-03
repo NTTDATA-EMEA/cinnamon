@@ -6,6 +6,7 @@ import com.google.common.base.Stopwatch;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
+import cucumber.runtime.java.guice.ScenarioScoped;
 import org.fest.assertions.api.Assertions;
 import org.junit.Assert;
 import org.openqa.selenium.Keys;
@@ -16,6 +17,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
+import static java.util.Arrays.asList;
+
+@ScenarioScoped
 public class InputStepDef {
 
     private final InputPage page;
@@ -43,27 +47,27 @@ public class InputStepDef {
     }
 
     @When("^I choose to type \"(.*?)\" from \"(.*?)\"$")
-    public void i_choose_to_type_from(final List<String> text, final String id) throws Throwable {
+    public void i_choose_to_type_from(final String texts, final String id) throws Throwable {
         final List<CharSequence> actualText = new LinkedList<>();
-
-        for (final String textPortion : text) {
+        final List<String> textPortions = asList(texts.trim().split("\\s*,\\s*"));
+        for (final String textPortion : textPortions) {
             try {
                 actualText.add(Keys.valueOf(textPortion));
             } catch (final IllegalArgumentException e) {
                 actualText.add(textPortion);
             }
         }
-
         page.typeTextInto(actualText, id);
     }
 
     @When("^I choose to send keys \"(.*?)\" into \"(.*?)\"$")
-    public void i_choose_to_send_keys_into(final List<String> keys, final String id) throws Throwable {
+    public void i_choose_to_send_keys_into(final String texts, final String id) throws Throwable {
         final StringBuilder sb = new StringBuilder();
+        final List<String> keys = asList(texts.trim().split("\\s*,\\s*"));
         for (final String key : keys) {
             sb.append(Keys.valueOf(key));
         }
-        page.sendKeysInto(sb, id);
+        page.sendKeysInto(sb.toString(), id);
     }
 
     @When("^I choose to click on \"(.*?)\"$")
