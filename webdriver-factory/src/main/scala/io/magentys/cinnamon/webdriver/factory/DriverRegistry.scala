@@ -1,10 +1,7 @@
 package io.magentys.cinnamon.webdriver.factory
 
-import java.net.URL
 import java.util
 
-import io.appium.java_client.android.AndroidDriver
-import io.appium.java_client.ios.IOSDriver
 import io.appium.java_client.remote.{MobileCapabilityType, MobilePlatform}
 import org.openqa.selenium.WebDriver
 import org.openqa.selenium.remote.{BrowserType, CapabilityType, DesiredCapabilities, RemoteWebDriver}

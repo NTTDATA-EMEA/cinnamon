@@ -1,6 +1,6 @@
 package io.magentys.cinnamon.webdriver.factory
 
-import io.github.bonigarcia.wdm.{Architecture, BrowserManager}
+import io.github.bonigarcia.wdm.{Architecture, WebDriverManager}
 import io.magentys.cinnamon.webdriver.capabilities.DriverBinary
 import org.mockito.Matchers._
 import org.mockito.Mockito._
@@ -12,13 +12,13 @@ import org.scalatest.{BeforeAndAfterEach, FunSpec, Matchers}
 class WebDriverFactorySpec extends FunSpec with MockitoSugar with Matchers with BeforeAndAfterEach {
 
   var factoryMock: WebDriverManagerFactory = _
-  var browserManagerMock: BrowserManager = _
+  var browserManagerMock: WebDriverManager = _
   var webDriverFactory: WebDriverFactory = _
   val capabilities = DesiredCapabilities.htmlUnit
 
   override protected def beforeEach(): Unit = {
     factoryMock = mock[WebDriverManagerFactory]
-    browserManagerMock = mock[BrowserManager]
+    browserManagerMock = mock[WebDriverManager]
 
     when(factoryMock.driverManagerClass(any[Class[_ <: WebDriver]]))
       .thenReturn(browserManagerMock)
@@ -54,10 +54,10 @@ class WebDriverFactorySpec extends FunSpec with MockitoSugar with Matchers with 
       }
 
       it("calls WebDriverManager.version().architecture().setup() when driver binary config supplied") {
-        val driverBinary = DriverBinary("2.51", Architecture.x32)
+        val driverBinary = DriverBinary("2.51", Architecture.X32)
         webDriverFactory.getDriver(capabilities, None, None, Some(driverBinary))
         verify(browserManagerMock).version("2.51")
-        verify(browserManagerMock).architecture(Architecture.x32)
+        verify(browserManagerMock).architecture(Architecture.X32)
         verify(browserManagerMock).setup()
       }
 
