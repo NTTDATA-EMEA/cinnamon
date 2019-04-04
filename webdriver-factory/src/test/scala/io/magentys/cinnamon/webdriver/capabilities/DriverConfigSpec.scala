@@ -30,7 +30,7 @@ class DriverConfigSpec extends FunSpec with Matchers with BeforeAndAfterEach {
       }
 
       it("has the correct values as defined in the config file") {
-        driverBinary.arch shouldBe Architecture.x32
+        driverBinary.arch shouldBe Architecture.X32
         driverBinary.version shouldBe "2.51"
       }
     }

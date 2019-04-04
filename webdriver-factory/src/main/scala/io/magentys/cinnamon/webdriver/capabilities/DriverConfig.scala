@@ -1,7 +1,7 @@
 package io.magentys.cinnamon.webdriver.capabilities
 
 import com.typesafe.config.Config
-import io.github.bonigarcia.wdm.{Architecture, DriverVersion}
+import io.github.bonigarcia.wdm.Architecture
 import io.magentys.cinnamon.webdriver.Keys
 import io.magentys.cinnamon.webdriver.remote.{CinnamonRemote, RemoterDetector}
 import net.ceedubs.ficus.Ficus._
@@ -59,11 +59,11 @@ object DriverConfig {
       val binaryConfig = browserConfig.getConfig(Keys.DRIVER_BINARY)
       val version = binaryConfig.hasPath("version") match {
         case true => binaryConfig.getString("version")
-        case false => DriverVersion.NOT_SPECIFIED.name
+        case false => "LATEST"
       }
 
       // Determine the architecture version.
-      val archVersions = Map("32" -> Architecture.x32, "64" -> Architecture.x64)
+      val archVersions = Map("32" -> Architecture.X32, "64" -> Architecture.X64)
       val arch = binaryConfig.hasPath("arch") match {
         case true => archVersions.getOrElse(binaryConfig.getString("arch"), Architecture.DEFAULT)
         case false => Architecture.DEFAULT
