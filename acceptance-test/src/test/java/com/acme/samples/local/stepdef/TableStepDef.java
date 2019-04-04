@@ -1,25 +1,21 @@
 package com.acme.samples.local.stepdef;
 
+import com.acme.samples.local.context.TableContext;
+import com.acme.samples.local.pages.table.TablePage;
+import cucumber.api.java.en.Given;
+import cucumber.api.java.en.Then;
+import cucumber.api.java.en.When;
+import cucumber.runtime.java.guice.ScenarioScoped;
 import io.magentys.cinnamon.webdriver.elements.Table.RowAdapter;
 import io.magentys.cinnamon.webdriver.elements.TableElement.MatchingCell;
-
-import java.util.List;
-
-import javax.inject.Inject;
-
 import org.fest.assertions.api.Assertions;
 import org.junit.Assert;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebElement;
 
-import com.acme.samples.local.context.TableContext;
-import com.acme.samples.local.pages.table.TablePage;
-
-import cucumber.api.DataTable;
-import cucumber.api.java.en.Given;
-import cucumber.api.java.en.Then;
-import cucumber.api.java.en.When;
-import cucumber.runtime.java.guice.ScenarioScoped;
+import javax.inject.Inject;
+import java.util.List;
+import java.util.Map;
 
 @ScenarioScoped
 public class TableStepDef {
@@ -62,28 +58,30 @@ public class TableStepDef {
     }
 
     @Then("^table2 should contain:$")
-    public void table_should_contain(final DataTable expected) throws Throwable {
-        expected.diff(page.table2Content());
+    public void table_should_contain(final List<Map<String, String>> expected) throws Throwable {
+        Assert.assertEquals(expected, page.table2Content());
     }
 
     @Then("^table \"(.*?)\" should contain:$")
-    public void table_should_contain(final String tableId, final DataTable expected) throws Throwable {
-        expected.diff(page.tableContent(tableId));
+    public void table_should_contain(final String tableId, final List<Map<String, String>> expected) throws Throwable {
+        Assert.assertEquals(expected, page.tableContent(tableId));
     }
 
     @Then("^pivot table \"(.*?)\" should contain:$")
-    public void pivot_table_should_contain(final String tableId, final DataTable expected) throws Throwable {
-        expected.diff(page.pivotContent(tableId));
+    public void pivot_table_should_contain(final String tableId, final List<Map<String, String>> expected) throws Throwable {
+        Assert.assertEquals(expected, page.pivotContent(tableId));
     }
 
     @Then("^pivot table \"(.*?)\" with colspan of (\\d+) should contain:$")
-    public void pivot_table_with_colspan_of_should_contain(final String tableId, final int n, final DataTable expected) throws Throwable {
-        expected.diff(page.pivotContent(tableId, n));
+    public void pivot_table_with_colspan_of_should_contain(final String tableId, final int n, final List<Map<String, String>> expected)
+            throws Throwable {
+        Assert.assertEquals(expected, page.pivotContent(tableId, n));
     }
 
     @Then("^multicell pivot table \"(.*?)\" with colspan of (\\d+) should contain:$")
-    public void multicell_pivot_table_with_colspan_of_should_contain(final String tableId, final int n, final DataTable expected) throws Throwable {
-        expected.diff(page.pivotMulticellContent(tableId, n));
+    public void multicell_pivot_table_with_colspan_of_should_contain(final String tableId, final int n, final List<Map<String, String>> expected)
+            throws Throwable {
+        Assert.assertEquals(expected, page.pivotMulticellContent(tableId, n));
     }
 
     @When("^I choose to adapt \"(.*?)\" using a row adapter$")
@@ -93,7 +91,6 @@ public class TableStepDef {
         final List<Object[]> adapted = page.table(id).asList(adapter);
 
         ctx.setAdapted(adapted);
-
     }
 
     @Then("^the row adapter shall be called (\\d+) times$")
@@ -116,8 +113,7 @@ public class TableStepDef {
 
         for (final Object[] invocation : adapted) {
 
-            @SuppressWarnings("unchecked")
-            final List<WebElement> itemsToCheck = (List<WebElement>) invocation[adaptedIdx];
+            @SuppressWarnings("unchecked") final List<WebElement> itemsToCheck = (List<WebElement>) invocation[adaptedIdx];
 
             Assertions.assertThat(itemsToCheck).hasSize(count);
 
@@ -128,9 +124,9 @@ public class TableStepDef {
     }
 
     @When("^I search for the first cell in \"(.*?)\" that matches:$")
-    public void i_search_for_the_first_cell_in_that_matches(String table, List<TableMatchParams> params) throws Throwable {
+    public void i_search_for_the_first_cell_in_that_matches(String table, List<Map<String, String>> params) throws Throwable {
         // There should only be 1 row
-        TableMatchParams tableParams = params.get(0);
+        TableMatchParams tableParams = TableMatchParams.fromMap(params.get(0));
 
         try {
             MatchingCell matchingCell = page.getMatchingCell(table, tableParams);
@@ -141,9 +137,9 @@ public class TableStepDef {
     }
 
     @Then("^the found cell should be:$")
-    public void the_found_cell_should_be(List<TableMatchParams> expecteds) throws Throwable {
+    public void the_found_cell_should_be(List<Map<String, String>> params) throws Throwable {
         // should only be 1
-        TableMatchParams expected = expecteds.get(0);
+        TableMatchParams expected = TableMatchParams.fromMap(params.get(0));
 
         MatchingCell matchingCell = ctx.getMatchingCell();
 

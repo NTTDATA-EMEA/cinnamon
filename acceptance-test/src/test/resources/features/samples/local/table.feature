@@ -14,11 +14,11 @@ Feature: Tables
 	But I should not find "bobbins" in the same row
 	And I should not find "Given" in the same row
 
-  @complete	
+  @complete
   Scenario: Click on a row
 	When I click on the button in table "table3" for row "Text5"
 	Then the result "Text5" should be displayed
-	
+
   @complete
   Scenario: Compare a table
 	Then table2 should contain:
@@ -26,7 +26,7 @@ Feature: Tables
 	  | Given	  | yarrrrr! 		| bobbins |
 	  | When    |	avast!	 		| bobbins |
       | Then    |	walk the plank!	| bobbins |
-    
+
   @complete
   Scenario: Compare a table, found from a collection
 	Then table "table2" should contain:
@@ -35,7 +35,7 @@ Feature: Tables
 	  | When    |	avast!	 		| bobbins |
       | Then    |	walk the plank!	| bobbins |
 
-  @complete 
+  @complete
   Scenario: Compare a table, found from a collection
 	Then table "table1" should contain:
 	  | english | pirate   		| lol       |
@@ -53,7 +53,7 @@ Feature: Tables
 	  | Blue   | 2008 |   4   |
 	  | Blue   | 2009 |   5   |
 	  | Blue   | 2010 |   6   |
-	
+
 	Examples:
 	  | table                  |
 	  | pivot                  |
@@ -70,7 +70,7 @@ Feature: Tables
 	  | Blue   | 2008 |   4   |
 	  | Blue   | 2009 |   5   |
 	  | Blue   | 2010 |   6   |
-	
+
   @complete
   Scenario Outline: Find a matching cell
    When I search for the first cell in "<table>" that matches:
@@ -79,7 +79,7 @@ Feature: Tables
    Then the found cell should be:
      | row | column | value |
      |<row>|<col>   | <val> |
-   
+
    Examples:
      | table                       | rowMatch | colMatch | cellMatch | row  | col  | val |
      | pivot                       | Red      |          |           | Red  | 2008 | 1   |
@@ -104,15 +104,15 @@ Feature: Tables
      | row        | column      | value      |
      |<rowMatch>  |<colMatch>   | <cellMatch>|
    Then no matching cell shall be found
-   
-   Examples:
-     | table | rowMatch | colMatch | cellMatch | 
-     | pivot | Green    |          |           | 
-     | pivot |          | 2011     |           | 
-     | pivot |          |          | 7         | 
-     | pivot | Red      | 2010     | 5         | 
 
-  @complete     
+   Examples:
+     | table | rowMatch | colMatch | cellMatch |
+     | pivot | Green    |          |           |
+     | pivot |          | 2011     |           |
+     | pivot |          |          | 7         |
+     | pivot | Red      | 2010     | 5         |
+
+  @complete
   Scenario: Adapt rows of a table
 	When I choose to adapt "table2" using a row adapter
 	Then the row adapter shall be called 3 times

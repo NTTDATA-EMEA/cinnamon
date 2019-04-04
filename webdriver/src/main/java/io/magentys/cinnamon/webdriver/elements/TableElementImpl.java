@@ -2,10 +2,10 @@ package io.magentys.cinnamon.webdriver.elements;
 
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
+import io.magentys.cinnamon.webdriver.conditions.Condition;
 import io.magentys.cinnamon.webdriver.elements.TableElement.CellAdapter;
 import io.magentys.cinnamon.webdriver.elements.TableElement.MatchingCell;
 import io.magentys.cinnamon.webdriver.elements.TableElement.MultiCellAdapter;
-import io.magentys.cinnamon.webdriver.conditions.Condition;
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebElement;
@@ -42,13 +42,11 @@ public class TableElementImpl implements Table {
 
     @Override
     public <T> List<T> asList(final Class<T> type) {
-
         return asList(new ColumnHeadingToClassFieldMappingAdapter<>(type));
     }
 
     @Override
     public <T> List<T> asList(final RowAdapter<T> adapter) {
-
         final List<WebElement> columnHeaderElements = cache.getElement().findElements(columnFinder);
         final List<WebElement> rows = findAllRows();
 
@@ -61,12 +59,10 @@ public class TableElementImpl implements Table {
         }
 
         return mappedRows;
-
     }
 
     @Override
     public <T> List<T> asPivot(final CellAdapter<T> adapter) {
-
         final CellVisitor<List<T>> collatingCellAdapter = new CellVisitor<List<T>>() {
             final List<T> adaptedCells = new LinkedList<>();
 

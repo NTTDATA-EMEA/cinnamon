@@ -3,7 +3,7 @@ default:
   css:
     # Google Home CSS selectors (demonstrates use of CSS or)
     google.home-page.search-button: 'button[id=gbqfba],input[name=btnK],input[class=lsb]'
-    google.home-page.search-input: '#gbqfq,.gsfi,input[class=lst]'
+    google.home-page.search-input: 'input[name=q]'
 
 mobile:
   css:

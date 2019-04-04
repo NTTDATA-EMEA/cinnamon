@@ -1,17 +1,25 @@
 package io.magentys.cinnamon.cucumber.events;
 
-import gherkin.formatter.Reporter;
-import gherkin.formatter.model.Result;
+import cucumber.api.Result;
+import cucumber.api.TestCase;
+import cucumber.api.event.EmbedEvent;
+import cucumber.runner.EventBus;
 import io.magentys.cinnamon.events.Attachment;
 import io.magentys.cinnamon.events.TestStepFinishedEvent;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class StepFinishedEvent implements TestStepFinishedEvent {
-    private final Result result;
-    private final Reporter reporter;
 
-    public StepFinishedEvent(final Result result, final Reporter reporter) {
+    private final Logger logger = LoggerFactory.getLogger(getClass());
+    private final EventBus bus;
+    private final TestCase testCase;
+    private final Result result;
+
+    public StepFinishedEvent(final EventBus bus, final TestCase testCase, final Result result) {
+        this.bus = bus;
+        this.testCase = testCase;
         this.result = result;
-        this.reporter = reporter;
     }
 
     @Override
@@ -21,11 +29,14 @@ public class StepFinishedEvent implements TestStepFinishedEvent {
 
     @Override
     public String getStatus() {
-        return result.getStatus();
+        return result.getStatus().lowerCaseName();
     }
 
     @Override
     public void attach(Attachment attachment) {
-        reporter.embedding(attachment.getMimeType(), attachment.getBytes());
+        if (bus != null) {
+            logger.debug("Firing embed event for scenario: " + testCase.getName());
+            bus.send(new EmbedEvent(bus.getTime(), testCase, attachment.getBytes(), attachment.getMimeType()));
+        }
     }
 }

@@ -3,7 +3,7 @@ package io.magentys.cinnamon.webdriver.factory
 import java.net.URL
 import java.nio.file.{Files, Paths}
 
-import io.github.bonigarcia.wdm.{BrowserManager, WebDriverManager}
+import io.github.bonigarcia.wdm.{WebDriverManager}
 import io.magentys.cinnamon.webdriver.capabilities.DriverBinary
 import org.openqa.selenium.remote.DesiredCapabilities
 import org.openqa.selenium.{Capabilities, WebDriver}
@@ -12,7 +12,7 @@ import scala.util.Try
 
 // helper interface around statics used in WebDriverManager
 private[factory] trait WebDriverManagerFactory {
-  def driverManagerClass(driverClass: Class[_ <: WebDriver]): BrowserManager = WebDriverManager.getInstance(driverClass)
+  def driverManagerClass(driverClass: Class[_ <: WebDriver]): WebDriverManager = WebDriverManager.getInstance(driverClass)
 }
 
 class WebDriverFactory(factory: WebDriverManagerFactory) {

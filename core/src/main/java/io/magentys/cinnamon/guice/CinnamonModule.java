@@ -17,5 +17,4 @@ public final class CinnamonModule extends AbstractModule {
     Env provideEnv() {
         return Env.INSTANCE;
     }
-
 }

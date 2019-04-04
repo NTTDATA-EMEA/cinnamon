@@ -3,7 +3,6 @@ package com.acme.samples.local.stepdef;
 import com.acme.samples.local.context.LocalContext;
 import com.acme.samples.local.pages.input.InputPage;
 import com.google.common.base.Stopwatch;
-import cucumber.api.DataTable;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
@@ -15,7 +14,10 @@ import org.openqa.selenium.Keys;
 import javax.inject.Inject;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.TimeUnit;
+
+import static java.util.Arrays.asList;
 
 @ScenarioScoped
 public class InputStepDef {
@@ -45,27 +47,27 @@ public class InputStepDef {
     }
 
     @When("^I choose to type \"(.*?)\" from \"(.*?)\"$")
-    public void i_choose_to_type_from(final List<String> text, final String id) throws Throwable {
+    public void i_choose_to_type_from(final String texts, final String id) throws Throwable {
         final List<CharSequence> actualText = new LinkedList<>();
-
-        for (final String textPortion : text) {
+        final List<String> textPortions = asList(texts.trim().split("\\s*,\\s*"));
+        for (final String textPortion : textPortions) {
             try {
                 actualText.add(Keys.valueOf(textPortion));
             } catch (final IllegalArgumentException e) {
                 actualText.add(textPortion);
             }
         }
-
         page.typeTextInto(actualText, id);
     }
 
     @When("^I choose to send keys \"(.*?)\" into \"(.*?)\"$")
-    public void i_choose_to_send_keys_into(final List<String> keys, final String id) throws Throwable {
+    public void i_choose_to_send_keys_into(final String texts, final String id) throws Throwable {
         final StringBuilder sb = new StringBuilder();
+        final List<String> keys = asList(texts.trim().split("\\s*,\\s*"));
         for (final String key : keys) {
             sb.append(Keys.valueOf(key));
         }
-        page.sendKeysInto(sb, id);
+        page.sendKeysInto(sb.toString(), id);
     }
 
     @When("^I choose to click on \"(.*?)\"$")
@@ -90,7 +92,7 @@ public class InputStepDef {
     }
 
     @Given("^the following elements:$")
-    public void the_following_elements(final DataTable elements) throws Throwable {
+    public void the_following_elements(final List<List<String>> elements) throws Throwable {
         // This is for documentation purposes only.
     }
 
@@ -101,8 +103,8 @@ public class InputStepDef {
     }
 
     @Then("^the following elements shall be displayed:$")
-    public void the_following_elements_shall_be_displayed(final DataTable expected) throws Throwable {
-        expected.unorderedDiff(page.getDisplayedSameLocator());
+    public void the_following_elements_shall_be_displayed(final List<Map<String, String>> expected) throws Throwable {
+        Assert.assertEquals(expected, page.getDisplayedSameLocator());
     }
 
     @When("^I choose to type \"(.*?)\" from \"(.*?)\" with keystroke delay (\\d+) milliseconds$")
