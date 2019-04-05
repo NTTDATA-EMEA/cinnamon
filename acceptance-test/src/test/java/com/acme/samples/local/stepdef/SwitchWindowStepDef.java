@@ -22,28 +22,33 @@ public class SwitchWindowStepDef {
         this.newWindowPage = newWindowPage;
     }
 
-    @Given("^a new window has been opened$")
+    @Given("a new window has been opened")
     public void a_new_window_has_been_opened() throws Throwable {
         firstWindowPage.clickLastWindowLink();
     }
 
-    @Given("two new windows have been opened$")
+    @Given("two new windows have been opened")
     public void two_new_windows_have_been_opened() throws Throwable {
         firstWindowPage.clickSecondWindowLink();
         firstWindowPage.clickLastWindowLink();
     }
 
-    @When("^I switch to the (?:new|newest) window$")
+    @When("^I switch to the new window$")
     public void i_switch_to_the_new_window() throws Throwable {
         firstWindowPage.switchToNew();
     }
 
-    @When("^I close the new window$")
+    @When("^I switch to the newest window$")
+    public void i_switch_to_the_newest_window() throws Throwable {
+        firstWindowPage.switchToNew();
+    }
+
+    @When("I close the new window")
     public void i_close_the_new_window() throws Throwable {
         newWindowPage.closeNew();
     }
 
-    @When("^I switch to the (first|last) window$")
+    @When("I switch to the {nth} window")
     public void i_switch_to_the_window(String nth) throws Throwable {
         switch (nth.trim()) {
         case "first":
@@ -57,22 +62,22 @@ public class SwitchWindowStepDef {
         }
     }
 
-    @When("^I switch to the window with title \"(.*?)\"$")
+    @When("I switch to the window with title {string}")
     public void i_switch_to_the_window_with_title(String title) throws Throwable {
         newWindowPage.switchToByTitle(title);
     }
 
-    @When("^I switch to the window with partial title \"(.*?)\"$")
+    @When("I switch to the window with partial title {string}")
     public void i_switch_focus_to_the_window_with_title_containing(String partialTitle) throws Throwable {
         newWindowPage.switchToByPartialTitle(partialTitle);
     }
 
-    @Then("^I should see the text \"(.*?)\" in the new window$")
+    @Then("I should see the text {string} in the new window")
     public void i_should_see_the_text_in_the_new_window(String text) throws Throwable {
         assertThat(newWindowPage.getTextElementText(), containsString(text));
     }
 
-    @Then("^I should see the text \"(.*?)\" in the first window$")
+    @Then("I should see the text {string} in the first window")
     public void i_should_see_the_text_in_the_first_window(String text) throws Throwable {
         assertThat(firstWindowPage.getTextElementText(), containsString(text));
     }

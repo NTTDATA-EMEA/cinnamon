@@ -9,5 +9,5 @@ Feature: Offset Actions
 	
   @complete
   Scenario: Click on element with positive offset
-	When I choose to click button "b1" with offset (110,0)
+	When I choose to click button "b1" with offset 110,0
 	Then I should see "You clicked button: B2"
