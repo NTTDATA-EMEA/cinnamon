@@ -20,12 +20,12 @@ public class HomeStepDef {
         this.homePage = homePage;
     }
 
-    @Given("^I have opened google$")
+    @Given("I have opened google")
     public void I_have_opened_google() throws Throwable {
         homePage.open();
     }
 
-    @When("^I search for \"(.*?)\"$")
+    @When("I search for {string}")
     public void I_search_for_term(final String searchTerm) throws Throwable {
         try {
             homePage.enterSearchTerm(searchTerm);
@@ -34,7 +34,7 @@ public class HomeStepDef {
         }
     }
 
-    @When("^I search for:$")
+    @When("I search for:")
     public void I_search_for(final List<Map<String, String>> rows) throws Throwable {
         try {
             homePage.enterSearchTerm(rows.get(0).get("term"));
@@ -43,7 +43,7 @@ public class HomeStepDef {
         }
     }
 
-    @Then("^I should see the home page$")
+    @Then("I should see the home page")
     public void I_should_see_the_home_page() throws Throwable {
         Assert.assertTrue("The Home page was not displayed.", homePage.waitUntilOpened());
     }

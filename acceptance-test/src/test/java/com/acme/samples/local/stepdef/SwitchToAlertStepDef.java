@@ -21,27 +21,27 @@ public class SwitchToAlertStepDef {
         this.context = context;
     }
 
-    @Given("^a new slow loading alert has been created$")
+    @Given("a new slow loading alert has been created")
     public void a_new_slow_loading_alert_has_been_created() {
         alertPage.createSlowLoadingAlert();
     }
 
-    @Given("^a new alert has been created$")
+    @Given("a new alert has been created")
     public void a_new_alert_has_been_created() {
         alertPage.createAlert();
     }
 
-    @Given("^a new confirm alert has been created$")
+    @Given("a new confirm alert has been created")
     public void a_new_confirm_alert_has_been_created() {
         alertPage.createConfirmAlert();
     }
 
-    @Given("^a new prompt alert has been created$")
+    @Given("a new prompt alert has been created")
     public void a_new_prompt_alert_has_been_created() {
         alertPage.createPromptAlert();
     }
 
-    @When("^I accept the alert$")
+    @When("I accept the alert")
     public void i_accept_the_alert() {
         try {
             alertPage.acceptAlert();
@@ -50,7 +50,7 @@ public class SwitchToAlertStepDef {
         }
     }
 
-    @When("^I dismiss the alert$")
+    @When("I dismiss the alert")
     public void i_dismiss_the_alert() {
         try {
             alertPage.dismissAlert();
@@ -59,19 +59,18 @@ public class SwitchToAlertStepDef {
         }
     }
 
-    @Then("^the alert should be closed$")
+    @Then("the alert should be closed")
     public void the_alert_should_be_closed() throws Throwable {
         Assert.assertFalse("Alert is present", context.isAlertPresent());
     }
 
-    @When("^I enter the text \"([^\"]*)\" into the alert$")
+    @When("I enter the text {string} into the alert")
     public void i_enter_the_text_into_the_alert(String alertTest) {
         alertPage.inputAlertText(alertTest);
     }
 
-    @When("^the alert return value should should equal \"([^\"]*)\"$")
+    @When("the alert return value should should equal {string}")
     public void the_alert_return_value_should_should_equal(String returnValue) {
         Assert.assertEquals(returnValue, alertPage.getAlertReturnValue());
     }
-
 }
