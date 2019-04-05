@@ -29,62 +29,62 @@ public class TableStepDef {
         this.ctx = ctx;
     }
 
-    @Given("^I have navigated to the local page \"(.*?)\"$")
+    @Given("I have navigated to the local page {string}")
     public void i_have_navigated_to_the_local_page(final String url) throws Throwable {
         page.navigateTo(url);
         page.waitUntilPageLoaded();
     }
 
-    @When("^I look in \"(.*?)\" for \"(.*?)\"$")
+    @When("I look in {string} for {string}")
     public void i_look_in_for(final String tableId, final String string) throws Throwable {
         final String rowContent = page.findRowContaining(tableId, string);
         ctx.setRowContent(rowContent);
     }
 
-    @Then("^I (should|should not) find \"(.*?)\" in the same row$")
+    @Then("I {maybe} find {string} in the same row")
     public void i_should_find_in_the_same_row(final String maybe, final String expectedText) throws Throwable {
         final boolean should = "should".equals(maybe);
         Assert.assertEquals(should, ctx.getRowContent().contains(expectedText));
     }
 
-    @When("^I click on the button in table \"(.*?)\" for row \"(.*?)\"$")
+    @When("I click on the button in table {string} for row {string}")
     public void i_click_on_the_button_in_table_for_row(final String tableId, final String rowContent) throws Throwable {
         page.clickButtonForRow(tableId, rowContent);
     }
 
-    @Then("^the result \"(.*?)\" should be displayed$")
+    @Then("the result {string} should be displayed")
     public void the_result_should_be_displayed(final String result) throws Throwable {
         Assert.assertTrue(page.containsResult(result));
     }
 
-    @Then("^table2 should contain:$")
+    @Then("table2 should contain:")
     public void table_should_contain(final List<Map<String, String>> expected) throws Throwable {
         Assert.assertEquals(expected, page.table2Content());
     }
 
-    @Then("^table \"(.*?)\" should contain:$")
+    @Then("table {string} should contain:")
     public void table_should_contain(final String tableId, final List<Map<String, String>> expected) throws Throwable {
         Assert.assertEquals(expected, page.tableContent(tableId));
     }
 
-    @Then("^pivot table \"(.*?)\" should contain:$")
+    @Then("pivot table {string} should contain:")
     public void pivot_table_should_contain(final String tableId, final List<Map<String, String>> expected) throws Throwable {
         Assert.assertEquals(expected, page.pivotContent(tableId));
     }
 
-    @Then("^pivot table \"(.*?)\" with colspan of (\\d+) should contain:$")
+    @Then("pivot table {string} with colspan of {int} should contain:")
     public void pivot_table_with_colspan_of_should_contain(final String tableId, final int n, final List<Map<String, String>> expected)
             throws Throwable {
         Assert.assertEquals(expected, page.pivotContent(tableId, n));
     }
 
-    @Then("^multicell pivot table \"(.*?)\" with colspan of (\\d+) should contain:$")
+    @Then("multicell pivot table {string} with colspan of {int} should contain:")
     public void multicell_pivot_table_with_colspan_of_should_contain(final String tableId, final int n, final List<Map<String, String>> expected)
             throws Throwable {
         Assert.assertEquals(expected, page.pivotMulticellContent(tableId, n));
     }
 
-    @When("^I choose to adapt \"(.*?)\" using a row adapter$")
+    @When("I choose to adapt {string} using a row adapter")
     public void i_choose_to_adapt_using_a_row_adapter(final String id) throws Throwable {
         final RowAdapter<Object[]> adapter = (columnHeaders, cells) -> new Object[] { columnHeaders, cells };
 
@@ -93,17 +93,17 @@ public class TableStepDef {
         ctx.setAdapted(adapted);
     }
 
-    @Then("^the row adapter shall be called (\\d+) times$")
+    @Then("the row adapter shall be called {int} times")
     public void the_row_adapter_shall_be_called_times(final int n) throws Throwable {
         Assertions.assertThat(ctx.getAdapted()).hasSize(n);
     }
 
-    @Then("^the adapter shall be passed (\\d+) \"(.*?)\" column headers each time$")
+    @Then("the adapter shall be passed {int} {string} column headers each time")
     public void the_adapter_shall_be_passed_column_headers_each_time(final int count, final String expectedTag) throws Throwable {
         verifyAdaptedItems(0, count, expectedTag);
     }
 
-    @Then("^the adapter shall be passed (\\d+) \"(.*?)\" cells each time$")
+    @Then("the adapter shall be passed {int} {string} cells each time")
     public void the_adapter_shall_be_passed_cells_each_time(final int count, final String expectedTag) throws Throwable {
         verifyAdaptedItems(1, count, expectedTag);
     }
@@ -123,7 +123,7 @@ public class TableStepDef {
         }
     }
 
-    @When("^I search for the first cell in \"(.*?)\" that matches:$")
+    @When("I search for the first cell in {string} that matches:")
     public void i_search_for_the_first_cell_in_that_matches(String table, List<Map<String, String>> params) throws Throwable {
         // There should only be 1 row
         TableMatchParams tableParams = TableMatchParams.fromMap(params.get(0));
@@ -136,7 +136,7 @@ public class TableStepDef {
         }
     }
 
-    @Then("^the found cell should be:$")
+    @Then("the found cell should be:")
     public void the_found_cell_should_be(List<Map<String, String>> params) throws Throwable {
         // should only be 1
         TableMatchParams expected = TableMatchParams.fromMap(params.get(0));
@@ -148,7 +148,7 @@ public class TableStepDef {
         Assertions.assertThat(matchingCell.getCell().getText()).isEqualTo(expected.getValue());
     }
 
-    @Then("^no matching cell shall be found$")
+    @Then("no matching cell shall be found")
     public void no_matching_cell_shall_be_found() throws Throwable {
         Assertions.assertThat(ctx.getMatchingCell()).isNull();
     }

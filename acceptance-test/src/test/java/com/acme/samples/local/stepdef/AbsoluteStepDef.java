@@ -14,7 +14,7 @@ public class AbsoluteStepDef {
         this.page = page;
     }
 
-    @When("^I choose to click button \"(.*?)\" with offset \\((-?\\d+),(-?\\d+)\\)$")
+    @When("I choose to click button {string} with offset {int},{int}")
     public void i_choose_to_click_button_with_offset(final String buttonId, final int x, final int y) throws Throwable {
         page.clickBtnWithOffset(buttonId, x, y);
     }
