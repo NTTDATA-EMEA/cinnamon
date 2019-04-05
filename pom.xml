@@ -39,7 +39,7 @@
         <commons.vfs2.version>2.3</commons.vfs2.version>
         <xml.apis.version>1.4.01</xml.apis.version>
         <java.client.version>5.0.0-BETA9</java.client.version>
-        <selenium.version>3.4.0</selenium.version>
+        <selenium.version>3.14.0</selenium.version>
         <bonigarcia.version>3.4.0</bonigarcia.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>

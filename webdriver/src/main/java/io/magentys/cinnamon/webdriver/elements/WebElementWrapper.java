@@ -4,8 +4,8 @@ import io.magentys.cinnamon.webdriver.actions.Actions;
 import io.magentys.cinnamon.webdriver.actions.ActionsFactory;
 import org.openqa.selenium.*;
 import org.openqa.selenium.interactions.internal.Coordinates;
-import org.openqa.selenium.internal.Locatable;
-import org.openqa.selenium.internal.WrapsDriver;
+import org.openqa.selenium.interactions.Locatable;
+import org.openqa.selenium.WrapsDriver;
 import org.openqa.selenium.internal.WrapsElement;
 import org.openqa.selenium.support.pagefactory.ElementLocator;
 

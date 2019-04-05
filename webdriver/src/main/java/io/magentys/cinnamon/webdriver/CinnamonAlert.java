@@ -4,7 +4,6 @@ import org.openqa.selenium.Alert;
 import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.UnhandledAlertException;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.security.Credentials;
 import org.openqa.selenium.support.ui.FluentWait;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.slf4j.Logger;
@@ -45,17 +44,6 @@ public class CinnamonAlert implements Alert {
     @Override
     public void sendKeys(String text) {
         alert.sendKeys(text);
-    }
-
-    @Override
-    public void setCredentials(Credentials credentials) {
-        alert.setCredentials(credentials);
-    }
-
-    @Override
-    public void authenticateUsing(Credentials credentials) {
-        alert.authenticateUsing(credentials);
-        waitUntilAlertIsNotPresent();
     }
 
     private void waitUntilAlertIsNotPresent() {
