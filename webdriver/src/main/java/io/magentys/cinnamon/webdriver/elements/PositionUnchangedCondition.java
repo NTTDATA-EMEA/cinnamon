@@ -6,7 +6,7 @@ import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.openqa.selenium.Point;
 import org.openqa.selenium.WebDriverException;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.internal.Locatable;
+import org.openqa.selenium.interactions.Locatable;
 
 public class PositionUnchangedCondition extends Condition<WebElement> {
 

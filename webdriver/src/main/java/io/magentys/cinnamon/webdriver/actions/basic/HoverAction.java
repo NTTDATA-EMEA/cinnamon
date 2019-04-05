@@ -5,7 +5,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.HasInputDevices;
 import org.openqa.selenium.interactions.Mouse;
-import org.openqa.selenium.internal.Locatable;
+import org.openqa.selenium.interactions.Locatable;
 
 public class HoverAction implements Action {
 
