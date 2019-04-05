@@ -15,8 +15,7 @@ to these challenges, which means that you don’t have to invest time in solving
 ## Road map
 
 We are currently working towards:
-* reinstating support for appium
-* adding support for Rest
+* enhancing support for Rest
 * adding standard web and rest cherry missions
 * custom Hamcrest matchers
 
@@ -32,7 +31,11 @@ We have plans to support:
 4. Push to the branch (`git push origin feature/my-new-feature`)
 5. Create new Pull Request
 
-<span>
-* Developers: [Dave Bassan](https://github.com/davebassan), [Tim Myerscough](https://github.com/temyers), [Christina Daskalaki](https://github.com/chdask), [Amit Sharma](https://github.com/amitsha), [Miles Lord](https://github.com/mplord), [Hamish Tedeschi](https://github.com/MagenTysHamo), [Kevin Bradwick](https://github.com/kevbradwick)
+## Developers
+ [Dave Bassan](https://github.com/davebassan), [Tim Myerscough](https://github.com/temyers), [Christina Daskalaki](https://github.com/chdask), [Amit Sharma](https://github.com/amitsha), [Miles Lord](https://github.com/mplord), [Hamish Tedeschi](https://github.com/MagenTysHamo), [Kevin Bradwick](https://github.com/kevbradwick)
+
+## Acknowledgments
+
+* Thanks to [Boni Garcia](http://bonigarcia.github.io/) for [WebDriverManager](https://github.com/bonigarcia/webdrivermanager)
 
 Powered by [MagenTys](http://magentys.io)
