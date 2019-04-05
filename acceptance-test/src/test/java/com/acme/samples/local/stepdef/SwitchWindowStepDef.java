@@ -33,13 +33,8 @@ public class SwitchWindowStepDef {
         firstWindowPage.clickLastWindowLink();
     }
 
-    @When("^I switch to the new window$")
+    @When("I switch to the new(est) window")
     public void i_switch_to_the_new_window() throws Throwable {
-        firstWindowPage.switchToNew();
-    }
-
-    @When("^I switch to the newest window$")
-    public void i_switch_to_the_newest_window() throws Throwable {
         firstWindowPage.switchToNew();
     }
 
