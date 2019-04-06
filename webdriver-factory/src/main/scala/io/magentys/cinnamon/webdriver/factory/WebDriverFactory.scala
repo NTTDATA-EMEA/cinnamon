@@ -3,16 +3,20 @@ package io.magentys.cinnamon.webdriver.factory
 import java.net.URL
 import java.nio.file.{Files, Paths}
 
-import io.github.bonigarcia.wdm.{WebDriverManager}
+import io.github.bonigarcia.wdm.WebDriverManager
 import io.magentys.cinnamon.webdriver.capabilities.DriverBinary
-import org.openqa.selenium.remote.DesiredCapabilities
+import org.openqa.selenium.remote.{DesiredCapabilities, RemoteWebDriver}
 import org.openqa.selenium.{Capabilities, WebDriver}
 
 import scala.util.Try
 
-// helper interface around statics used in WebDriverManager
+// helper interface around statics
 private[factory] trait WebDriverManagerFactory {
   def driverManagerClass(driverClass: Class[_ <: WebDriver]): WebDriverManager = WebDriverManager.getInstance(driverClass)
+
+  def getDriver(driverClass: Class[_ <: WebDriver], capabilities: DesiredCapabilities): WebDriver = driverClass.getDeclaredConstructor(classOf[Capabilities]).newInstance(capabilities)
+
+  def getRemoteDriver(driverClass: Class[_ <: RemoteWebDriver], capabilities: DesiredCapabilities, hubUrl: String): WebDriver = driverClass.getDeclaredConstructor(classOf[URL], classOf[Capabilities]).newInstance(new URL(hubUrl), capabilities)
 }
 
 class WebDriverFactory(factory: WebDriverManagerFactory) {
@@ -33,7 +37,7 @@ class WebDriverFactory(factory: WebDriverManagerFactory) {
         case Some(clazz) => clazz
         case None => throw new Exception("Cannot find the remote driver class in the driver registry.")
       }
-      return remoteDriverClass.getDeclaredConstructor(classOf[URL], classOf[Capabilities]).newInstance(new URL(hubUrl.get), capabilities)
+      return factory.getRemoteDriver(remoteDriverClass, capabilities, hubUrl.get)
     }
 
     val driverClass = DriverRegistry.getDriverClass(capabilities) match {
@@ -50,9 +54,8 @@ class WebDriverFactory(factory: WebDriverManagerFactory) {
         case None => Try(factory.driverManagerClass(driverClass).setup())
       }
     }
-    driverClass.getDeclaredConstructor(classOf[Capabilities]).newInstance(capabilities)
+    factory.getDriver(driverClass, capabilities)
   }
-
 }
 
 object WebDriverFactory {

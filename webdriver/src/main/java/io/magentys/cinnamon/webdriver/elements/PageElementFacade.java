@@ -8,7 +8,7 @@ import io.magentys.cinnamon.webdriver.actions.SelectAction;
 import io.magentys.cinnamon.webdriver.collections.PageElementCollection;
 import io.magentys.cinnamon.webdriver.conditions.Condition;
 import org.openqa.selenium.*;
-import org.openqa.selenium.interactions.internal.Coordinates;
+import org.openqa.selenium.interactions.Coordinates;
 
 import java.util.List;
 
