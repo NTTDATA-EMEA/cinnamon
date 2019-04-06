@@ -38,8 +38,8 @@ public final class WebDriverUtils {
                 element);
     }
 
-    public static ChronoUnit toChronoUnit(TimeUnit timeUnit) {
-        switch (timeUnit) {
+    public static ChronoUnit toChronoUnit(TimeUnit unit) {
+        switch (unit) {
         case NANOSECONDS:
             return ChronoUnit.NANOS;
         case MICROSECONDS:
@@ -55,7 +55,7 @@ public final class WebDriverUtils {
         case DAYS:
             return ChronoUnit.DAYS;
         default:
-            throw new IllegalArgumentException("No ChronoUnit equivalent for " + timeUnit);
+            throw new IllegalArgumentException("No ChronoUnit equivalent for " + unit);
         }
     }
 }
