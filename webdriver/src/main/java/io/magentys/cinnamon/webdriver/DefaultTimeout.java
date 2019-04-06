@@ -39,7 +39,7 @@ public class DefaultTimeout implements OffsetsTimeout {
 
     @Override
     public Timeout plus(long time, ChronoUnit unit) {
-        return timeoutIn(duration.get(unit) + time, unit);
+        return timeoutIn(fromDuration(duration, unit) + time, unit);
     }
 
     @Override
@@ -60,6 +60,25 @@ public class DefaultTimeout implements OffsetsTimeout {
 
     @Override
     public Timeout minus(long time, ChronoUnit unit) {
-        return timeoutIn(time > duration.get(unit) ? 0 : duration.get(unit) - time, unit);
+        return timeoutIn(time > fromDuration(duration, unit) ? 0 : fromDuration(duration, unit) - time, unit);
+    }
+
+    private long fromDuration(Duration duration, ChronoUnit unit) {
+        switch (unit) {
+        case NANOS:
+            return duration.toNanos();
+        case MILLIS:
+            return duration.toMillis();
+        case SECONDS:
+            return duration.getSeconds();
+        case MINUTES:
+            return duration.toMinutes();
+        case HOURS:
+            return duration.toHours();
+        case DAYS:
+            return duration.toDays();
+        default:
+            throw new IllegalArgumentException("No ChronoUnit equivalent for " + unit);
+        }
     }
 }
