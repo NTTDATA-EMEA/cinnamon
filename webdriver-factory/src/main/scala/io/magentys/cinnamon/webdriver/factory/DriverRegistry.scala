@@ -30,12 +30,6 @@ object DriverRegistry {
     "org.openqa.selenium.safari.SafariDriver" -> new util.HashMap[String, Any] {
       put(CapabilityType.BROWSER_NAME, BrowserType.SAFARI)
     },
-    "org.openqa.selenium.phantomjs.PhantomJSDriver" -> new util.HashMap[String, Any] {
-      put(CapabilityType.BROWSER_NAME, BrowserType.PHANTOMJS)
-    },
-    "org.openqa.selenium.htmlunit.HtmlUnitDriver" -> new util.HashMap[String, Any] {
-      put(CapabilityType.BROWSER_NAME, BrowserType.HTMLUNIT)
-    },
     "io.appium.java_client.android.AndroidDriver" -> new util.HashMap[String, Any] {
       put(MobileCapabilityType.PLATFORM_NAME, MobilePlatform.ANDROID)
     },

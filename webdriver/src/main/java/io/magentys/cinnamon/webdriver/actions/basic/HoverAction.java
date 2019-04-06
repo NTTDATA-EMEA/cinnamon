@@ -4,8 +4,8 @@ import io.magentys.cinnamon.webdriver.actions.Action;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.HasInputDevices;
-import org.openqa.selenium.interactions.Mouse;
 import org.openqa.selenium.interactions.Locatable;
+import org.openqa.selenium.interactions.Mouse;
 
 public class HoverAction implements Action {
 
