@@ -1,8 +1,9 @@
 package io.magentys.cinnamon.webdriver;
 
-import org.openqa.selenium.support.ui.Duration;
+import java.time.Duration;
 
-import java.util.concurrent.TimeUnit;
+import static java.time.temporal.ChronoUnit.MILLIS;
+import static java.time.temporal.ChronoUnit.SECONDS;
 
 @FunctionalInterface
 public interface Timeout {
@@ -10,10 +11,10 @@ public interface Timeout {
     Duration getDuration();
 
     default long getSeconds() {
-        return getDuration().in(TimeUnit.SECONDS);
+        return getDuration().get(SECONDS);
     }
 
     default long getMillis() {
-        return getDuration().in(TimeUnit.MILLISECONDS);
+        return getDuration().get(MILLIS);
     }
 }
