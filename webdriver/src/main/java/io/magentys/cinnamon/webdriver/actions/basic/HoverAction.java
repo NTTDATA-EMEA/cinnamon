@@ -3,9 +3,7 @@ package io.magentys.cinnamon.webdriver.actions.basic;
 import io.magentys.cinnamon.webdriver.actions.Action;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.interactions.HasInputDevices;
-import org.openqa.selenium.interactions.Mouse;
-import org.openqa.selenium.internal.Locatable;
+import org.openqa.selenium.interactions.Actions;
 
 public class HoverAction implements Action {
 
@@ -21,8 +19,7 @@ public class HoverAction implements Action {
 
     @Override
     public void perform(final WebElement target) {
-        final Locatable hoverItem = (Locatable) target;
-        final Mouse mouse = ((HasInputDevices) webDriver).getMouse();
-        mouse.mouseMove(hoverItem.getCoordinates());
+        final Actions actions = new Actions(webDriver);
+        actions.moveToElement(target).perform();
     }
 }

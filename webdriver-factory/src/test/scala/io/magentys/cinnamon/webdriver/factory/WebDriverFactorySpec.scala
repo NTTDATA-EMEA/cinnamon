@@ -4,6 +4,7 @@ import io.github.bonigarcia.wdm.{Architecture, WebDriverManager}
 import io.magentys.cinnamon.webdriver.capabilities.DriverBinary
 import org.mockito.Matchers._
 import org.mockito.Mockito._
+import org.openqa.selenium.chrome.ChromeDriver
 import org.openqa.selenium.remote.DesiredCapabilities
 import org.openqa.selenium.{Platform, WebDriver}
 import org.scalatest.mock.MockitoSugar
@@ -12,18 +13,21 @@ import org.scalatest.{BeforeAndAfterEach, FunSpec, Matchers}
 class WebDriverFactorySpec extends FunSpec with MockitoSugar with Matchers with BeforeAndAfterEach {
 
   var factoryMock: WebDriverManagerFactory = _
-  var browserManagerMock: WebDriverManager = _
+  var webDriverManagerMock: WebDriverManager = _
+  var webDriverMock: WebDriver = _
   var webDriverFactory: WebDriverFactory = _
-  val capabilities = DesiredCapabilities.htmlUnit
+  val capabilities = DesiredCapabilities.chrome
 
   override protected def beforeEach(): Unit = {
     factoryMock = mock[WebDriverManagerFactory]
-    browserManagerMock = mock[WebDriverManager]
+    webDriverManagerMock = mock[WebDriverManager]
+    webDriverMock = mock[WebDriver]
 
     when(factoryMock.driverManagerClass(any[Class[_ <: WebDriver]]))
-      .thenReturn(browserManagerMock)
-    when(browserManagerMock.architecture(any[Architecture])).thenReturn(browserManagerMock)
-    when(browserManagerMock.version(any[String])).thenReturn(browserManagerMock)
+      .thenReturn(webDriverManagerMock)
+    when(factoryMock.getDriver(classOf[ChromeDriver], capabilities)).thenReturn(webDriverMock)
+    when(webDriverManagerMock.architecture(any[Architecture])).thenReturn(webDriverManagerMock)
+    when(webDriverManagerMock.version(any[String])).thenReturn(webDriverManagerMock)
 
     webDriverFactory = new WebDriverFactory(factoryMock)
   }
@@ -50,15 +54,15 @@ class WebDriverFactorySpec extends FunSpec with MockitoSugar with Matchers with 
 
       it("calls WebDriverManager.setup() when no binary config supplied") {
         webDriverFactory.getDriver(capabilities, None, None, None)
-        verify(browserManagerMock).setup()
+        verify(webDriverManagerMock).setup()
       }
 
       it("calls WebDriverManager.version().architecture().setup() when driver binary config supplied") {
         val driverBinary = DriverBinary("2.51", Architecture.X32)
         webDriverFactory.getDriver(capabilities, None, None, Some(driverBinary))
-        verify(browserManagerMock).version("2.51")
-        verify(browserManagerMock).architecture(Architecture.X32)
-        verify(browserManagerMock).setup()
+        verify(webDriverManagerMock).version("2.51")
+        verify(webDriverManagerMock).architecture(Architecture.X32)
+        verify(webDriverManagerMock).setup()
       }
 
       it("does not use WebDriverManager if exePath exists") {

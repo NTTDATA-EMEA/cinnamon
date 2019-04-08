@@ -1,28 +1,26 @@
 package io.magentys.cinnamon.webdriver.support.ui;
 
-import static org.junit.Assert.assertEquals;
-import static org.mockito.Mockito.when;
+import com.google.common.collect.Lists;
 import io.magentys.cinnamon.webdriver.conditions.Condition;
-
-import java.util.List;
-import java.util.concurrent.TimeUnit;
-
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.openqa.selenium.By;
-import org.openqa.selenium.SearchContext;
-import org.openqa.selenium.TimeoutException;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.ui.Clock;
+import org.openqa.selenium.*;
 import org.openqa.selenium.support.ui.FluentWait;
 import org.openqa.selenium.support.ui.Sleeper;
 
-import com.google.common.collect.Lists;
+import java.time.Clock;
+import java.time.Duration;
+import java.util.List;
+
+import static java.time.Instant.EPOCH;
+import static java.time.temporal.ChronoUnit.MILLIS;
+import static java.time.temporal.ChronoUnit.SECONDS;
+import static org.junit.Assert.assertEquals;
+import static org.mockito.Mockito.when;
 
 public class CinnamonExpectedConditionsTest {
 
@@ -30,8 +28,6 @@ public class CinnamonExpectedConditionsTest {
     private WebDriver mockDriver;
     @Mock
     private WebElement mockElement;
-    @Mock
-    private WebElement mockNestedElement;
     @Mock
     private Clock mockClock;
     @Mock
@@ -47,8 +43,12 @@ public class CinnamonExpectedConditionsTest {
     @Before
     public void setUpMocks() {
         MockitoAnnotations.initMocks(this);
-        wait = new FluentWait<SearchContext>(mockDriver, mockClock, mockSleeper).withTimeout(5, TimeUnit.SECONDS).pollingEvery(1000,
-                TimeUnit.MILLISECONDS);
+        wait = new FluentWait<SearchContext>(mockDriver, mockClock, mockSleeper).withTimeout(Duration.of(5, SECONDS))
+                .pollingEvery(Duration.of(1000, MILLIS));
+
+        // Set up a time series that extends past the end of the wait timeout
+        when(mockClock.instant()).thenReturn(EPOCH, EPOCH.plusMillis(1000), EPOCH.plusMillis(2000), EPOCH.plusMillis(3000), EPOCH.plusMillis(4000),
+                EPOCH.plusMillis(5000), EPOCH.plusMillis(6000));
     }
 
     @Test
@@ -86,8 +86,7 @@ public class CinnamonExpectedConditionsTest {
         List<WebElement> webElements = Lists.newArrayList(mockElement);
         when(mockDriver.findElements(By.id("someid"))).thenReturn(webElements);
         when(mockCondition.apply(mockElement)).thenReturn(true);
-        List<WebElement> allElementsLocated = wait.until(CinnamonExpectedConditions.conditionOfAllElementsLocated(By.id("someid"),
-                mockCondition));
+        List<WebElement> allElementsLocated = wait.until(CinnamonExpectedConditions.conditionOfAllElementsLocated(By.id("someid"), mockCondition));
         assertEquals(webElements, allElementsLocated);
     }
 

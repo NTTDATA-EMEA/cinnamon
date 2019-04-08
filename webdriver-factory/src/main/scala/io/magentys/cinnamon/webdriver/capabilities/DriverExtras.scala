@@ -2,7 +2,6 @@ package io.magentys.cinnamon.webdriver.capabilities
 
 import org.openqa.selenium.chrome.ChromeOptions
 import org.openqa.selenium.firefox.{FirefoxDriver, FirefoxProfile}
-import org.openqa.selenium.safari.SafariOptions
 
 import scala.collection.JavaConverters._
 
@@ -79,9 +78,7 @@ case class ChromeExtras(driverExtras: Map[String, Any]) extends DriverExtras {
 /** Safari */
 case class SafariExtras(driverExtras: Map[String, Any]) extends DriverExtras {
 
-  override def getCapabilityMap: Map[String, Any] = {
-    Map(SafariOptions.CAPABILITY -> driverExtras.asJava)
-  }
+  override def getCapabilityMap: Map[String, Any] = Map("safari.options" -> driverExtras.asJava)
 
   override def requiresMoveMouse: Boolean = false
 }

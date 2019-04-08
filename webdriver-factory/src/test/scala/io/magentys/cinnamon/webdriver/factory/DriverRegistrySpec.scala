@@ -19,9 +19,9 @@ class DriverRegistrySpec extends FlatSpec with Matchers {
   }
 
   it should "handle new drivers added by a user" in {
-    val testCapabilities = new DesiredCapabilities("TEST", "", Platform.ANY)
+    val testCapabilities = new DesiredCapabilities("DriverRegistrySpec", "", Platform.ANY)
     DriverRegistry.registerDriverClass(classOf[ATestDriver].getName, new java.util.HashMap[String, Any] {
-      put(CapabilityType.BROWSER_NAME, "TEST")
+      put(CapabilityType.BROWSER_NAME, "DriverRegistrySpec")
     })
     val actual: WebDriver = WebDriverFactory().getDriver(testCapabilities, None, None, None)
     actual shouldBe a[ATestDriver]

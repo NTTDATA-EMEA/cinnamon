@@ -1,10 +1,11 @@
 package io.magentys.cinnamon.webdriver;
 
-import org.openqa.selenium.support.ui.Duration;
-
+import java.time.Duration;
+import java.time.temporal.ChronoUnit;
 import java.util.concurrent.TimeUnit;
 
 import static io.magentys.cinnamon.webdriver.Timeouts.timeoutIn;
+import static io.magentys.cinnamon.webdriver.WebDriverUtils.toChronoUnit;
 
 public class DefaultTimeout implements OffsetsTimeout {
 
@@ -12,7 +13,7 @@ public class DefaultTimeout implements OffsetsTimeout {
     private final Duration duration;
 
     public DefaultTimeout() {
-        this.duration = new Duration(DEFAULT_TIMEOUT_SECS, TimeUnit.SECONDS);
+        this.duration = Duration.ofSeconds(DEFAULT_TIMEOUT_SECS);
     }
 
     @Override
@@ -31,8 +32,14 @@ public class DefaultTimeout implements OffsetsTimeout {
     }
 
     @Override
+    @Deprecated
     public Timeout plus(long time, TimeUnit unit) {
-        return timeoutIn(duration.in(unit) + time, unit);
+        return plus(time, toChronoUnit(unit));
+    }
+
+    @Override
+    public Timeout plus(long time, ChronoUnit unit) {
+        return timeoutIn(fromDuration(duration, unit) + time, unit);
     }
 
     @Override
@@ -46,7 +53,32 @@ public class DefaultTimeout implements OffsetsTimeout {
     }
 
     @Override
+    @Deprecated
     public Timeout minus(long time, TimeUnit unit) {
-        return timeoutIn(time > duration.in(unit) ? 0 : duration.in(unit) - time, unit);
+        return minus(time, toChronoUnit(unit));
+    }
+
+    @Override
+    public Timeout minus(long time, ChronoUnit unit) {
+        return timeoutIn(time > fromDuration(duration, unit) ? 0 : fromDuration(duration, unit) - time, unit);
+    }
+
+    private long fromDuration(Duration duration, ChronoUnit unit) {
+        switch (unit) {
+        case NANOS:
+            return duration.toNanos();
+        case MILLIS:
+            return duration.toMillis();
+        case SECONDS:
+            return duration.getSeconds();
+        case MINUTES:
+            return duration.toMinutes();
+        case HOURS:
+            return duration.toHours();
+        case DAYS:
+            return duration.toDays();
+        default:
+            throw new IllegalArgumentException("No ChronoUnit equivalent for " + unit);
+        }
     }
 }
