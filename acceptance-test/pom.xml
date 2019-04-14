@@ -12,7 +12,6 @@
     <artifactId>cinnamon-acceptance-test</artifactId>
 
     <properties>
-        <cucumber.options>--tags @complete</cucumber.options>
         <failsafe.fork.count>4</failsafe.fork.count>
         <env>default</env>
         <jetty.http.port>18080</jetty.http.port>
@@ -43,7 +42,7 @@
                     <threadCount>2</threadCount>
                     <parallel>both</parallel>
                     <includes>
-                        <include>**/AllTests.java</include>
+                        <include>**/*IT.java</include>
                     </includes>
                     <runOrder>alphabetical</runOrder>
                     <argLine>-Duser.language=en</argLine>
@@ -63,6 +62,37 @@
                         <goals>
                             <goal>integration-test</goal>
                         </goals>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <plugin>
+                <groupId>com.github.temyers</groupId>
+                <artifactId>cucumber-jvm-parallel-plugin</artifactId>
+                <version>5.0.0</version>
+                <executions>
+                    <execution>
+                        <id>generateRunners</id>
+                        <phase>generate-test-sources</phase>
+                        <goals>
+                            <goal>generateRunners</goal>
+                        </goals>
+                        <configuration>
+                            <glue>
+                                <package>com.acme</package>
+                            </glue>
+                            <tags>
+                                <tag>@local</tag>
+                            </tags>
+                            <plugins>
+                                <plugin>
+                                    <name>json</name>
+                                </plugin>
+                            </plugins>
+                            <namingScheme>pattern</namingScheme>
+                            <namingPattern>{f}IT</namingPattern>
+                            <cucumberOutputDir>target/cucumber-reports</cucumberOutputDir>
+                        </configuration>
                     </execution>
                 </executions>
             </plugin>
