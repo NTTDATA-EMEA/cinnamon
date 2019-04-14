@@ -12,7 +12,8 @@
     <artifactId>cinnamon-acceptance-test</artifactId>
 
     <properties>
-        <failsafe.fork.count>4</failsafe.fork.count>
+        <cucumber.options>--tags @local</cucumber.options>
+        <failsafe.thread.count>1</failsafe.thread.count>
         <env>default</env>
         <jetty.http.port>18080</jetty.http.port>
         <jetty.stop.port>9999</jetty.stop.port>
@@ -39,7 +40,7 @@
                 <artifactId>maven-failsafe-plugin</artifactId>
                 <version>2.16</version>
                 <configuration>
-                    <threadCount>2</threadCount>
+                    <threadCount>${failsafe.thread.count}</threadCount>
                     <parallel>both</parallel>
                     <includes>
                         <include>**/*IT.java</include>
@@ -81,9 +82,6 @@
                             <glue>
                                 <package>com.acme</package>
                             </glue>
-                            <tags>
-                                <tag>@local</tag>
-                            </tags>
                             <plugins>
                                 <plugin>
                                     <name>json</name>
@@ -193,15 +191,12 @@
             <activation>
                 <activeByDefault>true</activeByDefault>
             </activation>
-            <properties>
-                <failsafe.fork.count>1</failsafe.fork.count>
-            </properties>
         </profile>
 
         <profile>
             <id>parallel</id>
             <properties>
-                <failsafe.fork.count>0.5C</failsafe.fork.count>
+                <failsafe.thread.count>2</failsafe.thread.count>
             </properties>
         </profile>
     </profiles>
