@@ -12,8 +12,8 @@
     <artifactId>cinnamon-acceptance-test</artifactId>
 
     <properties>
-        <cucumber.options>--tags @complete</cucumber.options>
-        <failsafe.fork.count>4</failsafe.fork.count>
+        <cucumber.options>--tags @local</cucumber.options>
+        <failsafe.thread.count>1</failsafe.thread.count>
         <env>default</env>
         <jetty.http.port>18080</jetty.http.port>
         <jetty.stop.port>9999</jetty.stop.port>
@@ -40,10 +40,10 @@
                 <artifactId>maven-failsafe-plugin</artifactId>
                 <version>2.16</version>
                 <configuration>
-                    <threadCount>2</threadCount>
+                    <threadCount>${failsafe.thread.count}</threadCount>
                     <parallel>both</parallel>
                     <includes>
-                        <include>**/AllTests.java</include>
+                        <include>**/*IT.java</include>
                     </includes>
                     <runOrder>alphabetical</runOrder>
                     <argLine>-Duser.language=en</argLine>
@@ -63,6 +63,34 @@
                         <goals>
                             <goal>integration-test</goal>
                         </goals>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <plugin>
+                <groupId>com.github.temyers</groupId>
+                <artifactId>cucumber-jvm-parallel-plugin</artifactId>
+                <version>5.0.0</version>
+                <executions>
+                    <execution>
+                        <id>generateRunners</id>
+                        <phase>generate-test-sources</phase>
+                        <goals>
+                            <goal>generateRunners</goal>
+                        </goals>
+                        <configuration>
+                            <glue>
+                                <package>com.acme</package>
+                            </glue>
+                            <plugins>
+                                <plugin>
+                                    <name>json</name>
+                                </plugin>
+                            </plugins>
+                            <namingScheme>pattern</namingScheme>
+                            <namingPattern>{f}IT</namingPattern>
+                            <cucumberOutputDir>target/cucumber-reports</cucumberOutputDir>
+                        </configuration>
                     </execution>
                 </executions>
             </plugin>
@@ -163,15 +191,12 @@
             <activation>
                 <activeByDefault>true</activeByDefault>
             </activation>
-            <properties>
-                <failsafe.fork.count>1</failsafe.fork.count>
-            </properties>
         </profile>
 
         <profile>
             <id>parallel</id>
             <properties>
-                <failsafe.fork.count>0.5C</failsafe.fork.count>
+                <failsafe.thread.count>2</failsafe.thread.count>
             </properties>
         </profile>
     </profiles>
