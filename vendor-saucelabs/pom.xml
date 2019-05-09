@@ -5,7 +5,7 @@
     <parent>
         <artifactId>cinnamon</artifactId>
         <groupId>io.magentys</groupId>
-        <version>0.2.0-SNAPSHOT</version>
+        <version>0.2.0</version>
     </parent>
     <artifactId>cinnamon-vendor-saucelabs</artifactId>
 
