@@ -76,9 +76,9 @@
             </plugin>
 
             <plugin>
-                <groupId>io.magentys</groupId>
+                <groupId>report.donut</groupId>
                 <artifactId>donut-maven-plugin</artifactId>
-                <version>0.0.5</version>
+                <version>1.2.1</version>
                 <executions>
                     <execution>
                         <id>execution</id>
@@ -87,8 +87,13 @@
                             <goal>generate</goal>
                         </goals>
                         <configuration>
-                            <sourceDirectory>${project.build.directory}/cucumber-reports</sourceDirectory>
-                            <outputDirectory>${project.build.directory}/donut/</outputDirectory>
+                            <resultSources>
+                                <resultSource>
+                                    <format>cucumber</format>
+                                    <directory>${project.build.directory}/cucumber-reports</directory>
+                                </resultSource>
+                            </resultSources>
+                            <outputPath>${project.build.directory}/donut/</outputPath>
                             <timestamp>${maven.build.timestamp}</timestamp>
                             <template>default</template>
                             <prefix>${project.name}</prefix>
