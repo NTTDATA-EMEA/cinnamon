@@ -6,7 +6,7 @@
         <groupId>io.magentys</groupId>
         <artifactId>cinnamon</artifactId>
         <relativePath>../pom.xml</relativePath>
-        <version>0.2.0-SNAPSHOT</version>
+        <version>0.2.0</version>
     </parent>
     <artifactId>cinnamon-cucumber</artifactId>
 
