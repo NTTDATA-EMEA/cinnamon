@@ -1,6 +1,7 @@
 # Cinnamon
 
-[![Gitter](https://badges.gitter.im/MagenTys/cinnamon.svg)](https://gitter.im/MagenTys/cinnamon?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+## Table of contents
+
 
 ## What is Cinnamon?
 Cinnamon is an open-source java framework developed by the [NTT DATA](https://uk.nttdata.com/) team that provides fast enablement on your automation projects.
@@ -10,18 +11,6 @@ tooling such as WebDriver. You can mix and match various [modules](https://githu
 ## Why Cinnamon?
 As a company, we have faced many challenges with tooling across many clients in various sectors. Cinnamon incorporates our [solutions](https://github.com/NTTDATA-UK/cinnamon/wiki/What-does-it-solve%3F)
 to these challenges, which means that you don’t have to invest time in solving them yourself.
-
-
-## Road map
-
-We are currently working towards:
-* enhancing support for Rest
-* adding standard web and rest cherry missions
-* custom Hamcrest matchers
-
-We have plans to support:
-* junit
-* jbehave
 
 ## Migrating from 0.1.3
 
