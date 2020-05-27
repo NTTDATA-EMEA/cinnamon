@@ -1,16 +1,10 @@
 # Cinnamon
 
 ## Table of contents
+* Getting started
+** Why cinnamon
+* Modules
 
-
-## What is Cinnamon?
-Cinnamon is an open-source java framework developed by the [NTT DATA](https://uk.nttdata.com/) team that provides fast enablement on your automation projects.
-It is designed with ease-of-use in mind, supports Behaviour Driven Development (BDD), robust extensions and easy to use abstraction layers for popular
-tooling such as WebDriver. You can mix and match various [modules](https://github.com/NTTDATA-UK/cinnamon/wiki/Cinnamon-modules) depending on your requirements. Let's [get started](https://github.com/NTTDATA-UK/cinnamon/wiki/Getting-started) ...
-
-## Why Cinnamon?
-As a company, we have faced many challenges with tooling across many clients in various sectors. Cinnamon incorporates our [solutions](https://github.com/NTTDATA-UK/cinnamon/wiki/What-does-it-solve%3F)
-to these challenges, which means that you don’t have to invest time in solving them yourself.
 
 ## Migrating from 0.1.3
 
