@@ -1,9 +1,11 @@
 # Cinnamon
 
 ## Table of contents
-* Getting started
-** Why cinnamon
-* Modules
+* [What is Cinnamon?](https://github.com/NTTDATA-UK/cinnamon/wiki/What-is-Cinnamon%3F)
+* [Why use Cinnamon?](https://github.com/NTTDATA-UK/cinnamon/wiki/Why-use-Cinnamon%3F)
+* [Getting started](https://github.com/NTTDATA-EMEA/cinnamon/wiki/Getting-Started)
+   * [Prerequisites](https://github.com/NTTDATA-EMEA/cinnamon/wiki/Prerequisites)
+
 
 
 ## Migrating from 0.1.3
