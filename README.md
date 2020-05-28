@@ -22,14 +22,16 @@
 
 ## Contributing
 
-:one: :fork_and_knife: Fork it
-:two: Create your feature branch (`git checkout -b feature/my-new-feature`)
-:three: Commit your changes (`git commit -am 'Add some feature'`)
-:four: Push to the branch (`git push origin feature/my-new-feature`)
-:five: Create new Pull Request
+:one: :fork_and_knife: Fork it  
+:two: Create your feature branch (`git checkout -b feature/my-new-feature`)  
+:three: Commit your changes (`git commit -am 'Add some feature'`)  
+:four: Push to the branch (`git push origin feature/my-new-feature`)  
+:five: Create new Pull Request  
+&nbsp;  
 
 ## Developers
- [Dave Bassan](https://github.com/davebassan), [Tim Myerscough](https://github.com/temyers), [Christina Daskalaki](https://github.com/chdask), [Amit Sharma](https://github.com/amitsha), [Miles Lord](https://github.com/mplord), [Hamish Tedeschi](https://github.com/MagenTysHamo), [Kevin Bradwick](https://github.com/kevbradwick)
+ [Dave Bassan](https://github.com/davebassan), [Tim Myerscough](https://github.com/temyers), [Christina Daskalaki](https://github.com/chdask), [Amit Sharma](https://github.com/amitsha), [Miles Lord](https://github.com/mplord), [Hamish Tedeschi](https://github.com/MagenTysHamo), [Kevin Bradwick](https://github.com/kevbradwick)  
+&nbsp;  
 
 ## Acknowledgments
 
