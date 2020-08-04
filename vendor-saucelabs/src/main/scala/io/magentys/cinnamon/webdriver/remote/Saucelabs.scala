@@ -7,7 +7,7 @@ class Saucelabs extends CinnamonRemote {
 
   override val name: String = "saucelabs"
 
-  override def matchesHubUrl(url: String): Boolean = url.endsWith("saucelabs.com:80/wd/hub")
+  override def matchesHubUrl(url: String): Boolean = url.endsWith("saucelabs.com:443/wd/hub")
 
   override def capabilities(browserProfile: String, config: Config): DesiredCapabilities = {
     val mainRemoteCaps: DesiredCapabilities = super.capabilities(browserProfile, config)
