@@ -1,5 +1,0 @@
----
-default:
-  css:
-    select.select: "#select"
-    select.content: "body"

@@ -1,6 +1,0 @@
----
-default:
-  css:
-    input.all: "*"
-    input.with-input: "#withContent"
-    input.sameLocator: "input.sameLocator"
