@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<metadata>
+  <groupId>com.nttdata</groupId>
+  <artifactId>cinnamon-plus-api</artifactId>
+  <versioning>
+    <release>3.0.0-ALPHA</release>
+    <versions>
+      <version>3.0.0-ALPHA</version>
+    </versions>
+    <lastUpdated>20200813125402</lastUpdated>
+  </versioning>
+</metadata>
