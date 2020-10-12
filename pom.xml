@@ -24,7 +24,7 @@
         <guava.version>23.0</guava.version>
         <cucumber.html.version>0.2.7</cucumber.html.version>
         <jodatime.version>2.1</jodatime.version>
-        <junit.version>4.12</junit.version>
+        <junit.version>4.13.1</junit.version>
         <mockito.core.version>1.10.8</mockito.core.version>
         <snakeyaml.version>1.12</snakeyaml.version>
         <mail.version>1.4.7</mail.version>
